@@ -1,5 +1,5 @@
 'use strict';
-const CACHE='due-testamenti-gratis-v4';
+const CACHE='due-testamenti-gratis-v5';
 const base=self.registration.scope;
 const assets=['./','./index.html','./style.css','./app.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'].map(p=>new URL(p,base).href);
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(assets)).then(()=>self.skipWaiting())));

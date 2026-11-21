@@ -7,6 +7,7 @@ from difflib import SequenceMatcher
 from pathlib import Path
 import httpx
 from bs4 import BeautifulSoup
+from reader import brief
 
 ROOT=Path(__file__).parent
 ROME=ZoneInfo('Europe/Rome')
@@ -71,24 +72,33 @@ def parse_cei(doc,d):
         if norm(label) not in {'prima lettura','seconda lettura','salmo responsoriale','vangelo'}: continue
         if any(r['kind']==label.lower() for r in result): continue
         end=next((j for j in range(i+1,len(rows)) if norm(rows[j]) in HEADS),len(rows))
-        chunk=rows[i+1:end]; ref=None; pos=0
+        chunk=rows[i+1:end]; ref=None; pos=0; last=0
         for j,x in enumerate(chunk[:12]):
+            # Bare Psalm numbers (often printed with the Hebrew number in parentheses).
+            ps=re.fullmatch(r'Sal\s+\d+(?:\s*\(\d+\))?',x,re.I) if norm(label)=='salmo responsoriale' else None
             m=REF.search(x)
+            if ps:
+                ref=clean(ps.group(0));pos=last=j;break
             if m and (norm(label)!='vangelo' or m.group(1) in {'Mt','Mc','Lc','Gv'}):
-                ref=clean(m.group(0)); pos=j; break
+                ref=clean(x[m.start():]);pos=last=j
+                # CEI puts discontinuous segments in separate links: preserve every segment.
+                for k in range(j+1,min(len(chunk),j+10)):
+                    part=chunk[k].strip()
+                    if re.fullmatch(r'[.,;:–-]',part) or re.fullmatch(r'[.,;:–-]\s*\d[\dabc.,;: –-]*',part) or (ref[-1:] in '.,;:–-' and re.fullmatch(r'\d[\dabc.,;: –-]*',part)):
+                        ref+=part;last=k
+                    else: break
+                break
         if not ref:
             if norm(label)=='salmo responsoriale': continue
             raise ValueError('Riferimento mancante: '+label)
-        book=re.sub(r'\s+','',REF.search(ref).group(1))
-        content=clean(' '.join(chunk[pos+1:]))
+        book=re.sub(r'\s+','',re.match(r'([123]?\s*[A-Za-z]+)',ref).group(1))
+        content=clean(' '.join(chunk[last+1:]))
         content=re.split(r'\bParola (?:di Dio|del Signore)\b',content,flags=re.I)[0].strip()
-        if norm(label)=='vangelo':
-            # Preserve a complex reference for display, but do not auto-match it.
-            full=chunk[pos].strip()
-            if full.startswith(ref) and len(full)<100: ref=full
-            evidence=content
+        if norm(label)=='vangelo': evidence=content
         kind=norm(label); testament='Nuovo Testamento' if book in NT else 'Antico Testamento'
-        result.append(dict(kind=kind,label=label,reference=ref,testament=testament,text=content if FULL_CEI else '',url=date_url(d)))
+        heading=next((x for x in chunk[:pos] if 3<=len(x.split())<=18 and not re.match(r'^(?:Dal|Dalla|Dagli|Dalle|Da)\b',x,re.I)), '')
+        summary,summary_kind=brief(ref,content,heading)
+        result.append(dict(kind=kind,label=label,reference=ref,testament=testament,text=content if FULL_CEI else '',url=date_url(d),summary=summary,summary_kind=summary_kind))
     if not any(x['kind']=='prima lettura' for x in result) or not evidence or not any(x['kind']=='vangelo' for x in result): raise ValueError('Letture incomplete')
     return dict(date=d.isoformat(),celebration=celebration,readings=result,source=date_url(d)), evidence
 

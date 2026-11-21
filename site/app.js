@@ -14,8 +14,34 @@ $('offline-opt').checked=offlineOpt;
 $('offline-opt').onchange=e=>{offlineOpt=e.target.checked;if(offlineOpt){store.set('due-testamenti:offline','yes');load(selected);}else clearLocal();$('privacy-status').textContent=offlineOpt?'Salvataggio offline attivato.':'Schede locali eliminate; salvataggio disattivato.';};
 $('clear-local').onclick=()=>{offlineOpt=false;clearLocal();$('offline-opt').checked=false;$('privacy-status').textContent='Dati locali eliminati. L’eventuale cache tecnica del browser o del sito ospitante è gestita separatamente.';};
 function render(data,offline=false){
- $('title').textContent=data.celebration; $('readings').replaceChildren();
- for(const r of data.readings){const a=make('article','reading-card');a.append(make('div','card-label',r.label.toUpperCase()+' · '+r.testament.toUpperCase()),make('h2','',r.reference));if(r.text){const p=make('p','body-reading',r.text);p.style.whiteSpace='pre-wrap';a.append(p);}const link=make('a','outlink','Leggi il testo ufficiale CEI ↗');const href=safeLink(r.url,'cei');if(href){link.href=href;link.target='_blank';link.rel='noopener noreferrer';a.append(link);}$('readings').append(a);}
+ $('title').textContent=data.celebration;
+ const openReadings=new Set([...$('readings').querySelectorAll('details[open]')].map(el=>el.dataset.key));
+ $('readings').replaceChildren();
+ for(const r of data.readings){
+  const a=make('article','reading-card');
+  a.append(make('div','card-label',r.label.toUpperCase()+' · '+r.testament.toUpperCase()),make('h2','',r.reference));
+  const preview=make('div','reading-preview');
+  preview.append(make('p','overline',r.summary_kind==='heading'?'TEMA LITURGICO':r.summary_kind==='automatic'?'IN BREVE · TEMI AUTOMATICI':'IN BREVE'));
+  preview.append(make('p','reading-summary',r.summary||'Il riassunto di questa lettura non è ancora disponibile.'));
+  a.append(preview);
+  const details=make('details','reading-details');details.dataset.key=data.date+'|'+r.kind+'|'+r.reference;details.open=openReadings.has(details.dataset.key);
+  const toggle=make('summary','reader-toggle','Leggi il testo');details.append(toggle);
+  const panel=make('div','reader-content');
+  const reader=r.reader;
+  if(reader&&reader.reference===r.reference&&reader.edition==='Bibbia Martini (1769–1781)'&&typeof reader.text==='string'&&reader.text.trim()){
+   panel.append(make('p','reader-edition',reader.edition+' · traduzione cattolica storica, non CEI 2008'));
+   if(reader.note)panel.append(make('p','reader-edition',reader.note));
+   panel.append(make('p','body-reading',reader.text));
+   const credit=make('p','reader-credit','Testo di pubblico dominio. Dati strutturati: Giovanni Novelli / ');const origin=make('a','','Parola Viva');origin.href='https://parolaviva.art/opendata';origin.target='_blank';origin.rel='noopener noreferrer';const license=make('a','','CC BY 4.0');license.href='https://creativecommons.org/licenses/by/4.0/';license.target='_blank';license.rel='noopener noreferrer';credit.append(origin,document.createTextNode(' · '),license);panel.append(credit);
+  }else{
+   panel.append(make('p','reader-edition','Testo interno non ancora disponibile o numerazione da verificare. Non viene mostrato un passo diverso.'));
+  }
+  const href=safeLink(r.url,'cei');
+  if(href){const link=make('a','outlink reader-official','Versione liturgica ufficiale CEI ↗');link.href=href;link.target='_blank';link.rel='noopener noreferrer';panel.append(link);}
+  details.append(panel);details.addEventListener('toggle',()=>{toggle.textContent=details.open?'Chiudi il testo':'Leggi il testo';});
+  if(details.open)toggle.textContent='Chiudi il testo';
+  a.append(details);$('readings').append(a);
+ }
  $('oldnote').textContent=data.readings.some(r=>r.testament==='Antico Testamento'&&r.kind!=='salmo responsoriale')?'': 'Oggi la liturgia non prevede una lettura autonoma dell’Antico Testamento; vengono rispettate le letture effettive del giorno.';
  const c=data.comment; $('comment-ref').textContent='Vangelo: '+c.reference; $('comment-text').textContent=c.text||c.preview||''; const epHref=safeLink(c.url,'ep');$('ep-link').hidden=c.status!=='matched'||!epHref;$('ep-link').removeAttribute('href');
  if(c.status==='matched'&&epHref){$('ep-link').href=epHref;$('comment-status').textContent=(c.archived?'Meditazione di archivio sul medesimo passo. ':'Meditazione associata al brano di oggi. ')+(c.method||'')+'. '+(c.preview?'Breve estratto; testo integrale sul sito originale. ':'')+'Fonte: '+c.source;}

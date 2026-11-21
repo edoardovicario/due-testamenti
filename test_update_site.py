@@ -10,6 +10,7 @@ class UpdateTests(unittest.TestCase):
         patcher=patch.object(u,'DATA',Path(self.tmp.name));patcher.start();self.addCleanup(patcher.stop)
         self.d=date(2026,11,21)
         self.obj=json.loads((u.ROOT/'verified_example.json').read_text())
+        readerpatch=patch('reader.read_passage',side_effect=ValueError('offline test'));readerpatch.start();self.addCleanup(readerpatch.stop)
     def test_mismatched_reference_rejected(self):
         self.obj['comment']['reference']='Lc 21,1-4'
         self.assertFalse(u.valid(self.obj,self.d))
@@ -26,6 +27,8 @@ class UpdateTests(unittest.TestCase):
         with patch.object(u,'refresh',side_effect=RuntimeError('offline')): u.update(self.d)
         self.assertEqual(u.read_day(self.d),self.obj)
     def test_existing_matched_card_not_replaced(self):
+        self.obj['reader_version']=u.VERSION
+        for r in self.obj['readings']:r['reader']={'text':'fixture'}
         u.write_json(u.DATA/(self.d.isoformat()+'.json'),self.obj)
         with patch.object(u,'refresh') as mock:
             u.update(self.d);mock.assert_not_called()

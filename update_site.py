@@ -7,6 +7,7 @@ from concurrent.futures import ThreadPoolExecutor
 os.environ['AUTHORIZED_CEI_TEXT'] = '0'
 os.environ['AUTHORIZED_EPICOCO_TEXT'] = '0'
 from service import refresh, today, ROME, ROOT, refkey, allowed_url, safe_ep
+from reader import enrich_readings, VERSION
 
 DATA = ROOT / 'site' / 'data'
 LOG = logging.getLogger(__name__)
@@ -37,14 +38,17 @@ def write_json(p, obj):
 def update(d):
     old = read_day(d)
     # Preserve verified archived cards; retry pending cards and missing dates.
-    if old and old['comment']['status']=='matched' and not old.get('stale'):
+    if old and old['comment']['status']=='matched' and not old.get('stale') and old.get('reader_version')==VERSION and all(r.get('reader') for r in old['readings']):
         return 'matched (archivio)'
     try:
         obj = refresh(d)
         if not valid(obj,d): raise ValueError('Scheda non valida per la data richiesta')
         if old and old['comment']['status']=='matched' and (obj['comment']['status']!='matched' or obj.get('stale')):
-            return 'matched (archivio conservato)'
-        # Publish links and bibliographic references only.
+            if obj.get('stale') or refkey(old['comment']['reference'])!=refkey(obj['comment']['reference']):
+                return 'matched (archivio conservato)'
+            obj['comment']=old['comment']
+        enrich_readings(obj)
+        # Keep CEI and Epicoco texts private; only the licensed Martini reader is published.
         for r in obj['readings']: r['text']=''
         obj['comment']['text']=''; obj['comment'].pop('preview',None)
         if old and obj.get('stale'): return old['comment']['status']+' (archivio conservato)'
