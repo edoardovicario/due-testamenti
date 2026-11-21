@@ -1,7 +1,9 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const romeDay=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Rome',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
-let selected=romeDay(), lastToday=selected, onToday=true, requestId=0;
+const romeFormatter=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Rome',calendar:'gregory',numberingSystem:'latn',year:'numeric',month:'2-digit',day:'2-digit'});
+const romeDay=(now=new Date())=>{const p=Object.fromEntries(romeFormatter.formatToParts(now).map(x=>[x.type,x.value]));return p.year+'-'+p.month+'-'+p.day;};
+let selected=romeDay(), lastToday=selected, onToday=true, requestId=0, installPrompt=null;
+let loadingDay=null;
 const add=(d,n)=>{const t=new Date(d+'T12:00:00Z');t.setUTCDate(t.getUTCDate()+n);return t.toISOString().slice(0,10);};
 const printDate=d=>new Intl.DateTimeFormat('it-IT',{dateStyle:'full',timeZone:'Europe/Rome'}).format(new Date(d+'T12:00:00Z'));
 const make=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text)el.textContent=text;return el;};
@@ -76,9 +78,56 @@ function render(data,offline=false){
  $('updated').textContent='Data delle letture: '+printDate(data.date)+(data.updated_at?' · Ultimo aggiornamento: '+new Date(data.updated_at).toLocaleString('it-IT',{timeZone:'Europe/Rome'}):'');
  $('content').hidden=false; $('status').hidden=!(offline||data.stale); $('status').textContent='Copia disponibile per questa stessa data. La verifica o la connessione online non è al momento disponibile.';
 }
-async function load(d){const id=++requestId;if(d!==selected)setMeditation(null);selected=d;onToday=d===romeDay();$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
+async function load(d){if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;const id=++requestId;loadingDay=d;if(d!==selected)setMeditation(null);selected=d;onToday=d===romeDay();$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
  try{const res=await fetch('./data/'+d+'.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:typeof AbortSignal.timeout==='function'?AbortSignal.timeout(15000):undefined});if(!res.ok)throw Error('Fonti non disponibili');const data=await res.json();if(data.date!==d)throw Error('Data diversa');if(offlineOpt)store.set('due-testamenti:day:'+d,JSON.stringify(data));if(id===requestId)render(data);}
- catch(e){if(id!==requestId)return;let cached=null;try{if(offlineOpt)cached=JSON.parse(store.get('due-testamenti:day:'+d));}catch{}if(cached&&cached.date===d)render(cached,true);else $('status').textContent='Scheda non ancora disponibile per questa data. Puoi leggere i testi ufficiali CEI dal collegamento qui sotto. Gli aggiornamenti automatici vengono eseguiti più volte al giorno. Non mostriamo letture di un giorno diverso.';}}
+ catch(e){if(id!==requestId)return;let cached=null;try{if(offlineOpt)cached=JSON.parse(store.get('due-testamenti:day:'+d));}catch{}if(cached&&cached.date===d)render(cached,true);else $('status').textContent='Scheda non ancora disponibile per questa data. Puoi leggere i testi ufficiali CEI dal collegamento qui sotto. Gli aggiornamenti automatici vengono eseguiti più volte al giorno. Non mostriamo letture di un giorno diverso.';}
+ finally{if(id===requestId)loadingDay=null;}}
 $('choose').onchange=e=>{if(e.target.value)load(e.target.value);};$('prev').onclick=()=>load(add(selected,-1));$('next').onclick=()=>load(add(selected,1));$('today').onclick=()=>load(romeDay());$('retry').onclick=()=>load(selected);
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
-function tick(){const now=romeDay();if(now!==lastToday){lastToday=now;if(onToday)load(now);}}setInterval(tick,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){tick();if(onToday)load(romeDay());}});setInterval(()=>{if(onToday&&!document.hidden)load(romeDay());},1800000);load(selected);
+// Always start on today's Roman-calendar date, including restored PWA windows.
+function openToday(){
+ const now=romeDay();lastToday=now;
+ if(loadingDay===now&&selected===now)return;
+ return load(now);
+}
+function tick(){
+ const now=romeDay();
+ if(now!==lastToday){lastToday=now;if(onToday&&!document.hidden)openToday();}
+}
+setInterval(tick,15000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)openToday();});
+window.addEventListener('pageshow',e=>{if(e.persisted)openToday();});
+window.addEventListener('online',()=>{if(onToday&&!document.hidden)openToday();});
+setInterval(()=>{if(onToday&&!document.hidden)openToday();},1800000);
+openToday();
+
+
+// Hide installation guidance in the installed app (iOS and other PWA browsers).
+const installButton=$('install');
+if(installButton){
+const standaloneMode=window.matchMedia('(display-mode: standalone)');
+let installedThisSession=false;
+const isInstalled=()=>installedThisSession||standaloneMode.matches||navigator.standalone===true;
+function syncInstallButton(){
+ installButton.hidden=isInstalled();
+ if(installButton.hidden)installPrompt=null;
+}
+syncInstallButton();
+if(typeof standaloneMode.addEventListener==='function')standaloneMode.addEventListener('change',syncInstallButton);
+else if(typeof standaloneMode.addListener==='function')standaloneMode.addListener(syncInstallButton);
+window.addEventListener('pageshow',syncInstallButton);
+document.addEventListener('visibilitychange',syncInstallButton);
+window.addEventListener('appinstalled',()=>{installedThisSession=true;syncInstallButton();});
+window.addEventListener('beforeinstallprompt',e=>{
+ e.preventDefault();
+ if(!isInstalled())installPrompt=e;
+});
+installButton.onclick=async()=>{
+ if(isInstalled()){syncInstallButton();return;}
+ if(installPrompt){
+  const prompt=installPrompt;
+  installPrompt=null;
+  try{await prompt.prompt();}catch{if(!isInstalled())alert('Apri il menu del browser per installare l’app.');}
+ }else alert('Su iPhone: Safari → Condividi → Aggiungi alla schermata Home. Su Android: Chrome → menu → Installa app.');
+};
+}
