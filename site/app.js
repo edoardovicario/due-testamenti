@@ -13,6 +13,33 @@ if(!offlineOpt)clearLocal();
 $('offline-opt').checked=offlineOpt;
 $('offline-opt').onchange=e=>{offlineOpt=e.target.checked;if(offlineOpt){store.set('due-testamenti:offline','yes');load(selected);}else clearLocal();$('privacy-status').textContent=offlineOpt?'Salvataggio offline attivato.':'Schede locali eliminate; salvataggio disattivato.';};
 $('clear-local').onclick=()=>{offlineOpt=false;clearLocal();$('offline-opt').checked=false;$('privacy-status').textContent='Dati locali eliminati. L’eventuale cache tecnica del browser o del sito ospitante è gestita separatamente.';};
+// Load the original publisher page only on an explicit user gesture.
+let meditationUrl=null;
+function closeMeditation(){
+ $('ep-frame-host').replaceChildren();
+ $('ep-reader').hidden=true;
+ $('ep-open').setAttribute('aria-expanded','false');
+ $('ep-open').textContent='Leggi la meditazione';
+}
+function setMeditation(url){
+ if(url!==meditationUrl)closeMeditation();
+ meditationUrl=url;
+ $('ep-open').hidden=!url;
+}
+$('ep-open').onclick=()=>{
+ if(!meditationUrl)return;
+ if(!$('ep-reader').hidden){closeMeditation();return;}
+ const frame=document.createElement('iframe');
+ frame.className='ep-frame';
+ frame.title='Meditazione originale di don Luigi Maria Epicoco';
+ frame.setAttribute('sandbox','');
+ frame.setAttribute('referrerpolicy','no-referrer');
+ frame.src=meditationUrl;
+ $('ep-frame-host').replaceChildren(frame);
+ $('ep-reader').hidden=false;
+ $('ep-open').setAttribute('aria-expanded','true');
+ $('ep-open').textContent='Chiudi la meditazione';
+};
 function render(data,offline=false){
  $('title').textContent=data.celebration;
  const openReadings=new Set([...$('readings').querySelectorAll('details[open]')].map(el=>el.dataset.key));
@@ -43,13 +70,13 @@ function render(data,offline=false){
   a.append(details);$('readings').append(a);
  }
  $('oldnote').textContent=data.readings.some(r=>r.testament==='Antico Testamento'&&r.kind!=='salmo responsoriale')?'': 'Oggi la liturgia non prevede una lettura autonoma dell’Antico Testamento; vengono rispettate le letture effettive del giorno.';
- const c=data.comment; $('comment-ref').textContent='Vangelo: '+c.reference; $('comment-text').textContent=c.text||c.preview||''; const epHref=safeLink(c.url,'ep');$('ep-link').hidden=c.status!=='matched'||!epHref;$('ep-link').removeAttribute('href');
+ const c=data.comment; $('comment-ref').textContent='Vangelo: '+c.reference; $('comment-text').textContent=c.text||c.preview||''; const epHref=safeLink(c.url,'ep');setMeditation(c.status==='matched'&&epHref?epHref:null);$('ep-link').hidden=c.status!=='matched'||!epHref;$('ep-link').removeAttribute('href');
  if(c.status==='matched'&&epHref){$('ep-link').href=epHref;$('comment-status').textContent=(c.archived?'Meditazione di archivio sul medesimo passo. ':'Meditazione associata al brano di oggi. ')+(c.method||'')+'. '+(c.preview?'Breve estratto; testo integrale sul sito originale. ':'')+'Fonte: '+c.source;}
  else {$('comment-text').textContent='';$('comment-status').textContent=c.message||'Collegamento non verificabile: non mostrato.';}
  $('updated').textContent='Data delle letture: '+printDate(data.date)+(data.updated_at?' · Ultimo aggiornamento: '+new Date(data.updated_at).toLocaleString('it-IT',{timeZone:'Europe/Rome'}):'');
  $('content').hidden=false; $('status').hidden=!(offline||data.stale); $('status').textContent='Copia disponibile per questa stessa data. La verifica o la connessione online non è al momento disponibile.';
 }
-async function load(d){const id=++requestId;selected=d;onToday=d===romeDay();$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
+async function load(d){const id=++requestId;if(d!==selected)setMeditation(null);selected=d;onToday=d===romeDay();$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
  try{const res=await fetch('./data/'+d+'.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:typeof AbortSignal.timeout==='function'?AbortSignal.timeout(15000):undefined});if(!res.ok)throw Error('Fonti non disponibili');const data=await res.json();if(data.date!==d)throw Error('Data diversa');if(offlineOpt)store.set('due-testamenti:day:'+d,JSON.stringify(data));if(id===requestId)render(data);}
  catch(e){if(id!==requestId)return;let cached=null;try{if(offlineOpt)cached=JSON.parse(store.get('due-testamenti:day:'+d));}catch{}if(cached&&cached.date===d)render(cached,true);else $('status').textContent='Scheda non ancora disponibile per questa data. Puoi leggere i testi ufficiali CEI dal collegamento qui sotto. Gli aggiornamenti automatici vengono eseguiti più volte al giorno. Non mostriamo letture di un giorno diverso.';}}
 $('choose').onchange=e=>{if(e.target.value)load(e.target.value);};$('prev').onclick=()=>load(add(selected,-1));$('next').onclick=()=>load(add(selected,1));$('today').onclick=()=>load(romeDay());$('retry').onclick=()=>load(selected);
