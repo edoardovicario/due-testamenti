@@ -28,6 +28,32 @@ async function load(d){const id=++requestId;selected=d;onToday=d===romeDay();$('
  catch(e){if(id!==requestId)return;let cached=null;try{if(offlineOpt)cached=JSON.parse(store.get('due-testamenti:day:'+d));}catch{}if(cached&&cached.date===d)render(cached,true);else $('status').textContent='Scheda non ancora disponibile per questa data. Puoi leggere i testi ufficiali CEI dal collegamento qui sotto. Gli aggiornamenti automatici vengono eseguiti più volte al giorno. Non mostriamo letture di un giorno diverso.';}}
 $('choose').onchange=e=>{if(e.target.value)load(e.target.value);};$('prev').onclick=()=>load(add(selected,-1));$('next').onclick=()=>load(add(selected,1));$('today').onclick=()=>load(romeDay());$('retry').onclick=()=>load(selected);
 let font=1;function fontSet(){document.documentElement.style.setProperty('--reader-scale',font);document.documentElement.style.fontSize=(font*100)+'%';}fontSet();$('font').onclick=()=>{font=font>=1.5?1:font+.25;fontSet();};
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();installPrompt=e;});$('install').onclick=async()=>{if(installPrompt){await installPrompt.prompt();installPrompt=null;}else alert('Su iPhone: Safari → Condividi → Aggiungi alla schermata Home. Su Android: Chrome → menu → Installa app.');};
+// Hide installation guidance in the installed app (iOS and other PWA browsers).
+const installButton=$('install');
+const standaloneMode=window.matchMedia('(display-mode: standalone)');
+let installedThisSession=false;
+const isInstalled=()=>installedThisSession||standaloneMode.matches||navigator.standalone===true;
+function syncInstallButton(){
+ installButton.hidden=isInstalled();
+ if(installButton.hidden)installPrompt=null;
+}
+syncInstallButton();
+if(typeof standaloneMode.addEventListener==='function')standaloneMode.addEventListener('change',syncInstallButton);
+else if(typeof standaloneMode.addListener==='function')standaloneMode.addListener(syncInstallButton);
+window.addEventListener('pageshow',syncInstallButton);
+document.addEventListener('visibilitychange',syncInstallButton);
+window.addEventListener('appinstalled',()=>{installedThisSession=true;syncInstallButton();});
+window.addEventListener('beforeinstallprompt',e=>{
+ e.preventDefault();
+ if(!isInstalled())installPrompt=e;
+});
+installButton.onclick=async()=>{
+ if(isInstalled()){syncInstallButton();return;}
+ if(installPrompt){
+  const prompt=installPrompt;
+  installPrompt=null;
+  try{await prompt.prompt();}catch{if(!isInstalled())alert('Apri il menu del browser per installare l’app.');}
+ }else alert('Su iPhone: Safari → Condividi → Aggiungi alla schermata Home. Su Android: Chrome → menu → Installa app.');
+};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 function tick(){const now=romeDay();if(now!==lastToday){lastToday=now;if(onToday)load(now);}}setInterval(tick,15000);document.addEventListener('visibilitychange',()=>{if(!document.hidden){tick();if(onToday)load(romeDay());}});setInterval(()=>{if(onToday&&!document.hidden)load(romeDay());},1800000);load(selected);
