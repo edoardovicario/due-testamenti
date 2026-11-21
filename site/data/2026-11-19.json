@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-19",
+  "celebration": "GIOVEDÌ DELLA XXXIII SETTIMANA DEL TEMPO ORDINARIO (ANNO PARI)",
+  "readings": [
+    {
+      "kind": "prima lettura",
+      "label": "Prima Lettura",
+      "reference": "Ap 5,1-10",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119"
+    },
+    {
+      "kind": "vangelo",
+      "label": "Vangelo",
+      "reference": "Lc 19,41-44",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119"
+    }
+  ],
+  "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119",
+  "comment": {
+    "status": "matched",
+    "author": "don Luigi Maria Epicoco",
+    "reference": "Lc 19,41-44",
+    "url": "https://www.cercoiltuovolto.it/don-luigi-maria-epicoco-commento-al-vangelo-del-19-novembre-2026/",
+    "source": "Cerco il Tuo volto",
+    "archived": false,
+    "text": "",
+    "method": "Riferimento esatto e confronto testuale del commento"
+  },
+  "updated_at": "2026-11-21T22:33:44.738385+01:00",
+  "stale": false
+}

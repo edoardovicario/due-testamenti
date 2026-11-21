@@ -1,0 +1,35 @@
+{
+  "date": "2026-11-23",
+  "celebration": "Grandezza Testo",
+  "readings": [
+    {
+      "kind": "prima lettura",
+      "label": "Prima Lettura",
+      "reference": "Ap 14,1-3",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123"
+    },
+    {
+      "kind": "vangelo",
+      "label": "Vangelo",
+      "reference": "Lc 21,1-4",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123"
+    }
+  ],
+  "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123",
+  "comment": {
+    "status": "matched",
+    "author": "don Luigi Maria Epicoco",
+    "reference": "Lc 21,1-4",
+    "url": "https://www.cercoiltuovolto.it/don-luigi-maria-epicoco-commento-al-vangelo-del-24-novembre-2025/",
+    "source": "Cerco il Tuo volto",
+    "archived": true,
+    "text": "",
+    "method": "Riferimento esatto e confronto testuale del commento"
+  },
+  "updated_at": "2026-11-21T22:34:04.949924+01:00",
+  "stale": false
+}
