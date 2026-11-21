@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-21",
+  "celebration": "Presentazione della Beata Vergine Maria",
+  "readings": [
+    {
+      "kind": "prima lettura",
+      "label": "Prima lettura",
+      "reference": "Zc 2,14-17",
+      "testament": "Antico Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121"
+    },
+    {
+      "kind": "salmo responsoriale",
+      "label": "Salmo responsoriale",
+      "reference": "Lc 1,46-55",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121"
+    },
+    {
+      "kind": "vangelo",
+      "label": "Vangelo",
+      "reference": "Mt 12,46-50",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121"
+    }
+  ],
+  "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
+  "comment": {
+    "status": "matched",
+    "reference": "Mt 12,46-50",
+    "author": "don Luigi Maria Epicoco",
+    "source": "Cerco il Tuo volto",
+    "url": "https://www.cercoiltuovolto.it/vangelo-del-giorno-martedi-24-luglio-2018-don-luigi-maria-epicoco/?amp=1",
+    "archived": true,
+    "method": "Controllo manuale del riferimento e del contenuto (21 novembre 2026)",
+    "text": ""
+  },
+  "stale": true
+}
