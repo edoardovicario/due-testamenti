@@ -12,7 +12,7 @@ function clearLocal(){try{for(let i=localStorage.length-1;i>=0;i--){const k=loca
 if(!offlineOpt)clearLocal();
 $('offline-opt').checked=offlineOpt;
 $('offline-opt').onchange=e=>{offlineOpt=e.target.checked;if(offlineOpt){store.set('due-testamenti:offline','yes');load(selected);}else clearLocal();$('privacy-status').textContent=offlineOpt?'Salvataggio offline attivato.':'Schede locali eliminate; salvataggio disattivato.';};
-$('clear-local').onclick=()=>{offlineOpt=false;clearLocal();$('offline-opt').checked=false;font=1;fontSet();$('privacy-status').textContent='Dati locali eliminati. L’eventuale cache tecnica del browser o del sito ospitante è gestita separatamente.';};
+$('clear-local').onclick=()=>{offlineOpt=false;clearLocal();$('offline-opt').checked=false;$('privacy-status').textContent='Dati locali eliminati. L’eventuale cache tecnica del browser o del sito ospitante è gestita separatamente.';};
 function render(data,offline=false){
  $('title').textContent=data.celebration; $('readings').replaceChildren();
  for(const r of data.readings){const a=make('article','reading-card');a.append(make('div','card-label',r.label.toUpperCase()+' · '+r.testament.toUpperCase()),make('h2','',r.reference));if(r.text){const p=make('p','body-reading',r.text);p.style.whiteSpace='pre-wrap';a.append(p);}const link=make('a','outlink','Leggi il testo ufficiale CEI ↗');const href=safeLink(r.url,'cei');if(href){link.href=href;link.target='_blank';link.rel='noopener noreferrer';a.append(link);}$('readings').append(a);}
@@ -27,7 +27,6 @@ async function load(d){const id=++requestId;selected=d;onToday=d===romeDay();$('
  try{const res=await fetch('./data/'+d+'.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:typeof AbortSignal.timeout==='function'?AbortSignal.timeout(15000):undefined});if(!res.ok)throw Error('Fonti non disponibili');const data=await res.json();if(data.date!==d)throw Error('Data diversa');if(offlineOpt)store.set('due-testamenti:day:'+d,JSON.stringify(data));if(id===requestId)render(data);}
  catch(e){if(id!==requestId)return;let cached=null;try{if(offlineOpt)cached=JSON.parse(store.get('due-testamenti:day:'+d));}catch{}if(cached&&cached.date===d)render(cached,true);else $('status').textContent='Scheda non ancora disponibile per questa data. Puoi leggere i testi ufficiali CEI dal collegamento qui sotto. Gli aggiornamenti automatici vengono eseguiti più volte al giorno. Non mostriamo letture di un giorno diverso.';}}
 $('choose').onchange=e=>{if(e.target.value)load(e.target.value);};$('prev').onclick=()=>load(add(selected,-1));$('next').onclick=()=>load(add(selected,1));$('today').onclick=()=>load(romeDay());$('retry').onclick=()=>load(selected);
-let font=1;function fontSet(){document.documentElement.style.setProperty('--reader-scale',font);document.documentElement.style.fontSize=(font*100)+'%';}fontSet();$('font').onclick=()=>{font=font>=1.5?1:font+.25;fontSet();};
 // Hide installation guidance in the installed app (iOS and other PWA browsers).
 const installButton=$('install');
 const standaloneMode=window.matchMedia('(display-mode: standalone)');
