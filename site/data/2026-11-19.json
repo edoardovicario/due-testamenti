@@ -8,7 +8,16 @@
       "reference": "Ap 5,1-10",
       "testament": "Nuovo Testamento",
       "text": "",
-      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119"
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119",
+      "summary": "Giovanni contempla l’Agnello, l’unico degno di aprire il libro sigillato, adorato da tutta l’assemblea celeste.",
+      "summary_kind": "summary",
+      "reader": {
+        "edition": "Bibbia Martini (1769–1781)",
+        "source": "https://parolaviva.art/opendata",
+        "reference": "Ap 5,1-10",
+        "text": "E vidi nella destra di lui, che sedeva sul trono, un libro scritto di drento, e di fuori, e segnato con sette sigilli.\n\nE vidi un Angelo forte, che con voce grande sclamava: chi è degno di aprire il libro, e di sciogliere i suoi sigilli?\n\nE nissuno poteva, nè in cielo, né in terra, né sotto terra, aprire il libro, né guardarlo.\n\nE io piagnea largamente, perché non trovossi chi fosse degno di aprire il libro, né chi lo guardasse.\n\nE uno de' seniori mi disse: non piangere: ecco, il leone della tribù di Giuda, stirpe di Davidde, ha vinto d'aprire il libro, e sciogliere i suoi sette sigilli.\n\nE mirai: ed ecco in mezzo al trono, e ai quattro animali, e ai seniori, un agnello su' suoi piedi, come scannato che ha sette corna, e sette occhi: che sono i sette spiriti di Dio, spediti per tutta la terra.\n\nE venne, e prese il libro di mano di colui, che sedeva sul trono.\n\nE aperto che ebbe il libro, i quattro animali, e i ventiquattro seniori si prostrarono dinanzi all'Agnello, avendo ognun di loro cetere, e nappi d'oro pieni di materie odorifere, che sono le orazioni de' santi:\n\nE cantavano un nuovo cantico, dicendo: degno sei tu, o Signore, di ricevere il libro, e di aprire i suoi sigilli: dappoiché sei stato scannato, e ci hai ricomperati a Dio col sangue tuo di tutte le tribù, e linguaggi, e popoli, e nazioni:\n\nE ci hai fatti pel nostro Dio regi, e sacerdoti: e regneremo sopra la terra.",
+        "note": ""
+      }
     },
     {
       "kind": "vangelo",
@@ -16,7 +25,16 @@
       "reference": "Lc 19,41-44",
       "testament": "Nuovo Testamento",
       "text": "",
-      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119"
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119",
+      "summary": "Gesù piange su Gerusalemme perché non ha riconosciuto il tempo della visita di Dio e la via della pace.",
+      "summary_kind": "summary",
+      "reader": {
+        "edition": "Bibbia Martini (1769–1781)",
+        "source": "https://parolaviva.art/opendata",
+        "reference": "Lc 19,41-44",
+        "text": "E avvicinandosi alla città, rimirandola pianse sopra di lei, e disse:\n\nO se conoscessi anche tu, e in questo giorno quello, che importa al tuo bene: ma ora questo è a' tuoi occhi celato.\n\nConciossiachè verrà per te il tempo: quando i tuoi nemici ti circonderanno di trinciera: e ti serreranno all'intorno: e ti stringeranno per ogni parte:\n\nE cacceranno per terra te, e i tuoi figliuoli con te, e non lasceranno in te pietra sopra pietra; perché non hai conosciuto il tempo della visita a te fatta.",
+        "note": ""
+      }
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119",
@@ -30,6 +48,7 @@
     "text": "",
     "method": "Riferimento esatto e confronto testuale del commento"
   },
-  "updated_at": "2026-11-21T22:33:44.738385+01:00",
-  "stale": false
+  "updated_at": "2026-11-21T23:03:12.441987+01:00",
+  "stale": false,
+  "reader_version": 1
 }
