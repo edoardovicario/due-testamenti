@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-24",
+  "celebration": "SANTI ANDREA DUNG-LAC, PRESBITERO, E COMPAGNI, MARTIRI – MEMORIA",
+  "readings": [
+    {
+      "kind": "prima lettura",
+      "label": "Prima Lettura",
+      "reference": "Ap 14,14-19",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261124",
+      "summary": "Nel brano emergono questi temi: il tempio.",
+      "summary_kind": "automatic",
+      "reader": {
+        "edition": "Bibbia Martini (1769–1781)",
+        "source": "https://parolaviva.art/opendata",
+        "reference": "Ap 14,14-19",
+        "text": "E mirai: ed ecco una candida nuvola, e sopra la nuvola sedeva uno simile al figliuolo dell'uomo, che aveva sulla sua testa una corona d'oro, e nella sua mano una falce acuta.\n\nE un altro Angelo uscì dal tempio, gridando ad alta voce a colui, che sedea sopra la nuvola: gira la tua falce, e mieti, perché è giunta l'ora di mietere, mentre la messe della terra è secca.\n\nE quegli, che sedea sulla nuvola, menò in giro la sua falce sulla terra, e fu mietuta la terra.\n\nE un altro Angelo uscì dal tempio, che è nel cielo, che aveva anch'egli un'acuta falce.\n\nE un altro Angelo uscì dall'altare, che aveva balìa sopra il fuoco: e gridò ad alta voce a quello, che aveva la falce acuta, dicendo: mena l'acuta tua falce, e vendemmia i grappoli della vigna della terra: perché le uve di lei son mature.\n\nE menò l'Angelo l'acuta sua falce sopra la terra, e vendemmiò la vigna della terra, e (la vendemmia) gettò nel lago grande dell'ira di Dio:",
+        "note": ""
+      }
+    },
+    {
+      "kind": "vangelo",
+      "label": "Vangelo",
+      "reference": "Lc 21,5-11",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261124",
+      "summary": "Nel brano emergono questi temi: il regno di Dio, il tempio.",
+      "summary_kind": "automatic",
+      "reader": {
+        "edition": "Bibbia Martini (1769–1781)",
+        "source": "https://parolaviva.art/opendata",
+        "reference": "Lc 21,5-11",
+        "text": "E dicendo taluni riguardo al tempio, che egli era fabbricato di belle pietre, e ornato di doni, rispose:\n\nDi queste cose, che voi vedete, tempo verrà, che non resterà pietra sopra pietra, che non sia stritolata.\n\nE gli domandarono: Maestro, quando sia, che avvengano tali cose; e quale sarà il segno, che siano prossime ad accadere?\n\nEd egli rispose: Badate di non esser sedotti: imperocché molti verranno sotto il mio nome, e diranno: Son io: e il tempo è vicino: non andate adunque dietro a loro.\n\nQuando poi sentirete parlare di guerre, e di sedizioni, non vi sbigottite: bisogna, che prima tali cose succedano; ma non sarà ancora si tosto la fine.\n\nAllora diceva loro: Si solleverà popolo contro popolo, e reame contro reame.\n\nE saranno fieri terremoti in diversi luoghi, e pestilenze, e carestie, e cose spaventevoli nel cielo, e prodigj grandi.",
+        "note": ""
+      }
+    }
+  ],
+  "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261124",
+  "comment": {
+    "status": "pending",
+    "reference": "Lc 21,5-11",
+    "message": "Nessuna meditazione con corrispondenza sufficientemente verificabile. Nuovo tentativo automatico.",
+    "text": ""
+  },
+  "updated_at": "2026-11-22T07:46:15.655167+01:00",
+  "stale": false,
+  "reader_version": 1
+}
