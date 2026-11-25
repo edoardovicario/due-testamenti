@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-27",
+  "celebration": "VENERDÌ DELLA XXXIV SETTIMANA DEL TEMPO ORDINARIO (ANNO PARI)",
+  "readings": [
+    {
+      "kind": "prima lettura",
+      "label": "Prima Lettura",
+      "reference": "Ap 20,1-4.11-21,2",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261127",
+      "summary": "Nel brano emergono questi temi: la giustizia.",
+      "summary_kind": "automatic"
+    },
+    {
+      "kind": "vangelo",
+      "label": "Vangelo",
+      "reference": "Lc 21,29-33",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261127",
+      "summary": "Nel brano emergono questi temi: il regno di Dio, il cammino dei discepoli.",
+      "summary_kind": "automatic",
+      "reader": {
+        "edition": "Bibbia Martini (1769–1781)",
+        "source": "https://parolaviva.art/opendata",
+        "reference": "Lc 21,29-33",
+        "text": "E disse loro una similitudine: Osservate il fico, e tutte le piante:\n\nQuando queste hanno già buttato, sapete, che la state è vicina;\n\nCosì pure voi quando vedrete tali cose succedere, sappiate, che il regno di Dio è vicino.\n\nIn verità vi dico, che non passerà questa generazione, fino a tanto che tutto si adempia.\n\nIl cielo, e la terra passeranno: ma le mie parole non passeranno.",
+        "note": ""
+      }
+    }
+  ],
+  "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261127",
+  "comment": {
+    "status": "matched",
+    "author": "don Luigi Maria Epicoco",
+    "reference": "Lc 21,29-33",
+    "url": "https://www.cercoiltuovolto.it/don-luigi-maria-epicoco-commento-al-vangelo-del-28-novembre-2025/",
+    "source": "Cerco il Tuo volto",
+    "archived": true,
+    "text": "",
+    "method": "Riferimento esatto e confronto testuale del commento"
+  },
+  "updated_at": "2026-11-25T09:31:14.068965+01:00",
+  "stale": false,
+  "reader_version": 1
+}
