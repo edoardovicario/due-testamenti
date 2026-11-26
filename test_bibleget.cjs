@@ -21,7 +21,7 @@ test('single chapter and non-consecutive verses parsed',()=>{
 });
 test('ambiguous and over-50-verse references rejected before fetching',()=>{
  const r=reader();
- for(const ref of ['Mt 1,1-51','Mt 1,1-3.3-5','Mt 1,3-1','Mt 1,3a-5','Sal 22(23)']){
+ for(const ref of ['Mt 1,1-51','Mt 1,1-3.3-5','Mt 1,3-1','Mt 1,3x-5','Sal 22(23)']){
   assert.throws(()=>r.parseReference(ref));
  }
 });
