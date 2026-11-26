@@ -14,6 +14,7 @@ ROME=ZoneInfo('Europe/Rome')
 MONTHS='gennaio febbraio marzo aprile maggio giugno luglio agosto settembre ottobre novembre dicembre'.split()
 CEI='https://www.chiesacattolica.it/liturgia-del-giorno/'
 EP='https://www.cercoiltuovolto.it/'
+FC='https://www.famigliacristiana.it/riflessioni/epicoco-parola-del-giorno'
 LOG=logging.getLogger(__name__)
 FULL_CEI=os.getenv('AUTHORIZED_CEI_TEXT','0')=='1'
 FULL_EP=os.getenv('AUTHORIZED_EPICOCO_TEXT','0')=='1'
@@ -30,7 +31,7 @@ def refkey(s):
     return re.sub(r'\s+','',s.lower()).replace('–','-').replace(':',',')
 def date_url(d): return CEI+'?data-liturgia='+d.strftime('%Y%m%d')
 def soup(html): return BeautifulSoup(html,'html.parser')
-ALLOWED_HOSTS={'www.chiesacattolica.it','chiesacattolica.it','www.cercoiltuovolto.it','cercoiltuovolto.it'}
+ALLOWED_HOSTS={'www.chiesacattolica.it','chiesacattolica.it','www.cercoiltuovolto.it','cercoiltuovolto.it','www.famigliacristiana.it','famigliacristiana.it'}
 def allowed_url(url, hosts=ALLOWED_HOSTS):
     try:
         p=urlparse(url)
@@ -144,6 +145,60 @@ def has_reference(doc,ref):
 def safe_ep(url):
     return allowed_url(url,{'www.cercoiltuovolto.it','cercoiltuovolto.it'}) and 'epicoco' in urlparse(url).path.lower() and not urlparse(url).path.startswith('/tag/')
 
+def safe_fc(url):
+    """Only original Epicoco pages on the publisher's secure domain."""
+    return (allowed_url(url,{'www.famigliacristiana.it','famigliacristiana.it'})
+            and urlparse(url).path.startswith('/riflessioni/epicoco-parola-del-giorno/')
+            and not urlparse(url).query and not urlparse(url).fragment)
+
+# Preverified original pages: only reference URLs, no article text.
+FC_VERIFIED = {
+    '2026-11-24': ('Lc 21,5-11', FC+'/lamore-che-abbiamo-dato-ci-sopravvivra-24-novembre-uksv4fud'),
+    '2026-11-25': ('Lc 21,12-19', FC+'/dio-si-prende-cura-di-noi-mentre-siamo-nella-tempesta-25-novembre-uksv4fud'),
+    '2026-11-26': ('Lc 21,20-28', FC+'/il-signore-non-ci-lascia-soli-nel-buio-26-novembre-uksv4fud'),
+}
+
+def fc_matches(doc,d,ref):
+    """Exact liturgical day, year, author and Gospel reference: no text copied."""
+    h=doc.find('h1')
+    if not h or f'{d.day} {MONTHS[d.month-1]}' not in norm(h.get_text(' ',strip=True)):
+        return False
+    content=norm(doc.get_text(' ',strip=True))
+    return (f'{d.day} {MONTHS[d.month-1]} {d.year}' in content
+            and 'don luigi maria epicoco' in content
+            and has_reference(doc,ref))
+
+def find_fc_comment(client,d,ref):
+    """Retrieve original source URL, not the protected commentary itself."""
+    if not re.fullmatch(r'(?:Mt|Mc|Lc|Gv)\s*\d{1,2}\s*,\s*\d{1,2}[a-z]?(?:\s*[-–.]\s*\d{1,2}[a-z]?)*',ref):
+        return None
+    candidates=[]
+    verified=FC_VERIFIED.get(d.isoformat())
+    if verified and refkey(verified[0])==refkey(ref):
+        candidates.append(verified[1])
+    try:
+        index=fetch(client,FC)
+        day=f'{d.day}-{MONTHS[d.month-1]}'
+        for a in index.find_all('a',href=True):
+            url=urljoin(FC+'/',a['href'])
+            if safe_fc(url) and day in urlparse(url).path:
+                candidates.append(url)
+    except Exception as exc:
+        LOG.info('FC listing unavailable: %s',exc)
+    seen=set()
+    for url in candidates[:20]:
+        if url in seen or not safe_fc(url):
+            continue
+        seen.add(url)
+        try:
+            if fc_matches(fetch(client,url),d,ref):
+                return dict(status='matched',author='don Luigi Maria Epicoco',
+                            reference=ref,url=url,source='Famiglia Cristiana',
+                            archived=False,text='',method='Data liturgica e Vangelo verificati')
+        except Exception as exc:
+            LOG.info('FC article %s: %s',url,exc)
+    return None
+
 def get_candidates(client,d,ref):
     slug=f'{d.day}-{MONTHS[d.month-1]}-{d.year}'
     yield EP+'don-luigi-maria-epicoco-commento-al-vangelo-del-'+slug+'/'
@@ -169,6 +224,8 @@ def get_candidates(client,d,ref):
 def find_comment(client,d,ref,gospel):
     if not re.fullmatch(r'(?:Mt|Mc|Lc|Gv)\s*\d{1,2}\s*,\s*\d{1,2}[a-z]?(?:\s*[-–.]\s*\d{1,2}[a-z]?)*',ref):
         return dict(status='pending',reference=ref,message='Riferimento evangelico complesso: nessun abbinamento automatico sicuro.')
+    publisher=find_fc_comment(client,d,ref)
+    if publisher: return publisher
     # Individually reviewed source, also revalidated when reachable.
     manual={'mt12,46-50':'https://www.cercoiltuovolto.it/vangelo-del-giorno-martedi-24-luglio-2018-don-luigi-maria-epicoco/?amp=1'}
     seen=set(); attempts=0
