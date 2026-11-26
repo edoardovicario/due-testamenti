@@ -10,14 +10,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
       "summary": "Dio promette di abitare in mezzo al suo popolo, raccogliendo presso di sé anche le altre nazioni.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Zc 2,14-17",
-        "text": "Canta inni di laude, e sta' lieta, o figliuola di Sion: perocché ecco, che io vengo, ed abiterò in mezzo a te, dice il Signore.\n\nE si accosteranno molte nazioni al Signore in quel giorno, e saranno mio popolo, ed io abiterò in mezzo a te, e conoscerai come il Signore degli eserciti mi ha mandato a te.\n\nE il Signore possederà Giuda suo retaggio nella terra santa, ed eleggerà di nuovo Gerusalemme.\n\nTutta la carne si stia in silenzio dinanzi al Signore, perchè egli si è svegliato e mosso dalla sua mansione",
-        "note": "Numerazione Martini: Zc 2,10-13."
-      }
+      "summary_kind": "summary"
     },
     {
       "kind": "salmo responsoriale",
@@ -27,14 +20,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
       "summary": "Maria esprime la sua gratitudine a Dio, che si prende cura degli umili e mantiene le promesse fatte al suo popolo.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Lc 1,46-55",
-        "text": "E Maria disse: l'anima mia esalta la grandezza del Signore:\n\nEd esulta il mio spirito in Dio mio salvatore.\n\nPerché ha rivolto lo sguardo alla bassezza della sua serva: conciossiachè ecco che da questo punto beata mi chiameranno tutte le età.\n\nPerché grandi cose ha fatte a me colui, che è potente, e di cui santo è il nome.\n\nE la misericordia di lui di generazione in generazione sopra coloro, che lo temono.\n\nFece opere di potenza col suo braccio: dissipò i superbi coi pensieri del loro cuore.\n\nHa deposto dal trono i potenti, e ha esaltato i piccoli.\n\nHa ricolmati di beni i famelici, e voti ha rimandati i ricchi.\n\nAccolse Israele suo servo, ricordandosi della sua misericordia:\n\nConforme parlò ai padri nostri, ad Abramo, e ai suoi discendenti per tutti i secoli.",
-        "note": ""
-      }
+      "summary_kind": "summary"
     },
     {
       "kind": "vangelo",
@@ -44,14 +30,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
       "summary": "Gesù insegna che la sua vera famiglia comprende chi accoglie e compie la volontà del Padre.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Mt 12,46-50",
-        "text": "Mentre egli continuava a parlare alle turbe, ecco che la madre, e i fratelli di lui si trattenevano di fuori, desiderando di parlargli.\n\nE alcuno gli disse: Tua madre e i tuoi fratelli sono fuori, e cercano di te.\n\nMa egli rispose a chi gli parlava: Chi è la mia madre, e chi sono i miei fratelli?\n\nE stesa la mano inverso de' suoi discepoli: Questi, disse, sono la madre e i fratelli, che io ho.\n\nImperocché chiunque fa la volontà del Padre mio, che è ne' cieli; quegli è mio fratello, e sorella, e madre.",
-        "note": ""
-      }
+      "summary_kind": "summary"
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
@@ -67,5 +46,5 @@
   },
   "updated_at": "2026-11-21T23:02:59.577313+01:00",
   "stale": false,
-  "reader_version": 1
+  "reader_version": 2
 }

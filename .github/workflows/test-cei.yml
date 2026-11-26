@@ -1,0 +1,27 @@
+name: Test lettore CEI 2008 (PR)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "site/**"
+      - "reader.py"
+      - "update_site.py"
+      - "test_*.py"
+      - "test_bibleget.cjs"
+      - ".github/workflows/test-cei.yml"
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python -m unittest -v
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node --test test_bibleget.cjs
+      - name: BibleGet live smoke test (one short passage, no verse logging)
+        run: node test_bibleget_live.cjs

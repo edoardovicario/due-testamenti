@@ -20,14 +20,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261127",
       "summary": "Nel brano emergono questi temi: il regno di Dio, il cammino dei discepoli.",
-      "summary_kind": "automatic",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Lc 21,29-33",
-        "text": "E disse loro una similitudine: Osservate il fico, e tutte le piante:\n\nQuando queste hanno già buttato, sapete, che la state è vicina;\n\nCosì pure voi quando vedrete tali cose succedere, sappiate, che il regno di Dio è vicino.\n\nIn verità vi dico, che non passerà questa generazione, fino a tanto che tutto si adempia.\n\nIl cielo, e la terra passeranno: ma le mie parole non passeranno.",
-        "note": ""
-      }
+      "summary_kind": "automatic"
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261127",
@@ -43,5 +36,5 @@
   },
   "updated_at": "2026-11-26T09:15:25.434107+01:00",
   "stale": false,
-  "reader_version": 1
+  "reader_version": 2
 }

@@ -38,7 +38,10 @@ def write_json(p, obj):
 def update(d):
     old = read_day(d)
     # Preserve verified archived cards; retry pending cards and missing dates.
-    if old and old['comment']['status']=='matched' and not old.get('stale') and old.get('reader_version')==VERSION and all(r.get('reader') for r in old['readings']):
+    if old and old['comment']['status']=='matched' and not old.get('stale'):
+        enrich_readings(old)
+        old['comment']['text']='';old['comment'].pop('preview',None)
+        write_json(DATA / (d.isoformat()+'.json'),old)
         return 'matched (archivio)'
     try:
         obj = refresh(d)
@@ -48,7 +51,7 @@ def update(d):
                 return 'matched (archivio conservato)'
             obj['comment']=old['comment']
         enrich_readings(obj)
-        # Keep CEI and Epicoco texts private; only the licensed Martini reader is published.
+        # BibleGet passages are requested in-browser; only references and summaries are published.
         for r in obj['readings']: r['text']=''
         obj['comment']['text']=''; obj['comment'].pop('preview',None)
         if old and obj.get('stale'): return old['comment']['status']+' (archivio conservato)'

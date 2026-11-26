@@ -10,14 +10,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261122",
       "summary": "Dio si presenta come un pastore che cerca le pecore disperse, cura le più fragili e esercita la giustizia.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Ez 34,11-12.15-17",
-        "text": "Imperocché queste cose dice il Signore Dio: Ecco, che io stesso anderò in cerca di mie pecorelle, e le visiterò.\n\nCome il pastore va rivedendo il suo gregge nel giorno, in cui trovasi in mezzo alle sue pecorelle, che si eran disperse, così visiterò io le mie pecorelle, e rimenerolle da tutti que' luoghi, pe' quali erano state disperse nel giorno di nuvolo, e di caligine.\n\nIo pascerò le mie pecorelle, ed io le farò riposare, dice il Signore Dio.\n\nAnderò in cerca di quelle, che erano smarrite, e solleverò quelle, che eran cadute, e fascerò le piaghe di quelle, che avran sofferta frattura, e ristorerò le deboli, ed avrò l'occhio a quelle, che son grasse, e robuste, e ognuna di esse pascerò con saggezza.\n\nMa a voi, greggi miei, queste cose dice il Signore Dio: Ecco, che io fo giudizio tra pecore, e pecore, tra arieti, e montoni.",
-        "note": ""
-      }
+      "summary_kind": "summary"
     },
     {
       "kind": "seconda lettura",
@@ -37,14 +30,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261122",
       "summary": "Gesù descrive il giudizio finale: l’amore concreto verso le persone più bisognose rivela il nostro rapporto con lui.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Mt 25,31-46",
-        "text": "Quando poi verrà il Figliuolo dell'uomo nella sua maestà, e con lui tutti gli Angeli, allora sederà sopra il trono della sua maestà:\n\nE si raduneranno dinanzi a lui tutte le nazioni, ed egli separerà gli uni dagli altri, come il pastore separa le pecorelle dai capretti:\n\nE metterà le pecorelle alla sua destra, e i capretti alla sinistra.\n\nAllora il Re dirà a quelli, che saranno alla sua destra: Venite, bene detti dal Padre mio, prendete possesso del regno preparato a voi sin dalla fondazione del mondo.\n\nImperocché ebbi fame, e mi deste da mangiare: ebbi sete, e mi deste da bere: fui pellegrino, e mi ricettaste:\n\nIgnudo, e mi rivestiste: ammalato e mi visitaste: carcerato, e veniste da me.\n\nAllora gli risponderanno i giusti: Signore, quando mai ti abbiamo veduta affamato, e ti abbiam dato da mangiare: assetato, e ti demmo da bere?\n\nQuando ti abbiamo veduto pellegrino, e ti abbiamo ricettato: ignudo, e ti abbiam rivestito?\n\nOvvero quando ti abbiam veduto ammalato, o carcerato, e venimmo a visitarti?\n\nE il re risponderà, e dirà loro: In verità vi dico: Ogni volta che avete fatto qualche cosa per uno de' più piccoli di questi miei fratelli, l'avete fatta a me.\n\nAllora dirà anche a coloro, che saranno alla sinistra: Via da me, maladetti, al fuoco eterno, che fu preparato pel Diavolo, e pe' suoi Angeli.\n\nImperocché ebbi fame, e non mi deste da mangiare: ebbi sete, e non mi deste da bere:\n\nEra pellegrino, e non mi ricettaste, ignudo, e non mi rivestiste: ammalato, e carcerato, e non mi visitaste.\n\nAllora gli risponderanno anche questi: Signore, quando mai ti abbiam veduto affamato, o sitibondo, o pellegrino, o ignudo, o ammalato, o carcerato, e non ti abbiamo assistito?\n\nAllora risponderà ad essi con dire: In verità vi dico: Ogni volta che non mi avete ciò fatto per uno di questi piccoli, non lo avete fatto nemmeno a me.\n\nE anderanno questi all'eterno supplizio: i giusti poi alla vita eterna.",
-        "note": ""
-      }
+      "summary_kind": "summary"
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261122",
@@ -60,5 +46,5 @@
   },
   "updated_at": "2026-11-24T23:25:50.522562+01:00",
   "stale": false,
-  "reader_version": 1
+  "reader_version": 2
 }
