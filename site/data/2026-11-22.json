@@ -9,8 +9,9 @@
       "testament": "Antico Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261122",
-      "summary": "Dio si presenta come un pastore che cerca le pecore disperse, cura le più fragili e esercita la giustizia.",
-      "summary_kind": "summary"
+      "summary": "Dio parla come un pastore che va in cerca delle pecore disperse, riporta a casa quelle smarrite e si prende cura delle più deboli.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "seconda lettura",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261122",
-      "summary": "Paolo annuncia la risurrezione dei morti in Cristo e la vittoria finale sulla morte.",
-      "summary_kind": "summary"
+      "summary": "Paolo annuncia che Cristo, risorto per primo, aprirà la strada alla vita per tutti. Alla fine anche la morte sarà sconfitta.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -29,8 +31,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261122",
-      "summary": "Gesù descrive il giudizio finale: l’amore concreto verso le persone più bisognose rivela il nostro rapporto con lui.",
-      "summary_kind": "summary"
+      "summary": "Gesù racconta il giudizio finale: il Re riconosce come rivolto a sé ogni gesto di cura verso chi ha fame, è straniero, malato o prigioniero.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261122",

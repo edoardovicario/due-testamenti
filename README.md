@@ -72,3 +72,10 @@ Il pulsante Leggi la meditazione apre, su richiesta esplicita, la pagina origina
 - I test offline simulano il formato documentato delle risposte. È necessaria una verifica di rete reale e di compatibilità CORS prima del merge su main.
 
 **Compatibilità API (novembre 2026):** l'implementazione pubblicata al momento risponde su `/v3/` con CORS, mentre `/v3/quote` e `/v3/metadata/bibleversions` restituiscono 410 Gone nei controlli GitHub Actions. Il lettore usa quindi l'endpoint v3 effettivamente funzionante e un test live controlla la forma JSON.
+
+
+## Anteprime narrative delle letture
+
+Le anteprime sono brevi descrizioni originali di quanto accade nel passo, non un elenco di temi o un estratto del testo CEI. `reader.py` contiene una raccolta di anteprime verificate per i riferimenti già presenti e alcuni passi successivi. Per i nuovi giorni, il generatore usa prima un'anteprima verificata, poi solo scene riconosciute con criteri conservativi o il titolo liturgico disponibile. Quando mancano elementi sufficienti per una descrizione attendibile, **non inventa una trama**: omette l'anteprima, mantenendo sempre il pulsante «Leggi il testo» e il collegamento CEI.
+
+`preview_version` consente di aggiornare le vecchie anteprime nei JSON datati senza cambiare la liturgia, l'abbinamento delle meditazioni e la modalità di acquisizione della Bibbia CEI 2008. L'archivio non contiene testi integrali protetti.

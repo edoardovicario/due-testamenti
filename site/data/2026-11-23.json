@@ -9,8 +9,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123",
-      "summary": "Giovanni contempla l’Agnello e quanti lo seguono fedelmente, cantando un canto nuovo.",
-      "summary_kind": "summary"
+      "summary": "Giovanni vede l’Agnello sul monte Sion insieme a coloro che gli sono rimasti fedeli. Davanti al trono risuona un canto nuovo.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123",
-      "summary": "Gesù nota una vedova povera che offre due monetine: il valore del suo dono supera quello delle offerte più ricche.",
-      "summary_kind": "summary"
+      "summary": "Gesù osserva una vedova che lascia due monetine nel tesoro del tempio. Il suo piccolo dono vale più delle grandi offerte dei ricchi.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123",
