@@ -12,7 +12,7 @@ function reader(fetcher=async()=>{throw Error('Network calls forbidden in tests'
  return context.DueBibleGet;
 }
 function verses(){
- return [46,47,48,49,50].map(n=>({booknum:46,version:'CEI2008',chapter:12,verse:String(n),text:'Esempio non biblico '+n}));
+ return [46,47,48,49,50].map(n=>({booknum:46,univbooknum:'47',testament:2,version:'CEI2008',chapter:12,verse:String(n),text:'Esempio non biblico '+n}));
 }
 test('single chapter and non-consecutive verses parsed',()=>{
  const r=reader();
@@ -24,6 +24,22 @@ test('ambiguous and over-50-verse references rejected before fetching',()=>{
  for(const ref of ['Mt 1,1-51','Mt 1,1-3.3-5','Mt 1,3-1','Mt 1,3a-5','Sal 22(23)']){
   assert.throws(()=>r.parseReference(ref));
  }
+});
+test('Antico Testamento book references and aliases are accepted',()=>{
+ const r=reader();
+ assert.equal(r.parseReference('Gen 1,1-3').query,'Gen1,1-3');
+ assert.equal(r.parseReference('Gn 1,1-3').query,'Gen1,1-3');
+ assert.equal(r.parseReference('Zc 2,14-17').booknum,45);
+ assert.equal(r.parseReference('Ez 34,11-12.15-17').booknum,33);
+ assert.equal(r.parseReference('Gio 1,1-2').query,'Gna1,1-2');
+ assert.equal(r.parseReference('Ab 1,1-2').booknum,42);
+});
+test('reject wrong book or testament even with matching chapter and verse',()=>{
+ const r=reader(),ref=r.parseReference('Zc 2,14-17');
+ const rows=[14,15,16,17].map(n=>({booknum:44,univbooknum:'45',testament:1,version:'CEI2008',chapter:2,verse:String(n),text:'synthetic test'}));
+ assert.equal(r.validateResponse({results:rows},ref).length,4);
+ assert.throws(()=>r.validateResponse({results:rows.map((x,i)=>i===1?{...x,univbooknum:'33'}:x)},ref));
+ assert.throws(()=>r.validateResponse({results:rows.map((x,i)=>i===2?{...x,testament:2}:x)},ref));
 });
 test('valid JSON v3 verses are accepted',()=>{
  const r=reader();const got=r.validateResponse({results:verses()},r.parseReference('Mt 12,46-50'));
