@@ -168,6 +168,22 @@ def fc_matches(doc,d,ref):
             and 'don luigi maria epicoco' in content
             and has_reference(doc,ref))
 
+def fc_article_text(doc):
+    """Extract the original commentary paragraphs, without site chrome."""
+    article=doc.select_one('article.article-opinion main.article-content .article-body')
+    if article is None:
+        return None
+    paragraphs=[]
+    for p in article.select('p'):
+        if p.find_parent('div',class_='article-body') is not article:
+            continue
+        para=clean(p.get_text(' ',strip=True))
+        if para:
+            paragraphs.append(para)
+    text='\n\n'.join(paragraphs)
+    return text if len(paragraphs)>=3 and 600<=len(text)<=15000 else None
+
+
 def find_fc_comment(client,d,ref):
     """Retrieve original source URL, not the protected commentary itself."""
     if not re.fullmatch(r'(?:Mt|Mc|Lc|Gv)\s*\d{1,2}\s*,\s*\d{1,2}[a-z]?(?:\s*[-–.]\s*\d{1,2}[a-z]?)*',ref):
@@ -191,10 +207,17 @@ def find_fc_comment(client,d,ref):
             continue
         seen.add(url)
         try:
-            if fc_matches(fetch(client,url),d,ref):
+            page=fetch(client,url)
+            if fc_matches(page,d,ref):
+                body=fc_article_text(page)
+                if body is None:
+                    LOG.warning('Article structure changed or incomplete: %s',url)
+                    continue
                 return dict(status='matched',author='don Luigi Maria Epicoco',
                             reference=ref,url=url,source='Famiglia Cristiana',
-                            archived=False,text='',method='Data liturgica e Vangelo verificati')
+                            archived=False,text=body,
+                            permission='Riproduzione autorizzata secondo quanto comunicato dal gestore dell’app',
+                            method='Data liturgica, Vangelo e testo editoriale verificati')
         except Exception as exc:
             LOG.info('FC article %s: %s',url,exc)
     return None

@@ -41,7 +41,7 @@ def update(d):
     if old and old['comment']['status']=='matched' and not old.get('stale'):
         # Upgrade an already verified card to the user's chosen publisher
         # only when that original page matches the exact Gospel and date.
-        if old['comment'].get('source')!='Famiglia Cristiana':
+        if old['comment'].get('source')!='Famiglia Cristiana' or not old['comment'].get('text'):
             try:
                 ref=next(r['reference'] for r in old['readings'] if r['kind']=='vangelo')
                 with httpx.Client(timeout=httpx.Timeout(8,connect=5),headers={'User-Agent':'DueTestamenti/2.0 (educational reader)'}) as client:
@@ -50,7 +50,9 @@ def update(d):
             except Exception as exc:
                 LOG.info('FC fallback: %s',exc)
         enrich_readings(old)
-        old['comment']['text']='';old['comment'].pop('preview',None)
+        if old['comment'].get('source')!='Famiglia Cristiana' or not safe_fc(old['comment'].get('url','')):
+            old['comment']['text']=''
+        old['comment'].pop('preview',None)
         write_json(DATA / (d.isoformat()+'.json'),old)
         return 'matched (archivio)'
     try:
@@ -63,7 +65,9 @@ def update(d):
         enrich_readings(obj)
         # BibleGet passages are requested in-browser; only references and summaries are published.
         for r in obj['readings']: r['text']=''
-        obj['comment']['text']=''; obj['comment'].pop('preview',None)
+        if obj['comment'].get('source')!='Famiglia Cristiana' or not safe_fc(obj['comment'].get('url','')):
+            obj['comment']['text']=''
+        obj['comment'].pop('preview',None)
         if old and obj.get('stale'): return old['comment']['status']+' (archivio conservato)'
         write_json(DATA / (d.isoformat()+'.json'),obj)
         return obj['comment']['status']+(' (copia)' if obj.get('stale') else '')

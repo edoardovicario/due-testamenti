@@ -5,6 +5,24 @@ from unittest.mock import patch
 import update_site as u
 
 class UpdateTests(unittest.TestCase):
+
+    def test_authorized_fc_text_is_kept(self):
+        obj=json.loads(json.dumps(self.obj))
+        obj['comment']['source']='Famiglia Cristiana'
+        obj['comment']['url']='https://www.famigliacristiana.it/riflessioni/epicoco-parola-del-giorno/il-signore-non-ci-lascia-soli-nel-buio-26-novembre-uksv4fud'
+        obj['comment']['text']='Prova di un commento autorizzato da pubblicare sul sito.'
+        with patch.object(u,'refresh',return_value=obj):
+            self.assertEqual(u.update(self.d),'matched')
+        result=u.read_day(self.d)
+        self.assertEqual(result['comment']['text'],obj['comment']['text'])
+        self.assertEqual(result['readings'][0]['text'],'')
+    def test_other_sources_are_not_republished(self):
+        obj=json.loads(json.dumps(self.obj))
+        obj['comment']['text']='Testo non autorizzato a questa fonte'
+        with patch.object(u,'refresh',return_value=obj):
+            self.assertEqual(u.update(self.d),'matched')
+        self.assertEqual(u.read_day(self.d)['comment']['text'],'')
+
     def test_accepts_verified_famiglia_cristiana_comment(self):
         obj=json.loads(json.dumps(self.obj))
         obj['comment']['source']='Famiglia Cristiana'
