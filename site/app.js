@@ -56,19 +56,40 @@ function render(data,offline=false){
   const details=make('details','reading-details');details.dataset.key=data.date+'|'+r.kind+'|'+r.reference;details.open=openReadings.has(details.dataset.key);
   const toggle=make('summary','reader-toggle','Leggi il testo');details.append(toggle);
   const panel=make('div','reader-content');
-  const reader=r.reader;
-  if(reader&&reader.reference===r.reference&&reader.edition==='Bibbia Martini (1769–1781)'&&typeof reader.text==='string'&&reader.text.trim()){
-   panel.append(make('p','reader-edition',reader.edition+' · traduzione cattolica storica, non CEI 2008'));
-   if(reader.note)panel.append(make('p','reader-edition',reader.note));
-   panel.append(make('p','body-reading',reader.text));
-   const credit=make('p','reader-credit','Testo di pubblico dominio. Dati strutturati: Giovanni Novelli / ');const origin=make('a','','Parola Viva');origin.href='https://parolaviva.art/opendata';origin.target='_blank';origin.rel='noopener noreferrer';const license=make('a','','CC BY 4.0');license.href='https://creativecommons.org/licenses/by/4.0/';license.target='_blank';license.rel='noopener noreferrer';credit.append(origin,document.createTextNode(' · '),license);panel.append(credit);
-  }else{
-   panel.append(make('p','reader-edition','Testo interno non ancora disponibile o numerazione da verificare. Non viene mostrato un passo diverso.'));
-  }
+  // CEI 2008 is fetched from BibleGet only when opened; ignore old Martini data.
+  const status=make('p','reader-edition','Il testo CEI 2008 viene caricato online su richiesta.');
+  status.setAttribute('role','status');panel.append(status);
+  const passage=make('div','reader-verses');panel.append(passage);
+  const credit=make('p','reader-credit','Bibbia CEI 2008 © Fondazione di Religione “Santi Francesco d’Assisi e Caterina da Siena”. ');
+  const creditLink=make('a','','BibleGet I/O');
+  creditLink.href='https://www.bibleget.io/';creditLink.target='_blank';creditLink.rel='noopener noreferrer';
+  credit.append(creditLink);credit.hidden=true;panel.append(credit);
   const href=safeLink(r.url,'cei');
   if(href){const link=make('a','outlink reader-official','Versione liturgica ufficiale CEI ↗');link.href=href;link.target='_blank';link.rel='noopener noreferrer';panel.append(link);}
-  details.append(panel);details.addEventListener('toggle',()=>{toggle.textContent=details.open?'Chiudi il testo':'Leggi il testo';});
-  if(details.open)toggle.textContent='Chiudi il testo';
+  let attempted=false;
+  async function openReader(){
+   if(attempted)return;
+   attempted=true;status.textContent='Caricamento della Bibbia CEI 2008…';
+   try{
+    if(!globalThis.DueBibleGet)throw Error('Reader missing');
+    const verses=await globalThis.DueBibleGet.get(r.reference);
+    if(!details.isConnected)return;
+    const p=make('p','body-reading');
+    for(const v of verses){
+     const n=make('sup','',String(v.verse));
+     p.append(n,document.createTextNode(' '+v.text+' '));
+    }
+    passage.replaceChildren(p);
+    status.textContent='Bibbia CEI 2008 · testo recuperato da BibleGet I/O';
+    credit.hidden=false;
+   }catch(error){
+    if(!details.isConnected)return;
+    status.textContent=error&&error.name==='BibleGetUnavailable'?error.message:'Testo non disponibile. Controlla la connessione o consulta il sito CEI.';
+    attempted=false;
+   }
+  }
+  details.append(panel);details.addEventListener('toggle',()=>{toggle.textContent=details.open?'Chiudi il testo':'Leggi il testo';if(details.open)void openReader();});
+  if(details.open){toggle.textContent='Chiudi il testo';void openReader();}
   a.append(details);$('readings').append(a);
  }
  $('oldnote').textContent=data.readings.some(r=>r.testament==='Antico Testamento'&&r.kind!=='salmo responsoriale')?'': 'Oggi la liturgia non prevede una lettura autonoma dell’Antico Testamento; vengono rispettate le letture effettive del giorno.';
