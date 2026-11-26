@@ -1,12 +1,12 @@
 """Build dated JSON files; never substitute a different day's readings."""
-import json, logging, os, argparse
+import json, logging, os, argparse, httpx
 from datetime import date, datetime, timedelta
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 # Public site: do not publish full copyrighted material.
 os.environ['AUTHORIZED_CEI_TEXT'] = '0'
 os.environ['AUTHORIZED_EPICOCO_TEXT'] = '0'
-from service import refresh, today, ROME, ROOT, refkey, allowed_url, safe_ep
+from service import refresh, today, ROME, ROOT, refkey, allowed_url, safe_ep, safe_fc, find_fc_comment
 from reader import enrich_readings, VERSION
 
 DATA = ROOT / 'site' / 'data'
@@ -26,7 +26,7 @@ def valid(obj, d):
     if not g or not any(r.get('kind')=='prima lettura' for r in readings): return False
     if not all(allowed_url(r.get('url',''),{'www.chiesacattolica.it','chiesacattolica.it'}) for r in readings): return False
     c = obj.get('comment', {})
-    return bool(g.get('reference') and refkey(g['reference']) == refkey(c.get('reference','')) and c.get('status') in ('matched','pending') and (c.get('status') != 'matched' or safe_ep(c.get('url',''))))
+    return bool(g.get('reference') and refkey(g['reference']) == refkey(c.get('reference','')) and c.get('status') in ('matched','pending') and (c.get('status') != 'matched' or safe_ep(c.get('url','')) or safe_fc(c.get('url',''))))
 
 def write_json(p, obj):
     p.parent.mkdir(parents=True, exist_ok=True)
@@ -39,6 +39,16 @@ def update(d):
     old = read_day(d)
     # Preserve verified archived cards; retry pending cards and missing dates.
     if old and old['comment']['status']=='matched' and not old.get('stale'):
+        # Upgrade an already verified card to the user's chosen publisher
+        # only when that original page matches the exact Gospel and date.
+        if old['comment'].get('source')!='Famiglia Cristiana':
+            try:
+                ref=next(r['reference'] for r in old['readings'] if r['kind']=='vangelo')
+                with httpx.Client(timeout=httpx.Timeout(8,connect=5),headers={'User-Agent':'DueTestamenti/2.0 (educational reader)'}) as client:
+                    source=find_fc_comment(client,d,ref)
+                if source: old['comment']=source
+            except Exception as exc:
+                LOG.info('FC fallback: %s',exc)
         enrich_readings(old)
         old['comment']['text']='';old['comment'].pop('preview',None)
         write_json(DATA / (d.isoformat()+'.json'),old)

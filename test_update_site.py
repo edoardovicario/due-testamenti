@@ -5,6 +5,14 @@ from unittest.mock import patch
 import update_site as u
 
 class UpdateTests(unittest.TestCase):
+    def test_accepts_verified_famiglia_cristiana_comment(self):
+        obj=json.loads(json.dumps(self.obj))
+        obj['comment']['source']='Famiglia Cristiana'
+        obj['comment']['url']='https://www.famigliacristiana.it/riflessioni/epicoco-parola-del-giorno/il-signore-non-ci-lascia-soli-nel-buio-26-novembre-uksv4fud'
+        self.assertTrue(u.valid(obj,self.d))
+        obj['comment']['url']='https://untrusted.invalid/riflessioni/epicoco-parola-del-giorno/not-a-page'
+        self.assertFalse(u.valid(obj,self.d))
+
     def setUp(self):
         self.tmp=tempfile.TemporaryDirectory(); self.addCleanup(self.tmp.cleanup)
         patcher=patch.object(u,'DATA',Path(self.tmp.name));patcher.start();self.addCleanup(patcher.stop)
