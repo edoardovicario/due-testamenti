@@ -15,30 +15,29 @@ if(!offlineOpt)clearLocal();
 $('offline-opt').checked=offlineOpt;
 $('offline-opt').onchange=e=>{offlineOpt=e.target.checked;if(offlineOpt){store.set('due-testamenti:offline','yes');load(selected);}else clearLocal();$('privacy-status').textContent=offlineOpt?'Salvataggio offline attivato.':'Schede locali eliminate; salvataggio disattivato.';};
 $('clear-local').onclick=()=>{offlineOpt=false;clearLocal();$('offline-opt').checked=false;$('privacy-status').textContent='Dati locali eliminati. L’eventuale cache tecnica del browser o del sito ospitante è gestita separatamente.';};
-// Load the original publisher page only on an explicit user gesture.
-let meditationUrl=null;
-const isFamigliaCristiana=url=>{try{return new URL(url).hostname.endsWith('famigliacristiana.it');}catch{return false;}};
+// Show the authorized, locally published commentary within the app itself.
+let meditationUrl=null, meditationText=null;
 function closeMeditation(){
- $('ep-frame-host').replaceChildren();
+ $('ep-text-host').replaceChildren();
  $('ep-reader').hidden=true;
  $('ep-open').setAttribute('aria-expanded','false');
  $('ep-open').textContent='Leggi la meditazione';
 }
-function setMeditation(url){
- if(url!==meditationUrl)closeMeditation();
+function setMeditation(url, fullText=null){
+ if(url!==meditationUrl||fullText!==meditationText)closeMeditation();
  meditationUrl=url;
- $('ep-open').hidden=!url;
+ meditationText=typeof fullText==='string'&&fullText.trim()?fullText:null;
+ $('ep-open').hidden=!(url&&meditationText);
 }
 $('ep-open').onclick=()=>{
- if(!meditationUrl)return;
+ if(!meditationUrl||!meditationText)return;
  if(!$('ep-reader').hidden){closeMeditation();return;}
- const frame=document.createElement('iframe');
- frame.className='ep-frame';
- frame.title='Pagina originale della meditazione di don Luigi Maria Epicoco';
- frame.setAttribute('sandbox','');
- frame.setAttribute('referrerpolicy','no-referrer');
- frame.src=meditationUrl;
- $('ep-frame-host').replaceChildren(frame);
+ // Use textContent instead of HTML: no scripts or markup from third parties.
+ const body=make('div','ep-meditation-text');
+ for(const paragraph of meditationText.split(/\n\s*\n/)){
+   if(paragraph.trim())body.append(make('p','',paragraph.trim()));
+ }
+ $('ep-text-host').replaceChildren(body);
  $('ep-reader').hidden=false;
  $('ep-open').setAttribute('aria-expanded','true');
  $('ep-open').textContent='Chiudi la meditazione';
@@ -107,13 +106,13 @@ function render(data,offline=false){
   a.append(details);$('readings').append(a);
  }
  $('oldnote').textContent=data.readings.some(r=>r.testament==='Antico Testamento'&&r.kind!=='salmo responsoriale')?'': 'Oggi la liturgia non prevede una lettura autonoma dell’Antico Testamento; vengono rispettate le letture effettive del giorno.';
- const c=data.comment; $('comment-ref').textContent='Vangelo: '+c.reference; $('comment-text').textContent=c.text||c.preview||''; const epHref=safeLink(c.url,'ep');setMeditation(c.status==='matched'&&epHref?epHref:null);$('ep-link').hidden=c.status!=='matched'||!epHref;$('ep-link').removeAttribute('href');
+ const c=data.comment; $('comment-ref').textContent='Vangelo: '+c.reference; $('comment-text').textContent=''; const epHref=safeLink(c.url,'ep'); const authorized=c.status==='matched'&&c.source==='Famiglia Cristiana'&&epHref&&typeof c.text==='string'&&c.text.trim();setMeditation(c.status==='matched'&&epHref?epHref:null,authorized?c.text:null);$('ep-link').hidden=c.status!=='matched'||!epHref;$('ep-link').removeAttribute('href');
  const editor=c.source==='Famiglia Cristiana'?'Famiglia Cristiana (Gruppo Editoriale San Paolo)':'Cerco il Tuo volto';
- $('ep-reader-note').textContent='Questa è la pagina originale dell’editore, non una copia del commento. Può mostrare pubblicità o richiedere cookie. Se il sito impedisce l’incorporamento, usa il collegamento al sito originale qui sotto.';
- $('ep-rights').textContent='Autore: don Luigi Maria Epicoco · Fonte: '+editor+'. Il testo integrale resta sul sito dell’editore. Diritti riservati ai rispettivi titolari: citare autore e fonte non autorizza da solo a ripubblicare l’intero commento. Per riportarlo integralmente nella grafica dell’app occorre una licenza o autorizzazione scritta dai titolari dei diritti.';
+ $('ep-reader-note').textContent='Testo integrale del commento di don Luigi Maria Epicoco. Fonte: Famiglia Cristiana. Il testo è riprodotto sulla base dell’autorizzazione comunicata al gestore di Due Testamenti.';
+ $('ep-rights').textContent='© Don Luigi Maria Epicoco / '+editor+'. Diritti riservati ai rispettivi titolari. '+(authorized?'Commento integrale riprodotto in Due Testamenti su autorizzazione dichiarata dal gestore.':'Testo non disponibile nell’app per questa data: consulta la fonte originale.');
  $('ep-rights').hidden=c.status!=='matched'||!epHref;
  $('ep-link').textContent=c.source==='Famiglia Cristiana'?'Apri il commento su Famiglia Cristiana ↗':'Apri il commento sul sito originale ↗';
- if(c.status==='matched'&&epHref){$('ep-link').href=epHref;$('comment-status').textContent=(c.archived?'Meditazione di archivio sul medesimo passo. ':'Meditazione associata al brano di oggi. ')+(c.method||'')+'. '+(c.preview?'Breve estratto; testo integrale sul sito originale. ':'')+'Fonte: '+c.source;}
+ if(c.status==='matched'&&epHref){$('ep-link').href=epHref;$('comment-status').textContent=authorized?'Meditazione integrale disponibile qui nell’app. Fonte: '+c.source+'.':'Il commento originale è disponibile dal collegamento alla fonte: '+c.source+'.';}
  else {$('comment-text').textContent='';$('comment-status').textContent=c.message||'Collegamento non verificabile: non mostrato.';}
  $('updated').textContent='Data delle letture: '+printDate(data.date)+(data.updated_at?' · Ultimo aggiornamento: '+new Date(data.updated_at).toLocaleString('it-IT',{timeZone:'Europe/Rome'}):'');
  $('content').hidden=false; $('status').hidden=!(offline||data.stale); $('status').textContent='Copia disponibile per questa stessa data. La verifica o la connessione online non è al momento disponibile.';
