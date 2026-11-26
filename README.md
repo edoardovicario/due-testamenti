@@ -29,7 +29,7 @@ Gli aggiornamenti generano normali commit dell'archivio e del registro di contro
 
 ## 3. Pertinenza e indisponibilità
 
-Fonte delle letture: liturgia del giorno della CEI. Fonte delle meditazioni: archivio pubblico Cerco il Tuo volto. È una selezione automatica conservativa: controlla il riferimento e cerca riscontri nel commento effettivo, senza confonderlo con la trascrizione del Vangelo presente nella pagina. È un criterio euristico, non una revisione teologica umana; può escludere commenti pertinenti, in particolare per riferimenti complessi, oppure risentire delle modifiche dei siti. Nessuna garanzia di reperire un commento ogni giorno o che un collegamento resti disponibile. Se manca una corrispondenza sufficientemente forte, lo dichiara. Non mostra mai una scheda di altra data per coprire un'assenza. Il commento è riferito al Vangelo: non sempre esiste un commento di Epicoco sulla prima lettura o una lettura autonoma dall'Antico Testamento. Le schede includono temi introduttivi o riassunti curati per i riferimenti noti. Il pulsante Leggi il testo espande il brano nell'app, usando la Bibbia Martini (1769–1781), di pubblico dominio, e i dati strutturati di Giovanni Novelli / Parola Viva, CC BY 4.0 (https://parolaviva.art/opendata; https://creativecommons.org/licenses/by/4.0/). Non è la traduzione CEI 2008. Numerazioni storiche non verificate, riferimenti complessi o fonti non raggiungibili hanno un ripiego sul link CEI, senza sostituire altri versetti. I temi automatici non sono riassunti teologici verificati. Il testo ufficiale CEI e i commenti protetti non vengono ripubblicati.
+Nel branch sperimentale CEI 2008, il lettore ottiene i versetti online da BibleGet I/O soltanto su richiesta. Nessun testo completo CEI 2008 viene salvato nell'archivio pubblico; i dati storici della precedente traduzione Martini vengono ignorati dal lettore e rimossi dai file JSON.
 
 La PWA conserva l'interfaccia nella cache tecnica; le schede già consultate vengono conservate localmente solo se si attiva l'opzione facoltativa per la lettura offline; offline non può scaricare nuovi contenuti o aprire le fonti esterne. Se una scheda manca, resta disponibile il collegamento alla liturgia CEI della data selezionata. L'archivio incluso ha un solo esempio dalla versione precedente (21/11/2026), chiaramente contrassegnato come copia, non un calendario annuale precaricato.
 
@@ -51,7 +51,7 @@ Documentazione: https://docs.github.com/en/pages/getting-started-with-github-pag
 ## 6. Sicurezza e privacy
 
 - In Settings → Pages attiva Enforce HTTPS. Usa esclusivamente il link HTTPS fornito da GitHub.
-- Nessun account, pagamento, modulo di registrazione, cookie applicativo, telemetria o accesso a sensori per i lettori. I dati pubblicati comprendono riferimenti, link, temi introduttivi e testi della Bibbia Martini di pubblico dominio quando disponibili; non contengono dati personali dei lettori.
+Nel branch sperimentale CEI 2008, il lettore ottiene i versetti online da BibleGet I/O soltanto su richiesta. Nessun testo completo CEI 2008 viene salvato nell'archivio pubblico; i dati storici della precedente traduzione Martini vengono ignorati dal lettore e rimossi dai file JSON.
 - L'interfaccia usa risorse locali, una Content Security Policy restrittiva e non esegue script di terzi. I contenuti recuperati sono inseriti come testo, non come HTML. Gli indirizzi delle fonti sono controllati sia durante la pubblicazione sia nel browser; i redirect del recupero HTML sono confinati al dominio della fonte. I collegamenti esterni si aprono senza referrer e senza accesso alla finestra originale. I siti esterni restano indipendenti e potrebbero contenere pubblicità o tracciamento.
 - Il salvataggio delle schede nel browser è disattivato per impostazione iniziale. L'utente può attivarlo e cancellare i dati locali dalla sezione Privacy e sicurezza. La cache tecnica delle risorse e gli eventuali dati del browser sono gestiti separatamente.
 - GitHub Pages registra l'indirizzo IP dei visitatori per sicurezza, anche senza login: https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages#data-collection .
@@ -60,3 +60,13 @@ Documentazione: https://docs.github.com/en/pages/getting-started-with-github-pag
 
 ### Lettore della meditazione
 Il pulsante Leggi la meditazione apre, su richiesta esplicita, la pagina originale del commento verificato in un iframe sandbox privo di script e accesso al contesto dell'app, con referrer disattivato e CSP limitata ai domini Cerco il Tuo volto. Non vengono copiati o ripubblicati i commenti integrali. La fonte esterna potrebbe bloccare l'incorporamento, mostrare pubblicità o raccogliere dati; in questo caso, o se il contenuto non è leggibile nel riquadro, rimane disponibile il collegamento al sito originale. Il riquadro viene rimosso alla chiusura e al cambio di giorno. La meditazione incorporata richiede una connessione.
+
+
+## Sperimentazione CEI 2008 con BibleGet (non pubblicata su main)
+
+- Il lettore usa l'endpoint HTTPS https://query.bibleget.io/v3/quote con `version=CEI2008`, `return=json`, `appid=DueTestamentiWeb`, `pluginversion=1.0` dopo il clic su «Leggi il testo».
+- Limite di 50 versetti per richiesta, senza suddivisione artificiosa dei brani lunghi; citazioni complesse non verificabili e risposte parziali rinviano al sito CEI.
+- Diritti: CEI2008 © Fondazione di Religione “Santi Francesco d’Assisi e Caterina da Siena”. Condizioni di utilizzo del servizio: https://www.bibleget.io/BibleGetIOTermsofService.html
+- Le risposte sono mantenute soltanto nella memoria della pagina, evitando richieste duplicate: non sono salvate in file JSON, LocalStorage, IndexedDB o cache del service worker.
+- Per la privacy il browser contatta BibleGet con il brano richiesto e l'identificativo dell'app, solo dopo un clic. Richiede connessione a Internet. Nessun account o chiave API necessari.
+- I test offline simulano il formato documentato delle risposte. È necessaria una verifica di rete reale e di compatibilità CORS prima del merge su main.
