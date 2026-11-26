@@ -15,7 +15,7 @@
   const givenBook=match[1].replace(/\s/g,''),book=ALIASES.get(givenBook)||givenBook,booknum=BOOKS.get(book);
   if(!booknum)throw new Unavailable('Libro biblico non riconosciuto: consulta il sito CEI.');
   const parts=match[2].split(';'),expected=[],queryParts=[];
-  let expandedPartial=false,previousChapter=0,previousVerse=0,hasSpan=false;
+  let expandedPartial=false,previousChapter=0,previousVerse=0,hasSpan=false,spanChapter=null,spanToken=null;
   if(parts.length>8)throw new Unavailable('Riferimento troppo complesso: consulta il sito CEI.');
   for(let pi=0;pi<parts.length;pi++){
    const part=/^(\d{1,3}),\s*(.+)$/.exec(parts[pi].trim());
@@ -38,6 +38,7 @@
      if(chapter<previousChapter||(chapter===previousChapter&&first<=previousVerse))throw new Unavailable('Versetti ripetuti o fuori ordine.');
      expected.push({kind:'span',chapter,verse:first,endChapter:lastChapter,endVerse:lastVerse});
      normalized.push(first+'-'+lastChapter+','+lastVerse);
+     spanChapter=chapter;spanToken=first+'-'+lastChapter+','+lastVerse;
      hasSpan=true;previousChapter=lastChapter;previousVerse=lastVerse;
      continue;
     }
@@ -55,7 +56,12 @@
    queryParts.push((pi===0?book:'')+chapter+','+normalized.join('.'));
   }
   if(!expected.length)throw new Unavailable('Nessun versetto selezionato.');
-  return {book,booknum,chapter:expected[0].chapter,verses:expected.map(x=>x.verse),expected,expandedPartial,query:queryParts.join(';')};
+  let query=queryParts.join(';');
+  if(hasSpan){
+   const fragment='.'+spanToken;
+   if(query.endsWith(fragment))query=query.slice(0,-fragment.length)+';'+spanChapter+','+spanToken;
+  }
+  return {book,booknum,chapter:expected[0].chapter,verses:expected.map(x=>x.verse),expected,expandedPartial,query};
  }
  function validateResponse(data,ref){
   const rows=data&&data.results;

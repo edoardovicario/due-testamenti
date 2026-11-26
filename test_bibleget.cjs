@@ -95,7 +95,7 @@ test('Prima Lettura across chapters with liturgical partial verse',()=>{
 });
 test('Prima Lettura with cross-chapter interval 20 to 21',()=>{
  const r=reader(),ref=r.parseReference('Ap 20,1-4.11-21,2');
- assert.equal(ref.query,'Ap20,1-4.11-21,2');
+ assert.equal(ref.query,'Ap20,1-4;20,11-21,2');
  const seq=[1,2,3,4,11,12,13,14,15].map(v=>({chapter:20,verse:v}))
    .concat([1,2].map(v=>({chapter:21,verse:v})));
  const rows=seq.map(x=>({version:'CEI2008',univbooknum:'73',testament:2,chapter:x.chapter,verse:String(x.verse),text:'synthetic verse'}));
