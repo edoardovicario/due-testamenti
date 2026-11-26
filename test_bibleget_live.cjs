@@ -20,6 +20,17 @@ const vm=require('node:vm');
   console.log(reference+': CEI 2008 verified, '+verses.length+' verses, original book confirmed (content not logged)');
  }
 
+ // Diagnostic checks for BibleGet's cross-chapter notation (metadata only).
+ const alternativeQueries=['Ap20,11-21,2','Ap20,1-4;20,11-21,2','Ap20,1-4;20,11-15;21,1-2'];
+ for(const query of alternativeQueries){
+  const q=new URLSearchParams({query,version:'CEI2008',return:'json',appid:'DueTestamentiWeb',pluginversion:'1.0'});
+  const response=await fetch('https://query.bibleget.io/v3/?'+q,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(20000)});
+  const body=await response.json();
+  const result=Array.isArray(body.results)?body.results:[];
+  console.log('Cross-chapter diagnostic: '+query+', HTTP '+response.status+', count '+result.length+
+   ', first '+(result.length?result[0].chapter+':'+result[0].verse:'none')+
+   ', last '+(result.length?result[result.length-1].chapter+':'+result[result.length-1].verse:'none'));
+ }
  // Also verify the actual First Reading with multiple chapters and a verse fragment.
  for(const reference of ['Ap 18,1-2.21-23;19,1-3.9a','Ap 20,1-4.11-21,2']){
   const parsed=bible.parseReference(reference);
