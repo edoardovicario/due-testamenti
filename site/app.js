@@ -49,10 +49,13 @@ function render(data,offline=false){
  for(const r of data.readings){
   const a=make('article','reading-card');
   a.append(make('div','card-label',r.label.toUpperCase()+' · '+r.testament.toUpperCase()),make('h2','',r.reference));
-  const preview=make('div','reading-preview');
-  preview.append(make('p','overline',r.summary_kind==='heading'?'TEMA LITURGICO':r.summary_kind==='automatic'?'IN BREVE · TEMI AUTOMATICI':'IN BREVE'));
-  preview.append(make('p','reading-summary',r.summary||'Il riassunto di questa lettura non è ancora disponibile.'));
-  a.append(preview);
+  // Show a real teaser, never a legacy machine-generated keyword list.
+  if(r.summary&&r.summary.trim()&&!/^Nel brano emergono questi temi/i.test(r.summary)){
+   const preview=make('div','reading-preview');
+   preview.append(make('p','overline','ANTEPRIMA'));
+   preview.append(make('p','reading-summary',r.summary));
+   a.append(preview);
+  }
   const details=make('details','reading-details');details.dataset.key=data.date+'|'+r.kind+'|'+r.reference;details.open=openReadings.has(details.dataset.key);
   const toggle=make('summary','reader-toggle','Leggi il testo');details.append(toggle);
   const panel=make('div','reader-content');
