@@ -79,3 +79,17 @@ Il pulsante Leggi la meditazione apre, su richiesta esplicita, la pagina origina
 Le anteprime sono brevi descrizioni originali di quanto accade nel passo, non un elenco di temi o un estratto del testo CEI. `reader.py` contiene una raccolta di anteprime verificate per i riferimenti già presenti e alcuni passi successivi. Per i nuovi giorni, il generatore usa prima un'anteprima verificata, poi solo scene riconosciute con criteri conservativi o il titolo liturgico disponibile. Quando mancano elementi sufficienti per una descrizione attendibile, **non inventa una trama**: omette l'anteprima, mantenendo sempre il pulsante «Leggi il testo» e il collegamento CEI.
 
 `preview_version` consente di aggiornare le vecchie anteprime nei JSON datati senza cambiare la liturgia, l'abbinamento delle meditazioni e la modalità di acquisizione della Bibbia CEI 2008. L'archivio non contiene testi integrali protetti.
+
+
+## Meditazioni di don Luigi Maria Epicoco: Famiglia Cristiana
+
+Le pagine originali della rubrica https://www.famigliacristiana.it/riflessioni/epicoco-parola-del-giorno hanno priorità quando la data liturgica e il riferimento del Vangelo coincidono. I link verificati per il 24, 25 e 26 novembre 2026 sono presenti nell'archivio. Le nuove pagine sono individuate dalla rubrica e ricontrollate prima di essere collegate. Se l'editore non pubblica un articolo o non è possibile verificare l'abbinamento, il sistema conserva il collegamento precedente validato oppure lo indica come non disponibile.
+
+Il pulsante «Leggi la meditazione» tenta di mostrare in un riquadro isolato **la pagina originale dell'editore**, caricata soltanto su richiesta. Non viene effettuato scraping/rehosting del testo integrale e nessun articolo viene salvato nell'archivio GitHub. I siti esterni possono bloccare l'incorporamento attraverso `X-Frame-Options` o `Content-Security-Policy`: in tal caso occorre usare il collegamento originale sempre visibile. Non aggirare tali restrizioni.
+
+**Diritti di riproduzione:** autore don Luigi Maria Epicoco; fonte editoriale Famiglia Cristiana (Gruppo Editoriale San Paolo). L'attribuzione non equivale a una licenza di ripubblicazione. Per conservare o riprodurre integralmente i commenti direttamente nel layout di Due Testamenti servono un permesso scritto dall'editore e/o dagli altri titolari dei diritti, con estensione alla pubblicazione web, eventuale archiviazione, durata e condizioni di attribuzione. Per contattare la redazione: https://www.famigliacristiana.it/contatti-t2f2do55.
+
+
+### Lettura integrale autorizzata nell'interfaccia
+
+Su conferma dell'utente di avere ricevuto il permesso, il commento originale di Famiglia Cristiana (e soltanto questo editore) viene ora memorizzato come testo con paragrafi nel JSON del giorno, associato alla data liturgica e al riferimento del Vangelo. Il pulsante «Leggi la meditazione» lo mostra direttamente in-app, senza iframe, con autore, credito editoriale, diritti e link alla pagina originale. La raccolta mantiene i controlli contro pagine non abbinate, layout diversi, duplicazioni e testi incompleti. Il permesso dichiarato andrà rispettato per ambito, durata e eventuale diritto di archiviazione; l'applicazione non pretende diritti d'autore sul testo.

@@ -28,3 +28,6 @@ a{color:inherit}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-
 
 /* Publisher-hosted meditation reader */
 .epicoco-content{min-width:0;flex:1}.epicoco-content #ep-open{border:0;cursor:pointer;font:inherit;font-weight:800}.ep-reader{margin:16px 0 0;width:100%;min-width:0}.epicoco-content .ep-reader-note{font-size:13px!important;line-height:1.5;max-width:none!important}.ep-frame{display:block;border:1px solid var(--border);border-radius:12px;width:100%;height:65vh;height:65dvh;min-height:320px;background:#fff}.ep-source-link{margin-top:12px;font-size:13px;min-height:42px}@media(max-width:680px){.epicoco:has(.ep-reader:not([hidden])){flex-direction:column}.epicoco-content #ep-open{width:100%}}
+
+/* Authorized Epicoco commentary displayed as native paragraphs. */
+.ep-meditation-text{max-width:76ch;padding:12px 0 4px;color:var(--ink)}.ep-meditation-text p{margin:0 0 1.15em;font-size:clamp(17px,2.1vw,20px);line-height:1.75;white-space:pre-wrap;overflow-wrap:anywhere}.epicoco-content #ep-rights{font-size:13px;line-height:1.5;margin:16px 0;color:var(--muted)}
