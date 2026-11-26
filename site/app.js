@@ -8,7 +8,7 @@ const add=(d,n)=>{const t=new Date(d+'T12:00:00Z');t.setUTCDate(t.getUTCDate()+n
 const printDate=d=>new Intl.DateTimeFormat('it-IT',{dateStyle:'full',timeZone:'Europe/Rome'}).format(new Date(d+'T12:00:00Z'));
 const make=(tag,cls,text)=>{const el=document.createElement(tag);if(cls)el.className=cls;if(text)el.textContent=text;return el;};
 const store={get:k=>{try{return localStorage.getItem(k);}catch{return null;}},set:(k,v)=>{try{localStorage.setItem(k,v);}catch{}},del:k=>{try{localStorage.removeItem(k);}catch{}}};
-const safeLink=(value,kind)=>{try{const u=new URL(value);const hosts=kind==='cei'?['www.chiesacattolica.it','chiesacattolica.it']:['www.cercoiltuovolto.it','cercoiltuovolto.it'];return u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&hosts.includes(u.hostname)?u.href:null;}catch{return null;}};
+const safeLink=(value,kind)=>{try{const u=new URL(value);const hosts=kind==='cei'?['www.chiesacattolica.it','chiesacattolica.it']:['www.cercoiltuovolto.it','cercoiltuovolto.it','www.famigliacristiana.it','famigliacristiana.it'];return u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&hosts.includes(u.hostname)?u.href:null;}catch{return null;}};
 let offlineOpt=store.get('due-testamenti:offline')==='yes';
 function clearLocal(){try{for(let i=localStorage.length-1;i>=0;i--){const k=localStorage.key(i);if(k&&(k.startsWith('due-testamenti:')||/^day:\d{4}-\d{2}-\d{2}$/.test(k)||k==='font'))localStorage.removeItem(k);}}catch{}}
 if(!offlineOpt)clearLocal();
@@ -17,6 +17,7 @@ $('offline-opt').onchange=e=>{offlineOpt=e.target.checked;if(offlineOpt){store.s
 $('clear-local').onclick=()=>{offlineOpt=false;clearLocal();$('offline-opt').checked=false;$('privacy-status').textContent='Dati locali eliminati. L’eventuale cache tecnica del browser o del sito ospitante è gestita separatamente.';};
 // Load the original publisher page only on an explicit user gesture.
 let meditationUrl=null;
+const isFamigliaCristiana=url=>{try{return new URL(url).hostname.endsWith('famigliacristiana.it');}catch{return false;}};
 function closeMeditation(){
  $('ep-frame-host').replaceChildren();
  $('ep-reader').hidden=true;
@@ -33,7 +34,7 @@ $('ep-open').onclick=()=>{
  if(!$('ep-reader').hidden){closeMeditation();return;}
  const frame=document.createElement('iframe');
  frame.className='ep-frame';
- frame.title='Meditazione originale di don Luigi Maria Epicoco';
+ frame.title='Pagina originale della meditazione di don Luigi Maria Epicoco';
  frame.setAttribute('sandbox','');
  frame.setAttribute('referrerpolicy','no-referrer');
  frame.src=meditationUrl;
@@ -107,6 +108,11 @@ function render(data,offline=false){
  }
  $('oldnote').textContent=data.readings.some(r=>r.testament==='Antico Testamento'&&r.kind!=='salmo responsoriale')?'': 'Oggi la liturgia non prevede una lettura autonoma dell’Antico Testamento; vengono rispettate le letture effettive del giorno.';
  const c=data.comment; $('comment-ref').textContent='Vangelo: '+c.reference; $('comment-text').textContent=c.text||c.preview||''; const epHref=safeLink(c.url,'ep');setMeditation(c.status==='matched'&&epHref?epHref:null);$('ep-link').hidden=c.status!=='matched'||!epHref;$('ep-link').removeAttribute('href');
+ const editor=c.source==='Famiglia Cristiana'?'Famiglia Cristiana (Gruppo Editoriale San Paolo)':'Cerco il Tuo volto';
+ $('ep-reader-note').textContent='Questa è la pagina originale dell’editore, non una copia del commento. Può mostrare pubblicità o richiedere cookie. Se il sito impedisce l’incorporamento, usa il collegamento al sito originale qui sotto.';
+ $('ep-rights').textContent='Autore: don Luigi Maria Epicoco · Fonte: '+editor+'. Il testo integrale resta sul sito dell’editore. Diritti riservati ai rispettivi titolari: citare autore e fonte non autorizza da solo a ripubblicare l’intero commento. Per riportarlo integralmente nella grafica dell’app occorre una licenza o autorizzazione scritta dai titolari dei diritti.';
+ $('ep-rights').hidden=c.status!=='matched'||!epHref;
+ $('ep-link').textContent=c.source==='Famiglia Cristiana'?'Apri il commento su Famiglia Cristiana ↗':'Apri il commento sul sito originale ↗';
  if(c.status==='matched'&&epHref){$('ep-link').href=epHref;$('comment-status').textContent=(c.archived?'Meditazione di archivio sul medesimo passo. ':'Meditazione associata al brano di oggi. ')+(c.method||'')+'. '+(c.preview?'Breve estratto; testo integrale sul sito originale. ':'')+'Fonte: '+c.source;}
  else {$('comment-text').textContent='';$('comment-status').textContent=c.message||'Collegamento non verificabile: non mostrato.';}
  $('updated').textContent='Data delle letture: '+printDate(data.date)+(data.updated_at?' · Ultimo aggiornamento: '+new Date(data.updated_at).toLocaleString('it-IT',{timeZone:'Europe/Rome'}):'');
