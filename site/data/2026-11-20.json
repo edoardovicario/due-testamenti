@@ -10,14 +10,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261120",
       "summary": "Giovanni riceve un piccolo libro da mangiare e un nuovo incarico profetico; il libro è dolce e poi amaro.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Ap 10,8-11",
-        "text": "E udii la voce dal cielo, che di nuovo mi parlava, e diceva: va', e piglia il libro aperto di mano dell'Angelo, che posa sulla terra, e sul mare.\n\nE andai dall'Angelo a dirgli, che mi desse il libro. Ed ei mi disse: prendilo, e divoralo: e amareggerà il tuo ventre, ma alla tua bocca sarà dolce come il miele.\n\nE presi il libro di mano dell'Angelo, e lo divorai: ed era alla mia bocca dolce come miele: ma divorato che l'ebbi, funne amareggiato il mio ventre:\n\nE disse a me: fa d'uopo, che tu profeti di bel nuovo a genti, e a popoli, e a linguaggi, e a molti re.",
-        "note": ""
-      }
+      "summary_kind": "summary"
     },
     {
       "kind": "vangelo",
@@ -27,14 +20,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261120",
       "summary": "Gesù scaccia i venditori dal tempio e insegna al popolo, mentre le autorità cercano di fermarlo.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Lc 19,45-48",
-        "text": "Ed entrato nel tempio cominciò a scacciare coloro, che in esso vendevano, e comperavano,\n\nDicendo loro: Sta scritto; La casa mia è casa di orazione; e voi l'avete cangiata in ispelonca di ladri.\n\nE insegnava ogni giorno nel tempio. Ma i principi de' sacerdoti, e gli Scribi, e i caporioni del popolo cercavano di levarlo dal mondo:\n\nNé sapevan, che farsi di lui. Conciossiaché tutto il popolo stava a bocca aperta ad udirlo.",
-        "note": ""
-      }
+      "summary_kind": "summary"
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261120",
@@ -50,5 +36,5 @@
   },
   "updated_at": "2026-11-21T23:03:11.313282+01:00",
   "stale": false,
-  "reader_version": 1
+  "reader_version": 2
 }

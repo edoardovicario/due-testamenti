@@ -10,14 +10,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123",
       "summary": "Giovanni contempla l’Agnello e quanti lo seguono fedelmente, cantando un canto nuovo.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Ap 14,1-3.4b-5",
-        "text": "Ed ecco che io vidi l'Agnello, che stava sul monte di Sion, e con esso cento quarantaquattro mila persone, le quali avevano scritto sulle loro fronti il nome di lui, e il nome del Padre di lui.\n\nE udii una voce dal cielo, come romore di molte acque, e come romore di gran tuono: e la voce, che udii, quasi di citaristi, che suonavano le loro cetere.\n\nE cantavano come un nuovo cantico dinanzi al trono, e dinanzi ai quattro animali, e seniori; e nissuno poteva imparare quel cantico, se non que' cento quarantaquattro mila, i quali furono comperati di sopra la terra.\n\nQuesti son quelli, che non si sono macchiati con donne: perché sono vergini. Questi seguon l'Agnello, dovunque vada. Questi furon comperati di tra gli uomini primizie a Dio, e all'Agnello,\n\nNè si è trovata menzogna nella lor bocca: imperocché sono scevri di macchia dinanzi al trono di Dio.",
-        "note": "I versetti indicati con lettere sono riportati per intero."
-      }
+      "summary_kind": "summary"
     },
     {
       "kind": "vangelo",
@@ -27,14 +20,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123",
       "summary": "Gesù nota una vedova povera che offre due monetine: il valore del suo dono supera quello delle offerte più ricche.",
-      "summary_kind": "summary",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Lc 21,1-4",
-        "text": "Alzati poi gli occhi osservò de' ricchi, che gettavano le loro offerte nel gazofilaccio.\n\nE vide dipoi anche una poverella vedova, la quale vi gettò due piccioli.\n\nE disse: Veracemente vi dico, che questa povera vedova ha messo più di tutti:\n\nImperocché tutti coloro hanno offerto a Dio parte di quello, che loro sopravanzava: ma colei del suo necessario ha offerto quanto aveva per sostentarsi.",
-        "note": ""
-      }
+      "summary_kind": "summary"
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261123",
@@ -50,5 +36,5 @@
   },
   "updated_at": "2026-11-21T23:03:13.523556+01:00",
   "stale": false,
-  "reader_version": 1
+  "reader_version": 2
 }
