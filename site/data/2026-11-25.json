@@ -10,14 +10,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261125",
       "summary": "Cantano il canto di Mosè e il canto dell’Agnello.",
-      "summary_kind": "heading",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Ap 15,1-4",
-        "text": "E vidi un altro prodigio grande, e mirabile nel cielo, sette Angeli, che portavano le sette piaghe ultime: perché con queste si sazia l'ira di Dio.\n\nE vidi come un mare di vetro misto di fuoco, e quelli, che hanno vinta la bestia, e la sua immagine, e il numero del nome di essa, stanno sul mare di vetro, tenendo cetere divine:\n\nE cantavano il cantico di Mosè servo di Dio, e il cantico dell'Agnello, dicendo: grandi, e mirabili sono le opere tue, Signore Dio onnipotente: giuste, e vere sono le tue vie, o Re de' secoli.\n\nChi non ti temerà, o Signore, e non glorificherà il nome tuo? imperocché tu solo se' pio: onde le nazioni tutte verranno, e si incurveranno davanti a te, perché i giudizi tuoi sono renduti manifesti.",
-        "note": ""
-      }
+      "summary_kind": "heading"
     },
     {
       "kind": "vangelo",
@@ -27,14 +20,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261125",
       "summary": "Nel brano emergono questi temi: il cammino dei discepoli.",
-      "summary_kind": "automatic",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Lc 21,12-19",
-        "text": "Ma prima di tutto questo vi metteranno le mani addosso, e vi perseguiteranno, traggendovi alle sinagoghe, e alle prigioni, e vi strascineranno dinanzi ai re, e ai presidi per causa del nome mio.\n\nE questo avverrà per la vostra testimonianza.\n\nTenete dunque fisso in cuor vostro di non premeditare quel, che abbiate a rispondere:\n\nImperocché io darò a voi un parlare, e una sapienza, cui non potran resistere, né contraddire tutti i vostri nemici.\n\nMa sarete traditi dai genitori, dai fratelli, da' parenti, e amici, e parte di voi ne faranno morire:\n\nE sarete in odio a tutti per causa del nome mio:\n\nMa non perirà un solo capello del vostro capo.\n\nGuadagnerete le anime vostre mediante la pazienza.",
-        "note": ""
-      }
+      "summary_kind": "automatic"
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261125",
@@ -50,5 +36,5 @@
   },
   "updated_at": "2026-11-23T08:35:27.028260+01:00",
   "stale": false,
-  "reader_version": 1
+  "reader_version": 2
 }

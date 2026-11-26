@@ -10,14 +10,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261128",
       "summary": "Non vi sarà più notte perché il Signore Dio li illuminerà.",
-      "summary_kind": "heading",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Ap 22,1-7",
-        "text": "E mostrommi un fiume di acqua viva, limpido come cristallo, che scaturiva dal trono di Dio, e dell'Agnello.\n\nNel mezzo della sua piazza, e da ambe le parti del fiume l'albero della vita, che porta dodici frutti, dando mese per mese il suo frutto, e le foglie dell'albero (sono) per medicina delle nazioni.\n\nNé vi sarà più maledizione: ma la sede di Dio, e dell'Agnello sarà in essa, e i servi di lui lo serviranno.\n\nE vedran la faccia di lui: e il nome di lui sulle loro fronti.\n\nNè saravvi più notte: nè avran bisogno più di lume di lucerna, né di lume di sole, perché il Signore Dio gli illuminerà, e regneranno pe' secoli de' secoli.\n\nE dissemi: queste parole sono fedelissime, e vere. E il Signore Dio degli spiriti de' profeti ha spedito il suo Angelo a dimostrare a' suoi servi le cose, che debbon tosto seguire.\n\nEd ecco, che presto io vengo. Beato, chi osserva le parole di profezia di questo libro.",
-        "note": ""
-      }
+      "summary_kind": "heading"
     },
     {
       "kind": "vangelo",
@@ -27,14 +20,7 @@
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261128",
       "summary": "Nel brano emergono questi temi: la preghiera, il cammino dei discepoli.",
-      "summary_kind": "automatic",
-      "reader": {
-        "edition": "Bibbia Martini (1769–1781)",
-        "source": "https://parolaviva.art/opendata",
-        "reference": "Lc 21,34-36",
-        "text": "Vegliate sopra voi stessi, onde non avvenga, che siano i vostri cuori depressi dalle crapole, e dalle ubbriachezze, e dalle cure della vita presente: e repentinamente vi venga addosso quella giornata:\n\nImperocché sarà quasi laccio, che cadrà sopra tutti coloro, che abitano sulla superficie della terra.\n\nVegliate adunque in ogni tempo, pregando di esser fatti degni di schivare tutte queste cose, che devono avvenire, e di stare con fiducia dinanzi al figliuolo dell'uomo.",
-        "note": ""
-      }
+      "summary_kind": "automatic"
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261128",
@@ -46,5 +32,5 @@
   },
   "updated_at": "2026-11-26T09:15:22.438820+01:00",
   "stale": false,
-  "reader_version": 1
+  "reader_version": 2
 }
