@@ -9,8 +9,9 @@
       "testament": "Antico Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
-      "summary": "Dio promette di abitare in mezzo al suo popolo, raccogliendo presso di sé anche le altre nazioni.",
-      "summary_kind": "summary"
+      "summary": "Il profeta invita Gerusalemme a gioire: Dio promette di abitare in mezzo al suo popolo e di accogliere anche genti lontane.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "salmo responsoriale",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
-      "summary": "Maria esprime la sua gratitudine a Dio, che si prende cura degli umili e mantiene le promesse fatte al suo popolo.",
-      "summary_kind": "summary"
+      "summary": "Maria innalza il suo canto di gioia: ringrazia Dio perché guarda agli umili, rovescia i potenti e non dimentica le promesse fatte a Israele.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -29,8 +31,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",
-      "summary": "Gesù insegna che la sua vera famiglia comprende chi accoglie e compie la volontà del Padre.",
-      "summary_kind": "summary"
+      "summary": "Mentre sua madre e i suoi fratelli lo cercano, Gesù indica i discepoli e spiega che la sua famiglia è fatta di chi compie la volontà del Padre.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261121",

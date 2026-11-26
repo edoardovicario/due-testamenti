@@ -9,8 +9,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261120",
-      "summary": "Giovanni riceve un piccolo libro da mangiare e un nuovo incarico profetico; il libro è dolce e poi amaro.",
-      "summary_kind": "summary"
+      "summary": "Giovanni riceve l’ordine di mangiare un piccolo libro: è dolce in bocca e amaro nello stomaco. Poi deve tornare a profetizzare.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261120",
-      "summary": "Gesù scaccia i venditori dal tempio e insegna al popolo, mentre le autorità cercano di fermarlo.",
-      "summary_kind": "summary"
+      "summary": "Gesù entra nel tempio e manda via i venditori. Mentre insegna alla folla, i capi religiosi cercano il modo di fermarlo.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261120",

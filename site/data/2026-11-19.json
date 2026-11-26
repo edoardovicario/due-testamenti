@@ -9,8 +9,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119",
-      "summary": "Giovanni contempla l’Agnello, l’unico degno di aprire il libro sigillato, adorato da tutta l’assemblea celeste.",
-      "summary_kind": "summary"
+      "summary": "Giovanni vede un libro sigillato che nessuno riesce ad aprire. Solo l’Agnello può farlo e attorno a lui esplode un canto di lode.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119",
-      "summary": "Gesù piange su Gerusalemme perché non ha riconosciuto il tempo della visita di Dio e la via della pace.",
-      "summary_kind": "summary"
+      "summary": "Avvicinandosi a Gerusalemme, Gesù piange sulla città: vorrebbe che riconoscesse la strada della pace, ma ne annuncia la rovina.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261119",
