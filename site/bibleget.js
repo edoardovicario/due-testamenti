@@ -3,7 +3,8 @@
  'use strict';
  const ENDPOINT='https://query.bibleget.io/v3/';
  const VERSION='CEI2008', APPID='DueTestamentiWeb', MAX_VERSES=50;
- const BOOKS=new Set('Gen Es Lv Nm Dt Gs Gdc Rt 1Sam 2Sam 1Re 2Re 1Cr 2Cr Esd Ne Tb Gdt Est 1Mac 2Mac Gb Sal Pr Qo Ct Sap Sir Is Ger Lam Bar Ez Dn Os Gl Am Abd Gio Mi Na Ab Sof Ag Zc Ml Mt Mc Lc Gv At Rm 1Cor 2Cor Gal Ef Fil Col 1Ts 2Ts 1Tm 2Tm Tt Fm Eb Gc 1Pt 2Pt 1Gv 2Gv 3Gv Gd Ap'.split(' '));
+ const BOOKS=new Map('Gen Es Lv Nm Dt Gs Gdc Rt 1Sam 2Sam 1Re 2Re 1Cr 2Cr Esd Ne Tb Gdt Est 1Mac 2Mac Gb Sal Pr Qo Ct Sap Sir Is Ger Lam Bar Ez Dn Os Gl Am Abd Gna Mi Na Ab Sof Ag Zc Ml Mt Mc Lc Gv At Rm 1Cor 2Cor Gal Ef Fil Col 1Ts 2Ts 1Tm 2Tm Tt Fm Eb Gc 1Pt 2Pt 1Gv 2Gv 3Gv Gd Ap'.split(' ').map((name,i)=>[name,i+1]));
+ const ALIASES=new Map([['Gn','Gen'],['Ge','Gen'],['Gio','Gna']]);
  const cache=new Map(),pending=new Map();
  class Unavailable extends Error{constructor(message){super(message);this.name='BibleGetUnavailable';}}
  function parseReference(reference){
@@ -11,8 +12,9 @@
   const input=reference.trim().replace(/[–—−]/g,'-').replace(/\s+/g,' ');
   const m=/^([1-3]?\s*[A-Za-z]{1,5})\s+(\d{1,3}),\s*(\d{1,3}(?:-\d{1,3})?(?:\.\d{1,3}(?:-\d{1,3})?)*)$/.exec(input);
   if(!m)throw new Unavailable('Riferimento liturgico complesso: consulta la versione CEI ufficiale.');
-  const book=m[1].replace(/\s/g,''),chapter=Number(m[2]);
-  if(!BOOKS.has(book)||chapter<1||chapter>150)throw new Unavailable('Riferimento non riconosciuto: consulta la versione CEI ufficiale.');
+  const givenBook=m[1].replace(/\s/g,''),book=ALIASES.get(givenBook)||givenBook,chapter=Number(m[2]);
+  const booknum=BOOKS.get(book);
+  if(!booknum||chapter<1||chapter>150)throw new Unavailable('Riferimento non riconosciuto: consulta la versione CEI ufficiale.');
   const ids=[];
   for(const segment of m[3].split('.')){
    const p=/^(\d{1,3})(?:-(\d{1,3}))?$/.exec(segment);
@@ -23,14 +25,14 @@
    if(ids.length>MAX_VERSES)throw new Unavailable('Questo brano supera il limite di 50 versetti di BibleGet. Usa il collegamento ufficiale CEI.');
   }
   if(!ids.length||ids.some((v,i)=>i>0&&v<=ids[i-1]))throw new Unavailable('Versetti ripetuti o fuori ordine: usa il collegamento CEI.');
-  return {book,chapter,verses:ids,query:book+chapter+','+m[3]};
+  return {book,booknum,chapter,verses:ids,query:book+chapter+','+m[3]};
  }
  function validateResponse(data,ref){
   const rows=data&&data.results;
   if(!Array.isArray(rows)||rows.length!==ref.verses.length)throw new Unavailable('BibleGet non ha restituito tutti i versetti richiesti.');
   const booknums=new Set();
   const verses=rows.map((row,i)=>{
-   if(!row||String(row.version).toUpperCase()!==VERSION||Number(row.chapter)!==ref.chapter||Number(row.verse)!==ref.verses[i]||!Number.isInteger(Number(row.verse))||typeof row.text!=='string'||!row.text.trim()){
+   if(!row||String(row.version).toUpperCase()!==VERSION||Number(row.univbooknum)!==ref.booknum||Number(row.testament)!==(ref.booknum<=46?1:2)||Number(row.chapter)!==ref.chapter||Number(row.verse)!==ref.verses[i]||!Number.isInteger(Number(row.verse))||typeof row.text!=='string'||!row.text.trim()){
     throw new Unavailable('Il brano ricevuto non corrisponde al riferimento selezionato.');
    }
    if(row.booknum!==undefined&&row.booknum!==null)booknums.add(String(row.booknum));
