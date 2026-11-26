@@ -9,8 +9,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261125",
-      "summary": "Cantano il canto di Mosè e il canto dell’Agnello.",
-      "summary_kind": "heading"
+      "summary": "Giovanni vede i vincitori della bestia presso un mare di cristallo. Cantano il canto di Mosè e dell’Agnello, lodando la giustizia di Dio.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261125",
-      "summary": "Nel brano emergono questi temi: il cammino dei discepoli.",
-      "summary_kind": "automatic"
+      "summary": "Gesù avverte i discepoli che incontreranno arresti, tradimenti e persecuzioni. Proprio in quelle prove potranno testimoniare con coraggio.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261125",

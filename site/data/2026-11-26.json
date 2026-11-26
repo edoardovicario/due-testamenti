@@ -9,8 +9,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261126",
-      "summary": "Nel brano emergono questi temi: la salvezza.",
-      "summary_kind": "automatic"
+      "summary": "Un angelo annuncia la caduta di Babilonia e la fine del suo potere. Nel cielo risuona un canto di gioia e arriva l’invito alle nozze dell’Agnello.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261126",
-      "summary": "Nel brano emergono questi temi: il cammino dei discepoli.",
-      "summary_kind": "automatic"
+      "summary": "Gesù annuncia giorni terribili per Gerusalemme e segni che sconvolgeranno il mondo. Poi invita ad alzare lo sguardo: la liberazione si avvicina.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261126",

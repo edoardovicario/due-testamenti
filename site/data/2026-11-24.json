@@ -9,8 +9,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261124",
-      "summary": "Nel brano emergono questi temi: il tempio.",
-      "summary_kind": "automatic"
+      "summary": "Giovanni vede una figura simile a un figlio d’uomo e degli angeli con falci affilate: arriva il momento della mietitura e della vendemmia della terra.",
+      "summary_kind": "preview",
+      "preview_version": 1
     },
     {
       "kind": "vangelo",
@@ -19,8 +20,9 @@
       "testament": "Nuovo Testamento",
       "text": "",
       "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261124",
-      "summary": "Nel brano emergono questi temi: il regno di Dio, il tempio.",
-      "summary_kind": "automatic"
+      "summary": "Mentre alcuni ammirano il tempio, Gesù annuncia che un giorno sarà distrutto. Parla di guerre e falsi messia, invitando a non lasciarsi spaventare.",
+      "summary_kind": "preview",
+      "preview_version": 1
     }
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261124",
