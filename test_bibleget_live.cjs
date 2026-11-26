@@ -14,7 +14,7 @@ const assert=require('node:assert/strict');
    const res=await fetch(url,{headers:{Accept:'application/json',Origin:'https://edoardovicario.github.io'},signal:AbortSignal.timeout(15000)});
    const cors=res.headers.get('access-control-allow-origin');
    console.log(name+': HTTP '+res.status+'; CORS '+(cors||'absent')+'; final path '+new URL(res.url).pathname);
-   if(name!=='v3-quote'||!res.ok)continue;
+   if(name!=='v3-legacy'||!res.ok)continue;
    const body=await res.json();
    assert.ok(Array.isArray(body.results));
    assert.equal(body.results.length,2);
@@ -28,6 +28,6 @@ const assert=require('node:assert/strict');
    valid=true;
   }catch(error){console.log(name+': '+error.name+' - '+error.message);}
  }
- assert.ok(valid,'The configured v3 quote endpoint is not yet usable; no CEI passage printed.');
+ assert.ok(valid,'The deployed v3/ endpoint did not return verifiable CEI2008 verses; no CEI passage printed.');
  console.log('BibleGet live verified without logging copyrighted texts.');
 })().catch(err=>{console.error(err.message);process.exitCode=1;});

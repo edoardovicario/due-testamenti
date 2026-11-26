@@ -1,7 +1,7 @@
 /* BibleGet CEI 2008: on-demand, in-memory only, never persisted. */
 (function(root){
  'use strict';
- const ENDPOINT='https://query.bibleget.io/v3/quote';
+ const ENDPOINT='https://query.bibleget.io/v3/';
  const VERSION='CEI2008', APPID='DueTestamentiWeb', MAX_VERSES=50;
  const BOOKS=new Set('Gen Es Lv Nm Dt Gs Gdc Rt 1Sam 2Sam 1Re 2Re 1Cr 2Cr Esd Ne Tb Gdt Est 1Mac 2Mac Gb Sal Pr Qo Ct Sap Sir Is Ger Lam Bar Ez Dn Os Gl Am Abd Gio Mi Na Ab Sof Ag Zc Ml Mt Mc Lc Gv At Rm 1Cor 2Cor Gal Ef Fil Col 1Ts 2Ts 1Tm 2Tm Tt Fm Eb Gc 1Pt 2Pt 1Gv 2Gv 3Gv Gd Ap'.split(' '));
  const cache=new Map(),pending=new Map();

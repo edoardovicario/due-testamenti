@@ -42,7 +42,7 @@ test('API call is on demand, carries mandatory appid, uses no credentials',async
  const got=await r.get('Mt 12,46-50');
  assert.equal(got.length,5);assert.equal(calls,1);
  assert.equal(url.origin,'https://query.bibleget.io');
- assert.equal(url.pathname,'/v3/quote');
+ assert.equal(url.pathname,'/v3/');
  assert.equal(url.searchParams.get('version'),'CEI2008');
  assert.equal(url.searchParams.get('appid'),'DueTestamentiWeb');
  assert.equal(url.searchParams.get('query'),'Mt12,46-50');

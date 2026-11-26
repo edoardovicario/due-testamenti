@@ -64,9 +64,11 @@ Il pulsante Leggi la meditazione apre, su richiesta esplicita, la pagina origina
 
 ## Sperimentazione CEI 2008 con BibleGet (non pubblicata su main)
 
-- Il lettore usa l'endpoint HTTPS https://query.bibleget.io/v3/quote con `version=CEI2008`, `return=json`, `appid=DueTestamentiWeb`, `pluginversion=1.0` dopo il clic su «Leggi il testo».
+- Il lettore usa l'endpoint HTTPS https://query.bibleget.io/v3/ con `version=CEI2008`, `return=json`, `appid=DueTestamentiWeb`, `pluginversion=1.0` dopo il clic su «Leggi il testo».
 - Limite di 50 versetti per richiesta, senza suddivisione artificiosa dei brani lunghi; citazioni complesse non verificabili e risposte parziali rinviano al sito CEI.
 - Diritti: CEI2008 © Fondazione di Religione “Santi Francesco d’Assisi e Caterina da Siena”. Condizioni di utilizzo del servizio: https://www.bibleget.io/BibleGetIOTermsofService.html
 - Le risposte sono mantenute soltanto nella memoria della pagina, evitando richieste duplicate: non sono salvate in file JSON, LocalStorage, IndexedDB o cache del service worker.
 - Per la privacy il browser contatta BibleGet con il brano richiesto e l'identificativo dell'app, solo dopo un clic. Richiede connessione a Internet. Nessun account o chiave API necessari.
 - I test offline simulano il formato documentato delle risposte. È necessaria una verifica di rete reale e di compatibilità CORS prima del merge su main.
+
+**Compatibilità API (novembre 2026):** l'implementazione pubblicata al momento risponde su `/v3/` con CORS, mentre `/v3/quote` e `/v3/metadata/bibleversions` restituiscono 410 Gone nei controlli GitHub Actions. Il lettore usa quindi l'endpoint v3 effettivamente funzionante e un test live controlla la forma JSON.
