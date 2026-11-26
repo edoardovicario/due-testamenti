@@ -82,3 +82,29 @@ test('public dated archives contain no legacy reader content',()=>{
   assert.equal(day.reader_version,2,name);
  }
 });
+
+test('Prima Lettura across chapters with liturgical partial verse',()=>{
+ const r=reader(),ref=r.parseReference('Ap 18,1-2.21-23;19,1-3.9a');
+ assert.equal(ref.query,'Ap18,1-2.21-23;19,1-3.9');
+ assert.equal(ref.expandedPartial,true);
+ assert.deepEqual(Array.from(ref.expected,x=>[x.chapter,x.verse]),[[18,1],[18,2],[18,21],[18,22],[18,23],[19,1],[19,2],[19,3],[19,9]]);
+ const rows=ref.expected.map(x=>({version:'CEI2008',univbooknum:'73',testament:2,chapter:x.chapter,verse:String(x.verse),text:'synthetic verse'}));
+ assert.equal(r.validateResponse({results:rows},ref).length,9);
+ assert.throws(()=>r.validateResponse({results:rows.slice(0,8)},ref));
+ assert.throws(()=>r.validateResponse({results:rows.map((x,i)=>i===6?{...x,chapter:18}:x)},ref));
+});
+test('Prima Lettura with cross-chapter interval 20 to 21',()=>{
+ const r=reader(),ref=r.parseReference('Ap 20,1-4.11-21,2');
+ assert.equal(ref.query,'Ap20,1-4.11-21,2');
+ const seq=[1,2,3,4,11,12,13,14,15].map(v=>({chapter:20,verse:v}))
+   .concat([1,2].map(v=>({chapter:21,verse:v})));
+ const rows=seq.map(x=>({version:'CEI2008',univbooknum:'73',testament:2,chapter:x.chapter,verse:String(x.verse),text:'synthetic verse'}));
+ assert.equal(r.validateResponse({results:rows},ref).length,11);
+ assert.throws(()=>r.validateResponse({results:rows.slice(0,-1)},ref));
+ assert.throws(()=>r.validateResponse({results:rows.map((x,i)=>i===6?{...x,verse:'17'}:x)},ref));
+});
+test('Liturgical verse fragments normalize to whole verse and report difference',()=>{
+ const r=reader(),ref=r.parseReference('Ap 14,1-3.4b-5');
+ assert.equal(ref.query,'Ap14,1-3.4-5');assert.equal(ref.expandedPartial,true);
+ assert.equal(ref.expected.length,5);
+});

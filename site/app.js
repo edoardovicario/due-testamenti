@@ -74,13 +74,23 @@ function render(data,offline=false){
     if(!globalThis.DueBibleGet)throw Error('Reader missing');
     const verses=await globalThis.DueBibleGet.get(r.reference);
     if(!details.isConnected)return;
-    const p=make('p','body-reading');
+    const p=make('div','body-reading');
+    let currentChapter=null;
     for(const v of verses){
+     if(v.chapter!==currentChapter){
+      currentChapter=v.chapter;
+      if(verses[0].chapter!==verses[verses.length-1].chapter){
+       p.append(make('p','reader-edition','Capitolo '+currentChapter));
+      }
+     }
      const n=make('sup','',String(v.verse));
      p.append(n,document.createTextNode(' '+v.text+' '));
     }
     passage.replaceChildren(p);
-    status.textContent='Bibbia CEI 2008 · testo recuperato da BibleGet I/O';
+    const parsed=globalThis.DueBibleGet.parseReference(r.reference);
+    status.textContent=parsed.expandedPartial?
+     'Bibbia CEI 2008 · alcuni riferimenti liturgici indicano solo parte di un versetto (es. 9a): qui è mostrato il versetto completo. Per il taglio liturgico esatto consulta il sito CEI.':
+     'Bibbia CEI 2008 · testo recuperato da BibleGet I/O';
     credit.hidden=false;
    }catch(error){
     if(!details.isConnected)return;
