@@ -25,12 +25,16 @@
   ],
   "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261128",
   "comment": {
-    "status": "pending",
+    "status": "matched",
+    "author": "don Luigi Maria Epicoco",
     "reference": "Lc 21,34-36",
-    "message": "Nessuna meditazione con corrispondenza sufficientemente verificabile. Nuovo tentativo automatico.",
-    "text": ""
+    "url": "https://www.cercoiltuovolto.it/don-luigi-maria-epicoco-commento-al-vangelo-del-29-novembre-2025/",
+    "source": "Cerco il Tuo volto",
+    "archived": true,
+    "text": "",
+    "method": "Riferimento esatto e confronto testuale del commento"
   },
-  "updated_at": "2026-11-26T21:16:19.074654+01:00",
+  "updated_at": "2026-11-26T21:20:32.405669+01:00",
   "stale": false,
   "reader_version": 2
 }
