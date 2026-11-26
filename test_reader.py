@@ -38,6 +38,17 @@ class ReaderTests(unittest.TestCase):
     def test_idempotent(self):
         data={'readings':[{'reference':'Lc 21,29-33','summary':'legacy','text':'secret'}]}
         self.assertEqual(enrich_readings(enrich_readings(data)),data)
+    def test_archive_has_no_keyword_themes(self):
+        import json
+        from pathlib import Path
+        folder = Path(__file__).parent / 'site' / 'data'
+        for f in folder.glob('2026-11-*.json'):
+            obj = json.loads(f.read_text(encoding='utf-8'))
+            for reading in obj.get('readings', []):
+                preview = reading.get('summary', '')
+                self.assertNotIn('Nel brano emergono questi temi', preview, f.name)
+                self.assertEqual(reading.get('preview_version'), PREVIEW_VERSION, f.name)
+
     def test_all_known_previews_are_distinct_and_narrative(self):
         self.assertGreaterEqual(len(SUMMARIES),25)
         for story in SUMMARIES.values():
