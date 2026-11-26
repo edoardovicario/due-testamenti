@@ -23,3 +23,5 @@ jobs:
         with:
           node-version: "22"
       - run: node --test test_bibleget.cjs
+      - name: BibleGet live smoke test (one short passage, no verse logging)
+        run: node test_bibleget_live.cjs
