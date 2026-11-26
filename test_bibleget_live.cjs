@@ -7,7 +7,7 @@ const assert=require('node:assert/strict');
   headers:{Accept:'application/json',Origin:'https://edoardovicario.github.io'},
   signal:AbortSignal.timeout(20000)
  });
- assert.equal(res.ok,true,'API did not return HTTP 2xx');
+ assert.ok(res.ok,'BibleGet HTTP status: '+res.status+' '+res.statusText);
  const allow=res.headers.get('access-control-allow-origin');
  assert.ok(allow==='*'||allow==='https://edoardovicario.github.io','CORS not enabled for our GitHub Pages origin');
  const body=await res.json();
