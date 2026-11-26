@@ -19,8 +19,8 @@ class Checks(unittest.TestCase):
         text=fc_article_text(soup(html))
         self.assertIsNotNone(text)
         self.assertEqual(text.count('\n\n'),2)
-        self.assertTrue(text.startswith(one))
-        self.assertTrue(text.endswith(three))
+        self.assertTrue(text.startswith(one.strip()))
+        self.assertTrue(text.endswith(three.strip()))
         self.assertNotIn('pubblicità',text)
         self.assertIsNone(fc_article_text(soup('<article class="article-opinion"><main class="article-content"><div class="article-body"><p>too short</p></div></main></article>')))
 
