@@ -1,0 +1,49 @@
+{
+  "date": "2026-11-29",
+  "celebration": "I DOMENICA DI AVVENTO - ANNO B",
+  "readings": [
+    {
+      "kind": "prima lettura",
+      "label": "Prima Lettura",
+      "reference": "Is 63,16b-17.19b;64,2-7",
+      "testament": "Antico Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261129",
+      "summary": "Se tu squarciassi i cieli e scendessi.",
+      "summary_kind": "heading",
+      "preview_version": 1
+    },
+    {
+      "kind": "seconda lettura",
+      "label": "Seconda Lettura",
+      "reference": "1Cor 1,3-9",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261129",
+      "summary": "Aspettiamo la manifestazione del Signore nostro Gesù Cristo.",
+      "summary_kind": "heading",
+      "preview_version": 1
+    },
+    {
+      "kind": "vangelo",
+      "label": "Vangelo",
+      "reference": "Mc 13,33-37",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261129",
+      "summary": "Vegliate: non sapete quando il padrone di casa ritornerà.",
+      "summary_kind": "heading",
+      "preview_version": 1
+    }
+  ],
+  "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261129",
+  "comment": {
+    "status": "pending",
+    "reference": "Mc 13,33-37",
+    "message": "Nessuna meditazione con corrispondenza sufficientemente verificabile. Nuovo tentativo automatico.",
+    "text": ""
+  },
+  "updated_at": "2026-11-27T09:28:40.866678+01:00",
+  "stale": false,
+  "reader_version": 2
+}

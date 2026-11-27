@@ -1,10 +1,10 @@
 {
-  "checked_at": "2026-11-26T22:29:28.849137+01:00",
+  "checked_at": "2026-11-27T09:28:40.869401+01:00",
   "days": {
-    "2026-11-26": "matched (archivio)",
     "2026-11-27": "matched (archivio)",
     "2026-11-28": "matched (archivio)",
-    "2026-11-25": "matched (archivio)",
-    "2026-11-24": "matched (archivio)"
+    "2026-11-29": "pending",
+    "2026-11-26": "matched (archivio)",
+    "2026-11-25": "matched (archivio)"
   }
 }
