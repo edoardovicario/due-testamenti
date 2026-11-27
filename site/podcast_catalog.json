@@ -2,7 +2,7 @@
   "show_id": "3zi4rUpHdKFicPVbJ4pvXM",
   "show_url": "https://open.spotify.com/show/3zi4rUpHdKFicPVbJ4pvXM",
   "show_title": "Don Luigi Maria Epicoco",
-  "source": "Spotify, puntate pubbliche verificate",
+  "source": "Spotify, metadati ufficiali di episodi verificati e raccolta pubblica CATECHESI DON LUIGI MARIA EPICOCO",
   "updated_at": "2026-11-27",
   "episodes": [
     {
@@ -70,7 +70,6 @@
       "description": "Una catechesi sulla spiritualità di san Giuseppe.",
       "topics": [
         "famiglia",
-        "fiducia",
         "discernimento"
       ]
     },
@@ -90,7 +89,381 @@
       "description": "Una riflessione sul cammino spirituale nella tradizione francescana.",
       "topics": [
         "discernimento",
+        "conversione"
+      ]
+    },
+    {
+      "id": "15Y86aMr7TrDgTcOHjgFOl",
+      "title": "Sempre pronte a dare ragione della speranza che è in noi nella realtà di oggi.",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "speranza",
+        "fiducia"
+      ]
+    },
+    {
+      "id": "1tS3GQPqesBsVdFIAKcIJr",
+      "title": "Chiara, la rivoluzione di una donna",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
         "conversione",
+        "discernimento"
+      ]
+    },
+    {
+      "id": "5QMJFMmWIsMP5vCyhpbsW5",
+      "title": "Famiglia luogo del perdono",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "perdono"
+      ]
+    },
+    {
+      "id": "29Q1Vs5pXa8gphKmnicJ4P",
+      "title": "Pregate come Gesù ci ha insegnato",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "preghiera",
+        "fiducia"
+      ]
+    },
+    {
+      "id": "3nFrrVsdbnpeW3Ff8jywJM",
+      "title": "Beatitudini: 8 passi sul sentiero della gioia",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "speranza",
+        "amore",
+        "pace"
+      ]
+    },
+    {
+      "id": "2XtAgS0Sd4DWAQdooWrMCo",
+      "title": "Essere famiglia oggi",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "comunita"
+      ]
+    },
+    {
+      "id": "0idyGUiye2T6MGufj7ltEu",
+      "title": "Dialogo e preghiera nella coppia",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "preghiera"
+      ]
+    },
+    {
+      "id": "7nJDpWeY3rkTLeRHF6gVpq",
+      "title": "Sul significato di fare compagnia a Gesù per un'ora",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "preghiera",
+        "fiducia"
+      ]
+    },
+    {
+      "id": "5O0epzblerzuxiHILsx25e",
+      "title": "Pianificare, pregare, decidere”. Il Gesù di Marco",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "discernimento",
+        "preghiera"
+      ]
+    },
+    {
+      "id": "4x201HWgqA4kbG9cZo0tsC",
+      "title": "Le parole decisive dell’educazione alla scuola del Vangelo",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "discernimento",
+        "comunita"
+      ]
+    },
+    {
+      "id": "5LzemXkiXvllVzbjRhlsMP",
+      "title": "Maria e il “segno” della Casa",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "comunita"
+      ]
+    },
+    {
+      "id": "0N9Db8eDTs0Rnb1JKBGXVl",
+      "title": "La centralità della preghiera nella vita cristiana",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "preghiera",
+        "fiducia"
+      ]
+    },
+    {
+      "id": "4dXSp8MWlTLLmsKrnl7VnX",
+      "title": "La compassione di Gesù",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "amore",
+        "sofferenza"
+      ]
+    },
+    {
+      "id": "4MZN8N0lrfw2zCg55noOSO",
+      "title": "La via luminosa della croce",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "croce",
+        "sofferenza",
+        "speranza"
+      ]
+    },
+    {
+      "id": "6LrADVtXhZsUqIFwGRHLDq",
+      "title": "Il Dio dei non perfetti",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "fiducia",
+        "perdono",
+        "conversione"
+      ]
+    },
+    {
+      "id": "729NP6NOLVXsjRbMzaNeKk",
+      "title": "Eros, Philia, Agape. Per una gradualità dell’amore",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "amore",
+        "famiglia"
+      ]
+    },
+    {
+      "id": "2to4GxqjhLgwwvIhR7IPOD",
+      "title": "Il segreto di Gesù\". Riflessione sulla Trasfigurazione",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "rinascita",
+        "fiducia"
+      ]
+    },
+    {
+      "id": "42Feb1p9ok3PBHH2gmyPMY",
+      "title": "La Quaresima e la Samaritana",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "conversione",
+        "amore",
+        "rinascita"
+      ]
+    },
+    {
+      "id": "1IHoKFvrzV7GpnXaO1sjuo",
+      "title": "L’Eucarestia “forma” della famiglia",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "comunita"
+      ]
+    },
+    {
+      "id": "3YRtlBTbt5bZGLi8QEkeTp",
+      "title": "Fatima: profezia e missione",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "discernimento",
+        "comunita"
+      ]
+    },
+    {
+      "id": "2APFnXPJONAkEP7S06VGAf",
+      "title": "Tutti voi siete uno in Cristo Gesù (Gal 3,28) I frutti dell'Eucaristia",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "comunita",
+        "amore"
+      ]
+    },
+    {
+      "id": "28QmRdp3PfkpeeZBJkwXjV",
+      "title": "Non abbiate paura io ho vinto il mondo",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "fiducia",
+        "speranza"
+      ]
+    },
+    {
+      "id": "3gyGKVMmdqcitH9828jVWp",
+      "title": "La comunicazione come relazione",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "comunita"
+      ]
+    },
+    {
+      "id": "4VCJh0coTH78UoBWJOIPKG",
+      "title": "Conversione e Confessione",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "conversione",
+        "perdono"
+      ]
+    },
+    {
+      "id": "2sSVdYqNIZFah3SnFOIUgf",
+      "title": "Il carisma della visitazione",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "amore"
+      ]
+    },
+    {
+      "id": "0AmfqhSch88E4IEK1j9DqI",
+      "title": "Pietro e Maria: due facce della stessa Chiesa",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "comunita",
+        "fiducia"
+      ]
+    },
+    {
+      "id": "1sn5wSRSFGQJWxgsjNPh6I",
+      "title": "Imparare ‘famiglia’ da Maria e Giuseppe",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "discernimento"
+      ]
+    },
+    {
+      "id": "1gQoMxptr8OxEzvqTQjAzD",
+      "title": "Lo straniero che ci consola - Famiglia e ferite",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "sofferenza",
+        "speranza"
+      ]
+    },
+    {
+      "id": "5NEm4ffLa5MR7l7d17Rx79",
+      "title": "Lo sguardo benedicente”. Riflessione sull’Amore familiare",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "amore"
+      ]
+    },
+    {
+      "id": "7132ClDDFGOTFn5TqX8NLN",
+      "title": "La misericordia insegnata da Maria",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "perdono",
+        "amore"
+      ]
+    },
+    {
+      "id": "0J0aMwsuM5TY11pxbKQhhb",
+      "title": "Le conseguenze della Pentecoste (Atti 2, 42-47)",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "comunita",
+        "rinascita"
+      ]
+    },
+    {
+      "id": "0UCtFOvoCKS35K4VPOMuxX",
+      "title": "Ripartire dalla vocazione cristiana",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "discernimento",
+        "conversione"
+      ]
+    },
+    {
+      "id": "5K7oBLlswFdoM1zPR15sf1",
+      "title": "Riscoprire la gioia dello stare insieme il perdono",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "perdono",
+        "comunita"
+      ]
+    },
+    {
+      "id": "0rU21JID5FQS7Fs05B9Asc",
+      "title": "Giuseppe dal cuore castissimo",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
+        "fiducia"
+      ]
+    },
+    {
+      "id": "5BShs68TQMNY9mmH33W2mm",
+      "title": "Felice e grande quando ti unisci a Dio",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "speranza",
+        "amore"
+      ]
+    },
+    {
+      "id": "2SZmxSdfhJVS4B2fO4gX2x",
+      "title": "L’Eucaristia vissuta ha qualcosa da dire nella cultura attuale",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "comunita",
+        "discernimento"
+      ]
+    },
+    {
+      "id": "4h4yVeAsnYyfAyQa5Gwl24",
+      "title": "Stabat Mater. Restare umani sotto la Croce",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "croce",
+        "sofferenza",
+        "amore"
+      ]
+    },
+    {
+      "id": "2UHWzAGqwaLeRHVqkGyyF1",
+      "title": "Chiamati ad adorare",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "preghiera",
+        "discernimento"
+      ]
+    },
+    {
+      "id": "6NK6FKhsFubo6yGPjfHTr6",
+      "title": "Quando Gesù passa",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "discernimento",
+        "conversione"
+      ]
+    },
+    {
+      "id": "7GsKbPUt9cMVjup8zRRaqP",
+      "title": "Francesco, uomo del cambiamento",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "conversione",
+        "discernimento"
+      ]
+    },
+    {
+      "id": "09anJ3r4XYzWT1sSdkHZt0",
+      "title": "Creare casa, imparare l’alfabeto delle nostre relazioni",
+      "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
+      "topics": [
+        "famiglia",
         "comunita"
       ]
     }

@@ -15,7 +15,7 @@ function makeDay(gospel,comment='',date='2026-11-27'){
 test('Real episode IDs and expected official Spotify show are linked',()=>{
  assert.equal(catalog.show_id,p.SHOW_ID);
  assert.equal(catalog.show_url,'https://open.spotify.com/show/'+p.SHOW_ID);
- assert.ok(catalog.episodes.length>=8);
+ assert.ok(catalog.episodes.length>=45);
  assert.equal(new Set(catalog.episodes.map(e=>e.id)).size,catalog.episodes.length);
  for(const episode of catalog.episodes){
   assert.match(episode.id,/^[A-Za-z0-9]{22}$/);
@@ -38,12 +38,13 @@ test('Darkness and judgment select a different theme from hope when that dominat
  assert.equal(result.id,'0BkIMYfWyRSdhlgf19rOMp');
  assert.match(result.reason,/male|giustizia/i);
 });
-test('A cross prayer Gospel can be represented even without full commentary',()=>{
+test('A Gospel explicitly about prayer recommends a prayer-focused episode',()=>{
  const day=makeDay('Gesù invita alla preghiera e a vigilare.');
  const result=p.recommend(day,catalog);
  assert.ok(result);
  assert.match(result.url,/\/episode\//);
- assert.ok(['tematico','generale'].includes(result.confidence));
+ assert.ok(result.topics.includes('preghiera'),result.title);
+ assert.equal(result.confidence,'tematico');
  assert.doesNotMatch(result.reason,/Vangelo e la meditazione/);
 });
 test('Deterministic for each day, not random on subsequent renders',()=>{

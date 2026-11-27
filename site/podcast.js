@@ -17,8 +17,8 @@
   croce:{label:'croce e fedeltà',stems:['croc','croce','passion','martir','sacrific','calvar']},
   sofferenza:{label:'dolore e perseveranza',stems:['sofferen','dolor','fatica','persecuz','ferit','malatt','angosci','tradit']},
   famiglia:{label:'famiglia e legami',stems:['famigli','madre','padre','genitor','spos','matrimon','coniug','fratell','figli','casa']},
-  comunita:{label:'Chiesa e comunione',stems:['chies','comunit','insiem','popol','fratern','discepol','apostol','compagn']},
-  discernimento:{label:'scelte e cammino',stems:['scelt','decid','decision','cammin','segui','discern','volonta','vocaz','chiam','guid','strad']},
+  comunita:{label:'Chiesa e comunione',stems:['chies','comunit','insiem','fratern','compagn']},
+  discernimento:{label:'scelte e cammino',stems:['scelt','decid','decision','cammin','segui','discern','volonta','vocaz','chiam','guid','strad','riconosc','segni']},
   conversione:{label:'conversione del cuore',stems:['conversion','convert','cambiam','pentim','confess','rinnov','ritorn']},
   pace:{label:'ricerca della pace',stems:['pace','pacific','guerra','odio','riconcili','armoni']}
  };
@@ -45,7 +45,7 @@
   const evidence={};
   for(const name of Object.keys(TOPICS)){
    const a=first.has(name),b=second.has(name);
-   evidence[name]=(a?2.2:0)+(b?1.4:0)+(a&&b?1.5:0);
+   evidence[name]=(a?5.0:0)+(b?1.5:0)+(a&&b?1.7:0);
   }
   // Favor the closest conceptual overlap, then vary equally good options by day.
   const hash=s=>[...s].reduce((n,ch)=>(n*33+ch.charCodeAt(0))>>>0,5381);
@@ -55,7 +55,7 @@
   for(const ep of pool){
    const tags=ep.topics.filter(x=>x in TOPICS);
    const strongest=tags.map(k=>({key:k,weight:evidence[k]||0})).sort((a,b)=>b.weight-a.weight);
-   const score=strongest.slice(0,2).reduce((sum,x)=>sum+x.weight,0)+strongest.slice(2).reduce((sum,x)=>sum+0.15*x.weight,0);
+   const score=(strongest[0]?.weight||0)+0.33*(strongest[1]?.weight||0)+strongest.slice(2).reduce((sum,x)=>sum+0.06*x.weight,0);
    const tie=(hash(day.date+':'+ep.id)%997)/997;
    if(!best||score>best.score||(score===best.score&&tie>best.tie))best={ep,score,tie,strongest};
   }
