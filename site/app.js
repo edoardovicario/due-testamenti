@@ -71,7 +71,6 @@ async function renderPodcast(data){
   if(!recommendation)throw Error('No matching episode');
   $('podcast-title').textContent=recommendation.title;
   $('podcast-reason').textContent=recommendation.reason;
-  $('podcast-theme').textContent=recommendation.theme?'Tema collegato: '+recommendation.theme:'Spunto di approfondimento';
   $('podcast-link').href=recommendation.url;
   $('podcast-link').hidden=false;
   $('podcast-play').hidden=false;
@@ -98,7 +97,6 @@ async function renderPodcast(data){
  }catch(error){
   if(id!==podcastRenderId)return;
   $('podcast-title').textContent='Podcast di don Luigi Maria Epicoco';
-  $('podcast-theme').textContent='';
   $('podcast-reason').textContent='La selezione automatica non è disponibile. Puoi comunque sfogliare il podcast originale su Spotify.';
  }
 }
