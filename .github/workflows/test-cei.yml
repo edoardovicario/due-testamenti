@@ -8,6 +8,7 @@ on:
       - "update_site.py"
       - "test_*.py"
       - "test_bibleget.cjs"
+      - "test_podcast.cjs"
       - ".github/workflows/test-cei.yml"
 jobs:
   tests:
@@ -22,7 +23,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: node --test test_bibleget.cjs
+      - run: node --test test_bibleget.cjs test_podcast.cjs
       - name: BibleGet live smoke test (one short passage, no verse logging)
         run: node test_bibleget_live.cjs
       - name: Verify Famiglia Cristiana original link and embedding headers (no article text)

@@ -42,6 +42,67 @@ $('ep-open').onclick=()=>{
  $('ep-open').setAttribute('aria-expanded','true');
  $('ep-open').textContent='Chiudi la meditazione';
 };
+// Load only the metadata catalog. Spotify itself is contacted after pressing Play.
+let podcastCatalogPromise=null,podcastRenderId=0;
+function podcastCatalog(){
+ if(!podcastCatalogPromise)podcastCatalogPromise=fetch('./podcast_catalog.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})
+  .then(r=>{if(!r.ok)throw Error('catalogo non disponibile');return r.json();})
+  .catch(error=>{podcastCatalogPromise=null;throw error;});
+ return podcastCatalogPromise;
+}
+function resetPodcast(){
+ ++podcastRenderId;
+ $('podcast-embed').replaceChildren();$('podcast-play').hidden=true;
+ $('podcast-card').hidden=true;
+ $('podcast-show').href='https://open.spotify.com/show/3zi4rUpHdKFicPVbJ4pvXM';
+}
+async function renderPodcast(data){
+ const id=++podcastRenderId;
+ $('podcast-card').hidden=false;
+ $('podcast-embed').replaceChildren();
+ $('podcast-play').hidden=true;
+ $('podcast-title').textContent='Selezione della puntata in corso…';
+ $('podcast-reason').textContent='';
+ $('podcast-link').hidden=true;
+ try{
+  if(!globalThis.DuePodcast)throw Error('recommendation module unavailable');
+  const recommendation=globalThis.DuePodcast.recommend(data,await podcastCatalog());
+  if(id!==podcastRenderId)return;
+  if(!recommendation)throw Error('No matching episode');
+  $('podcast-title').textContent=recommendation.title;
+  $('podcast-reason').textContent=recommendation.reason;
+  $('podcast-theme').textContent=recommendation.theme?'Tema collegato: '+recommendation.theme:'Spunto di approfondimento';
+  $('podcast-link').href=recommendation.url;
+  $('podcast-link').hidden=false;
+  $('podcast-play').hidden=false;
+  $('podcast-play').textContent='Ascolta nell’app';
+  $('podcast-play').onclick=()=>{
+   if(id!==podcastRenderId)return;
+   if($('podcast-embed').childElementCount){
+    $('podcast-embed').replaceChildren();
+    $('podcast-play').textContent='Ascolta nell’app';
+    return;
+   }
+   const frame=document.createElement('iframe');
+   frame.src='https://open.spotify.com/embed/episode/'+recommendation.id+'?utm_source=generator';
+   frame.title='Spotify · '+recommendation.title;
+   frame.className='podcast-spotify-player';
+   frame.setAttribute('allow','autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
+   frame.setAttribute('allowfullscreen','');
+   frame.setAttribute('loading','lazy');
+   frame.setAttribute('referrerpolicy','no-referrer');
+   frame.setAttribute('frameborder','0');
+   $('podcast-embed').replaceChildren(frame);
+   $('podcast-play').textContent='Chiudi il lettore';
+  };
+ }catch(error){
+  if(id!==podcastRenderId)return;
+  $('podcast-title').textContent='Podcast di don Luigi Maria Epicoco';
+  $('podcast-theme').textContent='';
+  $('podcast-reason').textContent='La selezione automatica non è disponibile. Puoi comunque sfogliare il podcast originale su Spotify.';
+ }
+}
+
 function render(data,offline=false){
  $('title').textContent=data.celebration;
  const openReadings=new Set([...$('readings').querySelectorAll('details[open]')].map(el=>el.dataset.key));
@@ -114,10 +175,11 @@ function render(data,offline=false){
  $('ep-link').textContent=c.source==='Famiglia Cristiana'?'Apri il commento su Famiglia Cristiana ↗':'Apri il commento sul sito originale ↗';
  if(c.status==='matched'&&epHref){$('ep-link').href=epHref;$('comment-status').textContent=authorized?'Meditazione integrale disponibile qui nell’app. Fonte: '+c.source+'.':'Il commento originale è disponibile dal collegamento alla fonte: '+c.source+'.';}
  else {$('comment-text').textContent='';$('comment-status').textContent=c.message||'Collegamento non verificabile: non mostrato.';}
+ void renderPodcast(data);
  $('updated').textContent='Data delle letture: '+printDate(data.date)+(data.updated_at?' · Ultimo aggiornamento: '+new Date(data.updated_at).toLocaleString('it-IT',{timeZone:'Europe/Rome'}):'');
  $('content').hidden=false; $('status').hidden=!(offline||data.stale); $('status').textContent='Copia disponibile per questa stessa data. La verifica o la connessione online non è al momento disponibile.';
 }
-async function load(d){if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;const id=++requestId;loadingDay=d;if(d!==selected)setMeditation(null);selected=d;onToday=d===romeDay();$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
+async function load(d){if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;const id=++requestId;resetPodcast();loadingDay=d;if(d!==selected)setMeditation(null);selected=d;onToday=d===romeDay();$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
  try{const res=await fetch('./data/'+d+'.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:typeof AbortSignal.timeout==='function'?AbortSignal.timeout(15000):undefined});if(!res.ok)throw Error('Fonti non disponibili');const data=await res.json();if(data.date!==d)throw Error('Data diversa');if(offlineOpt)store.set('due-testamenti:day:'+d,JSON.stringify(data));if(id===requestId)render(data);}
  catch(e){if(id!==requestId)return;let cached=null;try{if(offlineOpt)cached=JSON.parse(store.get('due-testamenti:day:'+d));}catch{}if(cached&&cached.date===d)render(cached,true);else $('status').textContent='Scheda non ancora disponibile per questa data. Puoi leggere i testi ufficiali CEI dal collegamento qui sotto. Gli aggiornamenti automatici vengono eseguiti più volte al giorno. Non mostriamo letture di un giorno diverso.';}
  finally{if(id===requestId)loadingDay=null;}}

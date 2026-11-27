@@ -93,3 +93,10 @@ Il pulsante «Leggi la meditazione» tenta di mostrare in un riquadro isolato **
 ### Lettura integrale autorizzata nell'interfaccia
 
 Su conferma dell'utente di avere ricevuto il permesso, il commento originale di Famiglia Cristiana (e soltanto questo editore) viene ora memorizzato come testo con paragrafi nel JSON del giorno, associato alla data liturgica e al riferimento del Vangelo. Il pulsante «Leggi la meditazione» lo mostra direttamente in-app, senza iframe, con autore, credito editoriale, diritti e link alla pagina originale. La raccolta mantiene i controlli contro pagine non abbinate, layout diversi, duplicazioni e testi incompleti. Il permesso dichiarato andrà rispettato per ambito, durata e eventuale diritto di archiviazione; l'applicazione non pretende diritti d'autore sul testo.
+
+
+## Podcast consigliato di don Luigi Maria Epicoco (Spotify)
+
+Sezione quotidiana «Podcast consigliato» nel calendario liturgico. Un catalogo locale JSON di puntate reali e URL Spotify verificati viene confrontato automaticamente nel browser con l'anteprima del Vangelo e, quando disponibile, il commento integrale di Famiglia Cristiana. La scelta attribuisce un peso maggiore ai temi presenti in entrambi i testi; la corrispondenza è **orientativa**, basata su titolo e argomenti editoriali delle puntate, non sull'ascolto o sulla trascrizione audio. In caso di dati mancanti resta il collegamento al podcast.
+
+Il player Spotify di una puntata è caricato da `https://open.spotify.com/embed/episode/<id>` soltanto dopo un clic dell'utente, con `encrypted-media` e attribuzione originale, e senza ospitare file audio. È disponibile anche il link diretto. La riproduzione completa può essere limitata da Spotify o dal browser. Il catalogo è aggiornabile includendo nuovi ID verificati in `site/podcast_catalog.json`; senza chiavi Spotify o RSS ufficiale pubblico l'app non può garantire una scansione di tutte le puntate nuove, ma produce quotidianamente la migliore corrispondenza disponibile nel catalogo corrente. L'app non richiede un account per mostrare il suggerimento.
