@@ -327,7 +327,7 @@
       "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
       "topics": [
         "comunita",
-        "fiducia"
+        "famiglia"
       ]
     },
     {
@@ -454,8 +454,7 @@
       "title": "Francesco, uomo del cambiamento",
       "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
       "topics": [
-        "conversione",
-        "discernimento"
+        "conversione"
       ]
     },
     {
@@ -464,6 +463,14 @@
       "description": "Catechesi di don Luigi Maria Epicoco sul tema indicato nel titolo.",
       "topics": [
         "famiglia",
+        "comunita"
+      ]
+    },
+    {
+      "id": "4QSC5jnSjLwgscsZPHlX6l",
+      "title": "La Chiesa luogo, la Chiesa comunità",
+      "description": "Un incontro di don Luigi Maria Epicoco dedicato alla vita della comunità cristiana.",
+      "topics": [
         "comunita"
       ]
     }

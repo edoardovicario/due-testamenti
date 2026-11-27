@@ -15,7 +15,7 @@ function makeDay(gospel,comment='',date='2026-11-27'){
 test('Real episode IDs and expected official Spotify show are linked',()=>{
  assert.equal(catalog.show_id,p.SHOW_ID);
  assert.equal(catalog.show_url,'https://open.spotify.com/show/'+p.SHOW_ID);
- assert.ok(catalog.episodes.length>=45);
+ assert.ok(catalog.episodes.length>=50);
  assert.equal(new Set(catalog.episodes.map(e=>e.id)).size,catalog.episodes.length);
  for(const episode of catalog.episodes){
   assert.match(episode.id,/^[A-Za-z0-9]{22}$/);
@@ -55,6 +55,13 @@ test('Refuse malformed or other-show catalog',()=>{
  const day=makeDay('La speranza ci aiuta a vivere.');
  assert.equal(p.recommend(day,{...catalog,show_id:'other'}),null);
  assert.equal(p.recommend(day,{...catalog,episodes:[{id:'bogus',title:'Fake',topics:['speranza']}]}),null);
+});
+test('Actual reading about prayer prioritizes episodes with prayer in the title',()=>{
+ const day=JSON.parse(fs.readFileSync('site/data/2026-11-28.json','utf8'));
+ const rec=p.recommend(day,catalog);
+ assert.equal(rec.confidence,'tematico');
+ assert.ok(rec.topics.includes('preghiera'),rec.title);
+ assert.match(rec.title.toLowerCase(),/preg|pregh|ador/);
 });
 test('Reading-only data can still offer an optional episode',()=>{
  const day={date:'2026-11-29',readings:[{kind:'vangelo',summary:'Rimarrete in attesa con speranza della promessa di Dio.'}],comment:{status:'pending'}};

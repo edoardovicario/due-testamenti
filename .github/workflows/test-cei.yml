@@ -28,5 +28,3 @@ jobs:
         run: node test_bibleget_live.cjs
       - name: Verify Famiglia Cristiana original link and embedding headers (no article text)
         run: python probe_fc.py
-      - name: Inspect public Spotify show metadata (temporary)
-        run: python probe_playlist.py

@@ -55,7 +55,9 @@
   for(const ep of pool){
    const tags=ep.topics.filter(x=>x in TOPICS);
    const strongest=tags.map(k=>({key:k,weight:evidence[k]||0})).sort((a,b)=>b.weight-a.weight);
-   const score=(strongest[0]?.weight||0)+0.33*(strongest[1]?.weight||0)+strongest.slice(2).reduce((sum,x)=>sum+0.06*x.weight,0);
+   const titleTopics=foundTopics(ep.title);
+   const titleBonus=strongest.slice(0,2).reduce((sum,t)=>sum+(t.weight>0&&titleTopics.has(t.key)?1.8:0),0);
+   const score=(strongest[0]?.weight||0)+0.33*(strongest[1]?.weight||0)+strongest.slice(2).reduce((sum,x)=>sum+0.06*x.weight,0)+titleBonus;
    const tie=(hash(day.date+':'+ep.id)%997)/997;
    if(!best||score>best.score||(score===best.score&&tie>best.tie))best={ep,score,tie,strongest};
   }
