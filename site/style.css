@@ -36,6 +36,7 @@ a{color:inherit}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-
 /* Editorial podcast match and native Spotify player */
 .podcast-card{display:flex;align-items:flex-start;gap:25px;margin-top:19px;background:var(--paper);border:1px solid var(--border)}
 .podcast-icon{display:flex;align-items:center;justify-content:center;flex:0 0 62px;width:62px;height:62px;background:var(--cream,#f4f0e5);color:#9e783a;border-radius:50%;font-size:28px}
+.podcast-icon svg{display:block;width:30px;height:30px;flex-shrink:0}
 .podcast-content{flex:1;min-width:0}
 .podcast-card h2{margin:8px 0 6px}
 .podcast-subtitle{color:var(--muted);font-size:15px;margin-bottom:16px}
@@ -47,4 +48,4 @@ a{color:inherit}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-
 .podcast-links{display:flex;gap:15px;flex-wrap:wrap;margin:15px 0}
 .podcast-links a{font-size:13px}
 .podcast-disclaimer{font-size:12px;line-height:1.5;margin:8px 0 0}
-@media(max-width:680px){.podcast-card{flex-direction:column;gap:10px}.podcast-icon{flex-basis:auto;width:42px;height:42px;font-size:21px}.podcast-card #podcast-play{width:100%}.podcast-links{flex-direction:column;align-items:flex-start}}
+@media(max-width:680px){.podcast-card{flex-direction:column;gap:10px}.podcast-icon{flex-basis:auto;width:42px;height:42px;font-size:21px}.podcast-icon svg{width:23px;height:23px}.podcast-card #podcast-play{width:100%}.podcast-links{flex-direction:column;align-items:flex-start}}
