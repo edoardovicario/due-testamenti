@@ -164,7 +164,6 @@ function render(data,offline=false){
   if(details.open){toggle.textContent='Chiudi il testo';void openReader();}
   a.append(details);$('readings').append(a);
  }
- $('oldnote').textContent=data.readings.some(r=>r.testament==='Antico Testamento'&&r.kind!=='salmo responsoriale')?'': 'Oggi la liturgia non prevede una lettura autonoma dell’Antico Testamento; vengono rispettate le letture effettive del giorno.';
  const c=data.comment; $('comment-ref').textContent='Vangelo: '+c.reference; $('comment-text').textContent=''; const epHref=safeLink(c.url,'ep'); const authorized=c.status==='matched'&&c.source==='Famiglia Cristiana'&&epHref&&typeof c.text==='string'&&c.text.trim();setMeditation(c.status==='matched'&&epHref?epHref:null,authorized?c.text:null);$('ep-link').hidden=c.status!=='matched'||!epHref;$('ep-link').removeAttribute('href');
  const editor=c.source==='Famiglia Cristiana'?'Famiglia Cristiana (Gruppo Editoriale San Paolo)':'Cerco il Tuo volto';
  $('ep-reader-note').textContent='Testo integrale del commento di don Luigi Maria Epicoco. Fonte: Famiglia Cristiana. Il testo è riprodotto sulla base dell’autorizzazione comunicata al gestore di Due Testamenti.';
