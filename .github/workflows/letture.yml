@@ -32,11 +32,15 @@ jobs:
           SPOTIFY_CLIENT_ID: ${{ secrets.SPOTIFY_CLIENT_ID }}
           SPOTIFY_CLIENT_SECRET: ${{ secrets.SPOTIFY_CLIENT_SECRET }}
         run: python podcast_sync.py
+      - name: Sincronizza il canale YouTube di Epicoco
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python youtube_sync.py
       - name: Salva archivio delle letture
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add site/data/ site/podcast_catalog.json
+          git add site/data/ site/podcast_catalog.json site/youtube_catalog.json
           if ! git diff --cached --quiet; then
             git commit -m 'Aggiorna archivio liturgico'
             git push origin HEAD:main

@@ -1,0 +1,34 @@
+{
+  "channel_id": "UCK9NyEkJ-X89kXCwp1eXFjw",
+  "channel_url": "https://www.youtube.com/@luigimariaepicoco",
+  "channel_title": "Luigi Maria Epicoco",
+  "source": "Canale ufficiale YouTube, video verificati",
+  "complete": false,
+  "catalog_scope": "verified_seed_and_feed",
+  "videos": [
+    {
+      "id": "kMVNeTUVD-c",
+      "title": "A Spiritual Rule for the Laity - Don Luigi Maria Epicoco",
+      "description": "Una regola spirituale per i laici.",
+      "published": "2026-03-21"
+    },
+    {
+      "id": "H9mtGtwdH1k",
+      "title": "Our relationship with Christ to be a community - Don Luigi Maria Epicoco",
+      "description": "Cristo e la comunità cristiana.",
+      "published": "2026-09-22"
+    },
+    {
+      "id": "jw_9gHPo55g",
+      "title": "Saint Francis: Teacher of Hope - Don Luigi Maria Epicoco",
+      "description": "San Francesco come maestro di speranza.",
+      "published": "2026-06-06"
+    },
+    {
+      "id": "MWQ1QbcQdaU",
+      "title": "Brother Biagio, prophecy of an outgoing Church - Don Luigi Maria Epicoco",
+      "description": "Fratel Biagio e la Chiesa in uscita.",
+      "published": "2026-01-12"
+    }
+  ]
+}

@@ -117,3 +117,10 @@ Il sistema verifica **per prime** le citazioni bibliche precise (libro, capitolo
 ### Sincronizzazione di tutte le puntate del podcast
 
 Il processo automatico `podcast_sync.py` interroga l'**API Spotify ufficiale**: verifica l'ID del podcast `3zi4rUpHdKFicPVbJ4pvXM` e percorre tutte le pagine da 50 episodi disponibili nel mercato italiano. Registra soltanto metadati editoriali (titolo, descrizione, link ID), non scarica audio. Le puntate nuove entrano nel catalogo a ogni esecuzione programmata del workflow `letture.yml`. Per abilitare l'inventario completo impostare nei **GitHub Actions secrets** `SPOTIFY_CLIENT_ID` e `SPOTIFY_CLIENT_SECRET`, ottenuti da una Spotify Developer App autorizzata. Queste credenziali restano sul server e non finiscono nel browser o nel repository. Se mancano o Spotify limita l'accesso, resta disponibile la selezione verificata esistente: non viene falsamente dichiarata come completa.
+
+
+## Video YouTube ufficiali e consigli insieme a Spotify
+
+Il riquadro «Puntata consigliata» confronta i cataloghi YouTube e Spotify: prima riferimenti biblici precisi e scene identificabili nella Prima Lettura o Vangelo, poi i temi della meditazione e delle letture. Il canale ufficiale `@luigimariaepicoco` ha ID `UCK9NyEkJ-X89kXCwp1eXFjw`. Il programma `youtube_sync.py` recupera gli ultimi video dal feed pubblico ufficiale e li conserva; configurando il secret GitHub Actions `YOUTUBE_API_KEY` può scorrere tutte le pagine della playlist caricamenti via API ufficiale. Senza chiave non si garantisce il catalogo storico completo.
+
+La riproduzione video avviene soltanto su clic con iframe `youtube-nocookie.com` (modalità privacy avanzata); il lettore Spotify rimane disponibile. Non vengono scaricati né ospitati file audio/video. Il link originale resta sempre disponibile e possono valere limitazioni decise da YouTube e dal creatore.
