@@ -67,7 +67,7 @@ test('API call is on demand, carries mandatory appid, uses no credentials',async
 });
 test('reject API failure without showing different text',async()=>{
  const r=reader(async()=>({ok:true,url:'https://query.bibleget.io/v3/quote',json:async()=>({results:verses().slice(0,3)})}));
- await assert.rejects(r.get('Mt 12,46-50'),/BibleGet non ha restituito tutti/);
+ await assert.rejects(r.get('Mt 12,46-50'),/BibleGet non ha restituito un numero valido di versetti/);
 });
 test('public dated archives contain no legacy reader content',()=>{
  const data=path.join(__dirname,'site','data');
