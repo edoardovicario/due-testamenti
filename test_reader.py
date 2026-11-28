@@ -55,3 +55,12 @@ class ReaderTests(unittest.TestCase):
             self.assertTrue(55 <= len(story) <= 260)
             self.assertNotIn('Nel brano emergono', story)
             self.assertNotIn('i temi',story)
+
+    def test_advent_readings_have_narrative_previews(self):
+        for ref, cue in [('Is 63,16b-17.19b;64,2-7','vasaio'),('1Cor 1,3-9','Corinto'),('Mc 13,33-37','portiere')]:
+            summary, kind = brief(ref)
+            self.assertEqual(kind,'preview')
+            self.assertIn(cue,summary)
+            data={'readings':[{'reference':ref,'summary':'Titolo breve','summary_kind':'heading','preview_version':PREVIEW_VERSION}]}
+            enrich_readings(data)
+            self.assertEqual(data['readings'][0]['summary'],summary)

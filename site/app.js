@@ -135,7 +135,7 @@ function render(data,offline=false){
   // Show a real teaser, never a legacy machine-generated keyword list.
   if(r.summary&&r.summary.trim()&&!/^Nel brano emergono questi temi/i.test(r.summary)){
    const preview=make('div','reading-preview');
-   preview.append(make('p','overline','ANTEPRIMA'));
+   preview.append(make('p','overline',r.summary_kind==='heading'?'TITOLO LITURGICO':'ANTEPRIMA'));
    preview.append(make('p','reading-summary',r.summary));
    a.append(preview);
   }

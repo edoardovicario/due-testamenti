@@ -1,7 +1,7 @@
 'use strict';
-const CACHE='due-testamenti-gratis-v26';
+const CACHE='due-testamenti-gratis-v27';
 const base=self.registration.scope;
-const assets=['./','./index.html','./style.css?v=26','./bibleget.js?v=20','./podcast_match.js?v=22','./podcast.js?v=22','./reading_intro.js?v=21','./media_recommend.js?v=25','./liturgical_theme.js?v=26','./app.js?v=26','./style.css','./app.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'].map(p=>new URL(p,base).href);
+const assets=['./','./index.html','./style.css?v=26','./bibleget.js?v=20','./podcast_match.js?v=22','./podcast.js?v=22','./reading_intro.js?v=21','./media_recommend.js?v=25','./liturgical_theme.js?v=26','./app.js?v=27','./style.css','./app.js','./manifest.webmanifest','./icons/icon-192.png','./icons/icon-512.png','./icons/apple-touch-icon.png'].map(p=>new URL(p,base).href);
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(assets)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('due-testamenti-gratis-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',e=>{

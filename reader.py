@@ -11,6 +11,9 @@ def key(s):
     return re.sub(r'\W+', '', unicodedata.normalize('NFKD', s.lower()).encode('ascii','ignore').decode())
 
 SUMMARIES = {
+    "Is 63,16b-17.19b;64,2-7": "Isaia si rivolge a Dio come a un padre e gli chiede di tornare vicino al suo popolo. Riconosce le colpe di Israele e ricorda che tutti sono nelle mani di Dio come l’argilla in quelle del vasaio.",
+    "1Cor 1,3-9": "Paolo ringrazia Dio per i doni ricevuti dalla comunità di Corinto. Incoraggia i cristiani ad attendere la venuta di Gesù con fiducia, ricordando che Dio li sostiene ed è fedele.",
+    "Mc 13,33-37": "Gesù racconta di un uomo che parte per un viaggio e affida la sua casa ai servi, chiedendo al portiere di vigilare. Invita tutti a restare pronti, perché nessuno sa quando il padrone tornerà.",
     "Zc 2,14-17": "Il profeta invita Gerusalemme a gioire: Dio promette di abitare in mezzo al suo popolo e di accogliere anche genti lontane.",
     "Lc 1,46-55": "Maria innalza il suo canto di gioia: ringrazia Dio perché guarda agli umili, rovescia i potenti e non dimentica le promesse fatte a Israele.",
     "Mt 12,46-50": "Mentre sua madre e i suoi fratelli lo cercano, Gesù indica i discepoli e spiega che la sua famiglia è fatta di chi compie la volontà del Padre.",
@@ -58,8 +61,8 @@ SCENES = (
 def brief(reference, text='', heading=''):
     """An original, short narrative, never a generic list of themes.
 
-    Curated previews take precedence. For unfamiliar readings prefer the
-    verified lectionary heading over invented descriptions. We process the
+    Curated previews take precedence. For unfamiliar readings use a verified
+    heading only as a distinct source title, never as a narrative preview. We process the
     source text only transiently; copyrighted CEI verses are never published.
     """
     known = SUMMARIES.get(key(reference))
@@ -81,7 +84,7 @@ def enrich_readings(obj):
     for reading in obj.get('readings',[]):
         reading.pop('reader',None)
         reading['text']=''
-        if reading.get('preview_version') != PREVIEW_VERSION:
+        if reading.get('preview_version') != PREVIEW_VERSION or reading.get('summary_kind') != 'preview':
             updated, kind = brief(reading['reference'])
             if updated:
                 reading['summary'], reading['summary_kind'] = updated, kind
