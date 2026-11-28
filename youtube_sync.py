@@ -21,8 +21,14 @@ def clean(item):
 def parse_feed(source):
     if len(source)>2000000:raise ValueError('Feed troppo lungo')
     root=ET.fromstring(source)
-    if root.tag!=ATOM+'feed' or root.findtext(YT+'channelId')!=CHANNEL:
-        LOG.warning('Metadati feed YouTube: tag=%s, channelId=%s, feedId=%s',root.tag,(root.findtext(YT+'channelId') or '')[:60],(root.findtext(ATOM+'id') or '')[:75])
+    channel_id=(root.findtext(YT+'channelId') or '').strip()
+    feed_id=(root.findtext(ATOM+'id') or '').strip()
+    canonical=channel_id==CHANNEL
+    # In the public Atom feed this channel is also returned without the UC prefix.
+    # Accept that documented channel-specific variant ONLY with its matching
+    # Atom feed ID, from the exact canonical channel URL requested over HTTPS.
+    canonical_feed_variant=(channel_id==CHANNEL[2:] and feed_id=='yt:channel:'+channel_id)
+    if root.tag!=ATOM+'feed' or not (canonical or canonical_feed_variant):
         raise ValueError('Canale non verificato')
     results=[]
     for e in root.findall(ATOM+'entry'):

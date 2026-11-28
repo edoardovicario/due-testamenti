@@ -6,6 +6,11 @@ class TestYoutube(unittest.TestCase):
   xml=('<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:yt="http://www.youtube.com/xml/schemas/2015"><yt:channelId>'+y.CHANNEL+'</yt:channelId><entry><yt:videoId>kMVNeTUVD-c</yt:videoId><title>Preghiera</title></entry></feed>').encode()
   self.assertEqual(y.parse_feed(xml)[0]['id'],'kMVNeTUVD-c')
   with self.assertRaises(ValueError):y.parse_feed(xml.replace(y.CHANNEL.encode(),b'UCinvalid'))
+ def test_youtube_official_feed_id_without_uc_prefix(self):
+  short=y.CHANNEL[2:]
+  xml=('<?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom" xmlns:yt="http://www.youtube.com/xml/schemas/2015"><id>yt:channel:'+short+'</id><yt:channelId>'+short+'</yt:channelId><entry><yt:videoId>kMVNeTUVD-c</yt:videoId><title>Preghiera</title></entry></feed>').encode()
+  self.assertEqual(len(y.parse_feed(xml)),1)
+  with self.assertRaises(ValueError):y.parse_feed(xml.replace(('yt:channel:'+short).encode(),b'yt:channel:unrelated'))
  def test_merge_feed_keeps_history(self):
   old={'channel_id':y.CHANNEL,'videos':[{'id':'kMVNeTUVD-c','title':'Old'}]}
   new=y.merge(old,[{'id':'H9mtGtwdH1k','title':'New'}],False)
