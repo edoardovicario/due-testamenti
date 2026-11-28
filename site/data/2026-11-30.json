@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-30",
+  "celebration": "SANT'ANDREA APOSTOLO - FESTA",
+  "readings": [
+    {
+      "kind": "prima lettura",
+      "label": "Prima Lettura",
+      "reference": "Rm 10,9-18",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261130",
+      "summary": "Paolo spiega che la fede nasce dall’ascolto della parola di Cristo e che qualcuno deve annunciarla perché possa raggiungere ogni persona.",
+      "summary_kind": "preview",
+      "preview_version": 1
+    },
+    {
+      "kind": "vangelo",
+      "label": "Vangelo",
+      "reference": "Mt 4,18-22",
+      "testament": "Nuovo Testamento",
+      "text": "",
+      "url": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261130",
+      "summary": "Gesù incontra alcuni pescatori sulle rive del lago e li chiama a seguirlo. Pietro, Andrea, Giacomo e Giovanni lasciano subito le reti.",
+      "summary_kind": "preview",
+      "preview_version": 1
+    }
+  ],
+  "source": "https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia=20261130",
+  "comment": {
+    "status": "matched",
+    "author": "don Luigi Maria Epicoco",
+    "reference": "Mt 4,18-22",
+    "url": "https://www.cercoiltuovolto.it/don-luigi-maria-epicoco-commento-al-vangelo-del-30-novembre-2018/",
+    "source": "Cerco il Tuo volto",
+    "archived": true,
+    "text": "",
+    "method": "Riferimento esatto e confronto testuale del commento"
+  },
+  "updated_at": "2026-11-28T08:46:20.366537+01:00",
+  "stale": false,
+  "reader_version": 2
+}
