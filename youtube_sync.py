@@ -82,7 +82,7 @@ def main():
                     found=parse_feed(response.content);complete=False
                 if not found:raise ValueError('Feed vuoto')
             except (httpx.HTTPError,ValueError,ET.ParseError) as error:
-                LOG.warning('YouTube non raggiungibile (%s): catalogo conservato',type(error).__name__)
+                LOG.warning('YouTube non raggiungibile (%s: %s): catalogo conservato',type(error).__name__,str(error)[:160])
                 return
         updated=merge(old,found,complete)
         if updated=={k:v for k,v in old.items() if k!='updated_at'}:return
