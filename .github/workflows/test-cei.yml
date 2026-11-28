@@ -7,10 +7,12 @@ on:
       - "reader.py"
       - "update_site.py"
       - "test_*.py"
+      - "podcast_sync.py"
       - "test_bibleget.cjs"
       - "test_reading_intro.cjs"
       - "test_podcast.cjs"
       - "test_podcast_match.cjs"
+      - "site/podcast_catalog.json"
       - ".github/workflows/test-cei.yml"
 jobs:
   tests:

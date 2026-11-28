@@ -112,3 +112,8 @@ Il lettore verifica che i versetti siano tutti e soli quelli richiesti (libro, t
 ## Priorità podcast: passo diretto prima del tema
 
 Il sistema verifica **per prime** le citazioni bibliche precise (libro, capitolo, versetti) e le scene bibliche esplicitamente riconoscibili nei metadati delle puntate, confrontandole sia con il Vangelo sia con la Prima Lettura. Solo in mancanza di una puntata del primo tipo calcola il collegamento tematico, attribuendo maggior peso al commento di Epicoco e considerando entrambe le letture. Un riferimento generico a Gesù, a un libro biblico o alla preghiera **non** è trattato come approfondimento diretto di quel brano. Il livello di corrispondenza viene chiarito nel suggerimento. Il catalogo è al momento una selezione verificata di 51 episodi, non l'archivio completo; la sincronizzazione dell'archivio totale richiede le credenziali dell'API Spotify.
+
+
+### Sincronizzazione di tutte le puntate del podcast
+
+Il processo automatico `podcast_sync.py` interroga l'**API Spotify ufficiale**: verifica l'ID del podcast `3zi4rUpHdKFicPVbJ4pvXM` e percorre tutte le pagine da 50 episodi disponibili nel mercato italiano. Registra soltanto metadati editoriali (titolo, descrizione, link ID), non scarica audio. Le puntate nuove entrano nel catalogo a ogni esecuzione programmata del workflow `letture.yml`. Per abilitare l'inventario completo impostare nei **GitHub Actions secrets** `SPOTIFY_CLIENT_ID` e `SPOTIFY_CLIENT_SECRET`, ottenuti da una Spotify Developer App autorizzata. Queste credenziali restano sul server e non finiscono nel browser o nel repository. Se mancano o Spotify limita l'accesso, resta disponibile la selezione verificata esistente: non viene falsamente dichiarata come completa.
