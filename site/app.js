@@ -112,7 +112,8 @@ async function renderPodcast(data){
    frame.setAttribute('allow','autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
    frame.setAttribute('allowfullscreen','');
    frame.setAttribute('loading','lazy');
-   frame.setAttribute('referrerpolicy','no-referrer');
+   // YouTube requires the site origin in the HTTP Referer for embedded playback.
+   frame.setAttribute('referrerpolicy',youtube?'strict-origin-when-cross-origin':'no-referrer');
    frame.setAttribute('frameborder','0');
    $('podcast-embed').replaceChildren(frame);
    $('podcast-play').textContent='Chiudi il lettore';
