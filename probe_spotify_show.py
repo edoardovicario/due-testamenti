@@ -39,3 +39,28 @@ with httpx.Client(timeout=httpx.Timeout(18,connect=6),headers={'User-Agent':'Moz
    if not s:print('NO_NEXT_DATA title',soup.title.get_text()[:100] if soup.title else 'n/a')
   except Exception as exc:
    print('ERROR',url,type(exc).__name__,str(exc)[:110])
+
+
+print('ADDITIONAL_DISCOVERY')
+with httpx.Client(timeout=httpx.Timeout(18,connect=6),headers={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/130 Safari/537.36'},follow_redirects=True) as client:
+ try:
+  r=client.get('https://itunes.apple.com/search',params={'term':'Don Luigi Maria Epicoco','entity':'podcast','limit':30,'country':'IT'})
+  print('ITUNES',r.status_code)
+  if r.is_success:
+   result=r.json()
+   for show in result.get('results',[])[:20]:
+    if 'epicoco' in (show.get('collectionName','')+' '+show.get('artistName','')).lower():
+     print('ITUNES_SHOW',show.get('collectionName'),show.get('artistName'),show.get('trackCount'),show.get('feedUrl','')[:200])
+ except Exception as e: print('ITUNES_ERR',type(e).__name__)
+ try:
+  r=client.get('https://open.spotify.com/show/3zi4rUpHdKFicPVbJ4pvXM')
+  body=r.text
+  print('SHOW_HTML_META',len(body),'episode_paths',len(re.findall(r'/episode/[a-zA-Z0-9]{22}',body)),'rss_matches',len(re.findall('rss',body,re.I)),'show_ids',len(re.findall('3zi4rUpHdKFicPVbJ4pvXM',body)))
+  soup=BeautifulSoup(body,'html.parser')
+  for tag in soup.find_all('script',type='application/ld+json')[:4]:
+   print('JSONLD',tag.get_text()[:250])
+  for tag in soup.find_all('meta'):
+   if tag.get('property','').startswith('og:') or tag.get('name','').startswith('twitter:'):
+    if tag.get('property') in ('og:title','og:description','og:url') or tag.get('name')=='twitter:description':
+     print('META',tag.get('property') or tag.get('name'),tag.get('content','')[:150])
+ except Exception as e: print('SHOWERR',type(e).__name__)
