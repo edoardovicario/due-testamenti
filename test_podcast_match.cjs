@@ -27,6 +27,11 @@ test('Narrative from Gospel is direct if it is the same episode',()=>{
  ep(a,'La gioia e la speranza'),ep(b,'La Quaresima e la Samaritana')]);
  assert.equal(r.ep.id,b);assert.equal(r.method,'scena');assert.equal(r.reading.kind,'vangelo');
 });
+test('Citation parser recognizes Old Testament books beyond common examples',()=>{
+ const r=m.matchDay(day('Ab 2,1-4','Lc 21,34-36'),[ep(a,'Un commento ad Abacuc 2,3')]);
+ assert.ok(r);assert.equal(r.method,'citazione');
+ assert.equal(r.reading.kind,'prima lettura');
+});
 test('Wrong verses and entire-book catecheses are not direct',()=>{
  const readings=day('Gal 3,27-29','Mc 9,1-10');
  assert.equal(m.matchDay(readings,[ep(a,'Il Gesù di Marco')]),null);
