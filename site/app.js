@@ -43,12 +43,18 @@ $('ep-open').onclick=()=>{
  $('ep-open').textContent='Chiudi la meditazione';
 };
 // Load only the metadata catalog. Spotify itself is contacted after pressing Play.
-let podcastCatalogPromise=null,podcastRenderId=0;
+let podcastCatalogPromise=null,youtubeCatalogPromise=null,podcastRenderId=0;
 function podcastCatalog(){
  if(!podcastCatalogPromise)podcastCatalogPromise=fetch('./podcast_catalog.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})
   .then(r=>{if(!r.ok)throw Error('catalogo non disponibile');return r.json();})
   .catch(error=>{podcastCatalogPromise=null;throw error;});
  return podcastCatalogPromise;
+}
+function youtubeCatalog(){
+ if(!youtubeCatalogPromise)youtubeCatalogPromise=fetch('./youtube_catalog.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer'})
+  .then(r=>{if(!r.ok)throw Error('catalogo YouTube non disponibile');return r.json();})
+  .catch(e=>{youtubeCatalogPromise=null;throw e;});
+ return youtubeCatalogPromise;
 }
 function resetPodcast(){
  ++podcastRenderId;
@@ -64,15 +70,26 @@ async function renderPodcast(data){
  $('podcast-title').textContent='Selezione della puntata in corso…';
  $('podcast-reason').textContent='';
  $('podcast-link').hidden=true;
+ $('podcast-subtitle').textContent='Don Luigi Maria Epicoco · YouTube e Spotify';
  try{
-  if(!globalThis.DuePodcast)throw Error('recommendation module unavailable');
-  const recommendation=globalThis.DuePodcast.recommend(data,await podcastCatalog());
+  if(!globalThis.DueMedia)throw Error('recommendation module unavailable');
+  const [spotifyResult,youtubeResult]=await Promise.allSettled([podcastCatalog(),youtubeCatalog()]);
+  const recommendation=globalThis.DueMedia.recommend(data,
+   spotifyResult.status==='fulfilled'?spotifyResult.value:null,
+   youtubeResult.status==='fulfilled'?youtubeResult.value:null);
   if(id!==podcastRenderId)return;
   if(!recommendation)throw Error('No matching episode');
   $('podcast-title').textContent=recommendation.title;
   $('podcast-reason').textContent=recommendation.reason;
+  const youtube=recommendation.platform==='youtube';
+  $('podcast-subtitle').textContent='Don Luigi Maria Epicoco · '+(youtube?'YouTube':'Spotify');
+  $('podcast-link').textContent=youtube?'Apri il video su YouTube ↗':'Apri la puntata su Spotify ↗';
   $('podcast-link').href=recommendation.url;
   $('podcast-link').hidden=false;
+  $('podcast-show').textContent=youtube?'Altri video di Epicoco ↗':'Tutte le puntate del podcast ↗';
+  $('podcast-show').href=recommendation.show_url;
+  $('podcast-other').textContent=youtube?'Podcast Epicoco su Spotify ↗':'Canale Epicoco su YouTube ↗';
+  $('podcast-other').href=youtube?'https://open.spotify.com/show/3zi4rUpHdKFicPVbJ4pvXM':'https://www.youtube.com/@luigimariaepicoco';
   $('podcast-play').hidden=false;
   $('podcast-play').textContent='Ascolta nell’app';
   $('podcast-play').onclick=()=>{
@@ -83,9 +100,15 @@ async function renderPodcast(data){
     return;
    }
    const frame=document.createElement('iframe');
-   frame.src='https://open.spotify.com/embed/episode/'+recommendation.id+'?utm_source=generator';
-   frame.title='Spotify · '+recommendation.title;
-   frame.className='podcast-spotify-player';
+   if(youtube){
+    frame.src='https://www.youtube-nocookie.com/embed/'+recommendation.id+'?playsinline=1';
+    frame.title='YouTube · '+recommendation.title;
+    frame.className='podcast-youtube-player';
+   }else{
+    frame.src='https://open.spotify.com/embed/episode/'+recommendation.id+'?utm_source=generator';
+    frame.title='Spotify · '+recommendation.title;
+    frame.className='podcast-spotify-player';
+   }
    frame.setAttribute('allow','autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture');
    frame.setAttribute('allowfullscreen','');
    frame.setAttribute('loading','lazy');
@@ -97,7 +120,7 @@ async function renderPodcast(data){
  }catch(error){
   if(id!==podcastRenderId)return;
   $('podcast-title').textContent='Podcast di don Luigi Maria Epicoco';
-  $('podcast-reason').textContent='La selezione automatica non è disponibile. Puoi comunque sfogliare il podcast originale su Spotify.';
+  $('podcast-reason').textContent='La selezione non è disponibile. Puoi consultare Spotify e il canale YouTube di Epicoco.';
  }
 }
 

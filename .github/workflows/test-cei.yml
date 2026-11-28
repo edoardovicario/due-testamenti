@@ -13,6 +13,7 @@ on:
       - "test_reading_intro.cjs"
       - "test_podcast.cjs"
       - "test_podcast_match.cjs"
+      - "test_media_recommend.cjs"
       - "site/podcast_catalog.json"
       - ".github/workflows/test-cei.yml"
 jobs:
@@ -28,7 +29,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-      - run: node --test test_bibleget.cjs test_podcast.cjs test_podcast_match.cjs test_reading_intro.cjs
+      - run: node --test test_bibleget.cjs test_podcast.cjs test_podcast_match.cjs test_media_recommend.cjs test_reading_intro.cjs
       - name: BibleGet live smoke test (one short passage, no verse logging)
         run: node test_bibleget_live.cjs
       - name: Verify Famiglia Cristiana original link and embedding headers (no article text)
