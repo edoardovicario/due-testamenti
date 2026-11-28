@@ -28,7 +28,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: node --test test_liturgical_theme.cjs test_media_recommend.cjs
+      - run: node --test test_liturgical_theme.cjs test_media_recommend.cjs test_bibleget.cjs
       - name: Recupera letture di oggi e prossimi giorni
         run: python update_site.py
       - name: Sincronizza le puntate dal podcast Spotify ufficiale

@@ -83,9 +83,16 @@ test('public dated archives contain no legacy reader content',()=>{
  }
 });
 
-test('Partial verse references are never expanded to whole verses',()=>{
- const r=reader();
- for(const x of ['Ap 18,1-2.21-23;19,1-3.9a','Ap 14,1-3.4b-5','Mt 1,3a-5','Lc 21,3b'])assert.throws(()=>r.parseReference(x),/parte di un versetto/);
+test('Partial verse references fetch whole verses and expose explicit markers',()=>{
+ const r=reader(),ref=r.parseReference('Is 63,16b-17.19b;64,2-7');
+ assert.equal(ref.query,'Is63,16-17.19;64,2-7');
+ assert.equal(ref.expectedVerseCount,9);
+ assert.deepEqual(Array.from(ref.partialVerses,x=>[x.chapter,x.verse,x.part]),[[63,16,'b'],[63,19,'b']]);
+ assert.deepEqual(Array.from(ref.expected,x=>[x.chapter,x.verse]),[[63,16],[63,17],[63,19],[64,2],[64,3],[64,4],[64,5],[64,6],[64,7]]);
+ const rows=ref.expected.map(x=>({version:'CEI2008',univbooknum:String(ref.booknum),testament:1,chapter:x.chapter,verse:String(x.verse),text:'synthetic verse'}));
+ assert.equal(r.validateResponse({results:rows},ref).length,9);
+ assert.throws(()=>r.validateResponse({results:rows.slice(1)},ref));
+ for(const x of ['Ap 18,1-2.21-23;19,1-3.9a','Ap 14,1-3.4b-5','Mt 1,3a-5','Lc 21,3b'])assert.ok(r.parseReference(x).partialVerses.length);
 });
 test('Complete first reading contains precisely all requested verses',()=>{
  const r=reader(),ref=r.parseReference('Ap 18,1-2.21-23;19,1-3.9');

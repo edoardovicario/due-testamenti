@@ -162,7 +162,8 @@ function render(data,offline=false){
     if(!globalThis.DueBibleGet)throw Error('Reader missing');
     const verses=await globalThis.DueBibleGet.get(r.reference);
     if(!details.isConnected)return;
-    const book=globalThis.DueBibleGet.parseReference(r.reference).book;
+    const parsed=globalThis.DueBibleGet.parseReference(r.reference);
+    const book=parsed.book;
     const heading=globalThis.DueReadingIntro?.forBook(book)||'';
     introduction.textContent=heading;
     introduction.hidden=!heading;
@@ -175,11 +176,12 @@ function render(data,offline=false){
        p.append(make('p','reader-edition','Capitolo '+currentChapter));
       }
      }
-     const n=make('sup','',String(v.verse));
+     const partial=parsed.partialVerses.some(x=>x.chapter===v.chapter&&x.verse===v.verse);
+     const n=make('sup','',String(v.verse)+(partial?'*':''));
      p.append(n,document.createTextNode(' '+v.text+' '));
     }
     passage.replaceChildren(p);
-    status.textContent='Bibbia CEI 2008 · tutti e soli i versetti richiesti, verificati con BibleGet I/O';
+    status.textContent=parsed.partialVerses.length?'Bibbia CEI 2008 · I versetti segnati con * sono riportati per intero: la liturgia ne usa solo una parte. Per il testo liturgico esatto consulta il collegamento CEI.':'Bibbia CEI 2008 · tutti e soli i versetti richiesti, verificati con BibleGet I/O';
     credit.hidden=false;
    }catch(error){
     if(!details.isConnected)return;

@@ -17,6 +17,7 @@
   if(!booknum)throw new Unavailable('Libro biblico non riconosciuto: consulta il sito CEI.');
   const parts=match[2].split(';'),expected=[],queryParts=[];
   let expectedVerseCount=0;
+  const partialVerses=[];
   let previousChapter=0,previousVerse=0,hasSpan=false,spanChapter=null,spanToken=null;
   if(parts.length>8)throw new Unavailable('Riferimento troppo complesso: consulta il sito CEI.');
   for(let pi=0;pi<parts.length;pi++){
@@ -54,7 +55,8 @@
     const first=Number(m[1]),last=Number(m[3]||m[1]);
     if(first<1||last>200||last<first)throw new Unavailable('Intervallo di versetti non valido.');
     if(chapter<previousChapter||(chapter===previousChapter&&first<=previousVerse))throw new Unavailable('Versetti ripetuti o fuori ordine.');
-    if(m[2]||m[4])throw new Unavailable('Il brano contiene parte di un versetto (es. 9a o 4b). Non posso riprodurla esattamente da BibleGet: consulta il testo liturgico ufficiale CEI.');
+    if(m[2])partialVerses.push({chapter,verse:first,part:m[2]});
+    if(m[4])partialVerses.push({chapter,verse:last,part:m[4]});
     normalized.push(String(first)+(m[3]?'-'+last:''));
     for(let verse=first;verse<=last;verse++)expected.push({kind:'verse',chapter,verse});
     expectedVerseCount+=last-first+1;
@@ -69,7 +71,7 @@
    const fragment='.'+spanToken;
    if(query.endsWith(fragment))query=query.slice(0,-fragment.length)+';'+spanChapter+','+spanToken;
   }
-  return {book,booknum,chapter:expected[0].chapter,verses:expected.map(x=>x.verse),expected,expectedVerseCount,query};
+  return {book,booknum,chapter:expected[0].chapter,verses:expected.map(x=>x.verse),expected,expectedVerseCount,query,partialVerses};
  }
  function validateResponse(data,ref){
   const rows=data&&data.results;
