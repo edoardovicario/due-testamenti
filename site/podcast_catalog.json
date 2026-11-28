@@ -474,5 +474,9 @@
         "comunita"
       ]
     }
-  ]
+  ],
+  "complete": false,
+  "catalog_scope": "verified_selection",
+  "total_episodes": null,
+  "note": "Catalogo parziale verificato. L'intero archivio sarà selezionabile soltanto dopo una sincronizzazione autenticata con l'API Spotify."
 }
