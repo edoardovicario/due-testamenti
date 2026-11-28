@@ -41,6 +41,22 @@ test('Trasfigurazione direct only for its actual synoptic passages',()=>{
 test('Browser uses passage selection before thematic fallback',()=>{
  const js=fs.readFileSync('site/podcast.js','utf8'),html=fs.readFileSync('site/index.html','utf8');
  assert.match(js,/DuePodcastPassage\?\.matchDay/);
- assert.ok(js.indexOf('DuePodcastPassage?.matchDay')<js.indexOf('const evidence='));
+ assert.ok(js.indexOf('DuePodcastPassage?.matchDay')<js.indexOf('let best=null'));
+ const ctx={};ctx.globalThis=ctx;
+ vm.runInNewContext(fs.readFileSync('site/podcast_match.js','utf8'),ctx);
+ vm.runInNewContext(fs.readFileSync('site/podcast.js','utf8'),ctx);
+ const direct=ctx.DuePodcast.recommend({
+  date:'2026-11-28',
+  readings:[{kind:'prima lettura',reference:'At 2,42-47',summary:'Speranza e salvezza'},
+   {kind:'vangelo',reference:'Lc 21,34-36',summary:'Preghiera e vita'}],
+  comment:{status:'matched',source:'Famiglia Cristiana',text:'Speranza, perdono, misericordia e amore'}
+ },{
+  show_id:ctx.DuePodcast.SHOW_ID,show_url:'https://open.spotify.com/show/'+ctx.DuePodcast.SHOW_ID,
+  episodes:[{id:a,title:'Speranza e misericordia',topics:['speranza','perdono']},
+   {id:b,title:'La vita dei discepoli (At 2,42-47)',topics:[]}]
+ });
+ assert.equal(direct.id,b);
+ assert.equal(direct.confidence,'passo-diretto');
+ assert.match(direct.reason,/Prima Lettura/);
  assert.match(html,/podcast_match\.js\?v=22/);
 });
