@@ -78,7 +78,7 @@ async function renderPodcast(data){
    spotifyResult.status==='fulfilled'?spotifyResult.value:null,
    youtubeResult.status==='fulfilled'?youtubeResult.value:null);
   if(id!==podcastRenderId)return;
-  if(!recommendation)throw Error('No matching episode');
+  if(!recommendation){$('podcast-title').textContent='Nessuna puntata consigliata';$('podcast-reason').textContent=globalThis.DueMedia.commentText(data)?'Nessun approfondimento tematico individuato per questa meditazione.':'La meditazione verificata non è disponibile: nessuna puntata viene suggerita.';return;}
   $('podcast-title').textContent=recommendation.title;
   $('podcast-reason').textContent=recommendation.reason;
   const youtube=recommendation.platform==='youtube';

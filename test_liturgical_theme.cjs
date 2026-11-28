@@ -40,7 +40,7 @@ test('Invalid date rejected; selection applied before data fetch',()=>{
  assert.ok(app.indexOf('DueLiturgicalTheme?.apply(d)')<app.indexOf("const res=await fetch('./data/'"));
  assert.match(html,/liturgical_theme\.js\?v=24/);
  assert.match(html,/id="liturgical-season"/);
- assert.match(sw,/due-testamenti-gratis-v24/);
+ assert.match(sw,/due-testamenti-gratis-v25/);
  const css=fs.readFileSync('site/style.css','utf8');
  for(const color of ['verde','viola','bianco','rosso','rosa'])assert.ok(css.includes('body[data-liturgical-color="'+color+'"]'),color);
 });
