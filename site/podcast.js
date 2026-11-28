@@ -12,14 +12,14 @@
   giustizia:{label:'giustizia e giudizio',stems:['giudiz','giudic','giustiz','ingiust','sentenz','condann','tribunal','vendett']},
   male:{label:'il male e la sua sconfitta',stems:['male','malvag','maligno','satana','diavol','tenebr','babiloni','peccat','distrugg']},
   preghiera:{label:'preghiera e vigilanza',stems:['pregh','preg','orazion','vegl','vigil','svegli','adoraz','silenz']},
-  perdono:{label:'perdono e misericordia',stems:['perdon','misericord','peccat','riconcili','confess','conversion','ritorn']},
+  perdono:{label:'perdono e misericordia',stems:['perdon','misericord','peccat','riconcili','confess']},
   amore:{label:'amore e dono',stems:['amor','carit','amare','compass','dono','donare','serviz','fratern','gratuit','prendersicura']},
   croce:{label:'croce e fedeltà',stems:['croc','croce','passion','martir','sacrific','calvar']},
   sofferenza:{label:'dolore e perseveranza',stems:['sofferen','dolor','fatica','persecuz','ferit','malatt','angosci','tradit']},
-  famiglia:{label:'famiglia e legami',stems:['famigli','madre','padre','genitor','spos','matrimon','coniug','fratell','figli','casa']},
+  famiglia:{label:'famiglia e legami',stems:['famigli','madre','padre','genitor','spos','matrimon','coniug','fratell']},
   comunita:{label:'Chiesa e comunione',stems:['chies','comunit','insiem','fratern','compagn']},
   discernimento:{label:'scelte e cammino',stems:['scelt','decid','decision','cammin','segui','discern','volonta','vocaz','chiam','guid','strad','riconosc','segni']},
-  conversione:{label:'conversione del cuore',stems:['conversion','convert','cambiam','pentim','confess','rinnov','ritorn']},
+  conversione:{label:'conversione del cuore',stems:['conversion','convert','cambiam','pentim','confess','rinnov']},
   pace:{label:'ricerca della pace',stems:['pace','pacific','guerra','odio','riconcili','armoni']}
  };
  // Add only grounded links. Never synthesize arbitrary Spotify episode identifiers.
@@ -44,10 +44,17 @@
   const firstReading=(day.readings||[]).find(x=>x.kind==='prima lettura');
   const first=foundTopics(gospelText),second=foundTopics(hasComment?comment.text:'');
   const third=foundTopics(firstReading?.summary||'');
+  const commentWords=norm(hasComment?comment.text:'').split(/\s+/).filter(Boolean);
+  const commentCounts={};
+  for(const [name,topic] of Object.entries(TOPICS)){
+   commentCounts[name]=commentWords.reduce((sum,w)=>sum+(topic.stems.some(s=>w.startsWith(s))?1:0),0);
+  }
   const evidence={};
   for(const name of Object.keys(TOPICS)){
    const a=first.has(name),b=second.has(name);
-   evidence[name]=(a?2.8:0)+(b?4.2:0)+(third.has(name)?2.4:0)+((a||third.has(name))&&b?1.6:0);
+   const n=commentCounts[name]||0;
+   const commentWeight=n>=4?4.8:n>=2?3.2:n===1?1.4:0;
+   evidence[name]=(a?4.1:0)+(third.has(name)?3.0:0)+commentWeight+((a||third.has(name))&&b?2.0:0);
   }
   // Favor the closest conceptual overlap, then vary equally good options by day.
   const hash=s=>[...s].reduce((n,ch)=>(n*33+ch.charCodeAt(0))>>>0,5381);
