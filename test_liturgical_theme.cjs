@@ -25,10 +25,13 @@ test('Five colors and liturgical boundaries',()=>{
 });
 test('Theme switches when a different date is requested',()=>{
  const body={dataset:{}},label={textContent:''};
- env.document={body,getElementById:()=>label};
+ const documentElement={dataset:{}},meta={setAttribute:(k,v)=>{meta[k]=v;}};
+ env.document={body,documentElement,getElementById:()=>label,querySelector:()=>meta};
  assert.equal(theme.apply('2026-11-28').color,'verde');
  assert.equal(theme.apply('2026-11-29').color,'viola');
  assert.equal(body.dataset.liturgicalSeason,'advent');
+ assert.equal(documentElement.dataset.liturgicalColor,'viola');
+ assert.equal(meta.content,'#dcd0eb');
  assert.match(label.textContent,/Avvento · viola/);
  assert.equal(theme.apply('2026-12-25').color,'bianco');
 });
@@ -36,11 +39,11 @@ test('Invalid date rejected; selection applied before data fetch',()=>{
  assert.equal(theme.forDate('2026-02-30'),null);
  assert.equal(theme.forDate('invalid'),null);
  const app=fs.readFileSync('site/app.js','utf8'),html=fs.readFileSync('site/index.html','utf8'),sw=fs.readFileSync('site/sw.js','utf8');
- assert.match(app,/DueLiturgicalTheme\?\.apply\(d\)/);
- assert.ok(app.indexOf('DueLiturgicalTheme?.apply(d)')<app.indexOf("const res=await fetch('./data/'"));
- assert.match(html,/liturgical_theme\.js\?v=24/);
+ assert.match(app,/DueLiturgicalTheme\.apply\(d\)/);
+ assert.ok(app.indexOf('DueLiturgicalTheme.apply(d)')<app.indexOf("const res=await fetch('./data/'"));
+ assert.match(html,/liturgical_theme\.js\?v=26/);
  assert.match(html,/id="liturgical-season"/);
- assert.match(sw,/due-testamenti-gratis-v25/);
+ assert.match(sw,/due-testamenti-gratis-v26/);
  const css=fs.readFileSync('site/style.css','utf8');
- for(const color of ['verde','viola','bianco','rosso','rosa'])assert.ok(css.includes('body[data-liturgical-color="'+color+'"]'),color);
+ for(const color of ['verde','viola','bianco','rosso','rosa'])assert.ok(css.includes('html[data-liturgical-color="'+color+'"]'),color);
 });

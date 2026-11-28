@@ -44,6 +44,12 @@
   const season=forDate(date);if(!season)return null;
   if(root.document?.body){
    root.document.body.dataset.liturgicalColor=season.color;
+   if(root.document.documentElement){
+    root.document.documentElement.dataset.liturgicalColor=season.color;
+    root.document.documentElement.dataset.liturgicalSeason=season.key;
+   }
+   const meta=root.document.querySelector?.('meta[name="theme-color"]');
+   if(meta)meta.setAttribute('content',({verde:'#dce8d5',viola:'#dcd0eb',bianco:'#faf8ef',rosso:'#ebcaca',rosa:'#f3dce6'})[season.color]);
    root.document.body.dataset.liturgicalSeason=season.key;
    const node=root.document.getElementById('liturgical-season');
    if(node)node.textContent=season.label+' · '+season.color;

@@ -203,12 +203,12 @@ function render(data,offline=false){
  $('updated').textContent='Data delle letture: '+printDate(data.date)+(data.updated_at?' · Ultimo aggiornamento: '+new Date(data.updated_at).toLocaleString('it-IT',{timeZone:'Europe/Rome'}):'');
  $('content').hidden=false; $('status').hidden=!(offline||data.stale); $('status').textContent='Copia disponibile per questa stessa data. La verifica o la connessione online non è al momento disponibile.';
 }
-async function load(d){if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;const id=++requestId;resetPodcast();loadingDay=d;if(d!==selected)setMeditation(null);selected=d;onToday=d===romeDay();globalThis.DueLiturgicalTheme?.apply(d);$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
+async function load(d){if(!/^\d{4}-\d{2}-\d{2}$/.test(d))return;const id=++requestId;resetPodcast();loadingDay=d;if(d!==selected)setMeditation(null);selected=d;onToday=d===romeDay();globalThis.DueLiturgicalTheme.apply(d);$('date').textContent=printDate(d);$('choose').value=d;$('cei').href='https://www.chiesacattolica.it/liturgia-del-giorno/?data-liturgia='+d.replaceAll('-','');$('status').hidden=false;$('status').textContent='Caricamento delle letture e della meditazione…';$('content').hidden=true;$('title').textContent='La Parola del giorno';
  try{const res=await fetch('./data/'+d+'.json',{cache:'no-store',credentials:'omit',referrerPolicy:'no-referrer',signal:typeof AbortSignal.timeout==='function'?AbortSignal.timeout(15000):undefined});if(!res.ok)throw Error('Fonti non disponibili');const data=await res.json();if(data.date!==d)throw Error('Data diversa');if(offlineOpt)store.set('due-testamenti:day:'+d,JSON.stringify(data));if(id===requestId)render(data);}
  catch(e){if(id!==requestId)return;let cached=null;try{if(offlineOpt)cached=JSON.parse(store.get('due-testamenti:day:'+d));}catch{}if(cached&&cached.date===d)render(cached,true);else $('status').textContent='Scheda non ancora disponibile per questa data. Puoi leggere i testi ufficiali CEI dal collegamento qui sotto. Gli aggiornamenti automatici vengono eseguiti più volte al giorno. Non mostriamo letture di un giorno diverso.';}
  finally{if(id===requestId)loadingDay=null;}}
 $('choose').onchange=e=>{if(e.target.value)load(e.target.value);};$('prev').onclick=()=>load(add(selected,-1));$('next').onclick=()=>load(add(selected,1));$('today').onclick=()=>load(romeDay());$('retry').onclick=()=>load(selected);
-if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{});
 // Always start on today's Roman-calendar date, including restored PWA windows.
 function openToday(){
  const now=romeDay();lastToday=now;
@@ -220,8 +220,8 @@ function tick(){
  if(now!==lastToday){lastToday=now;if(onToday&&!document.hidden)openToday();}
 }
 setInterval(tick,15000);
-document.addEventListener('visibilitychange',()=>{if(!document.hidden)openToday();});
-window.addEventListener('pageshow',e=>{if(e.persisted)openToday();});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(onToday)openToday();else globalThis.DueLiturgicalTheme.apply(selected);}});
+window.addEventListener('pageshow',e=>{if(e.persisted){if(onToday)openToday();else globalThis.DueLiturgicalTheme.apply(selected);}});
 window.addEventListener('online',()=>{if(onToday&&!document.hidden)openToday();});
 setInterval(()=>{if(onToday&&!document.hidden)openToday();},1800000);
 openToday();

@@ -58,10 +58,16 @@ a{color:inherit}button{font:inherit;cursor:pointer}button:focus-visible,a:focus-
 
 /* Subtle background reflecting the Roman liturgical season; card interiors stay neutral. */
 body{transition:background-color .2s ease}
-body[data-liturgical-color="verde"]{--bg:#e9f2e8;--green:#244a3a;--green-2:#37684b;--sage:#e3eddf;--warm:#f0f3e8;--border:#d9e3da;--lit-glow:#cfe7d3;--lit-pill:#dcebdd;--lit-pill-ink:#315f40}
-body[data-liturgical-color="viola"]{--bg:#eee5f4;--green:#623c76;--green-2:#77558b;--sage:#ede0f3;--warm:#f5eef7;--border:#e4d8ea;--lit-glow:#dec9eb;--lit-pill:#e7d8f0;--lit-pill-ink:#613e74}
-body[data-liturgical-color="bianco"]{--bg:#faf8ef;--green:#70572c;--green-2:#826639;--sage:#f2ecda;--warm:#f9f4e8;--border:#e8e1d3;--lit-glow:#f4eacc;--lit-pill:#f6eddb;--lit-pill-ink:#786139}
-body[data-liturgical-color="rosso"]{--bg:#f8e9e9;--green:#913f45;--green-2:#a4555b;--sage:#f5e1e1;--warm:#faeeee;--border:#edd7d7;--lit-glow:#f0cdd1;--lit-pill:#f3dfe0;--lit-pill-ink:#903d46}
-body[data-liturgical-color="rosa"]{--bg:#faeaf0;--green:#854861;--green-2:#9c5f78;--sage:#f7e1ea;--warm:#fbeef3;--border:#ecd9e0;--lit-glow:#f4d0de;--lit-pill:#f4dce6;--lit-pill-ink:#83445c}
+html[data-liturgical-color="verde"]{--bg:#dce8d5;--green:#244a3a;--green-2:#37684b;--sage:#e3eddf;--warm:#f0f3e8;--border:#d9e3da;--lit-glow:#cfe7d3;--lit-pill:#dcebdd;--lit-pill-ink:#315f40}
+html[data-liturgical-color="viola"]{--bg:#dcd0eb;--green:#623c76;--green-2:#77558b;--sage:#ede0f3;--warm:#f5eef7;--border:#e4d8ea;--lit-glow:#dec9eb;--lit-pill:#e7d8f0;--lit-pill-ink:#613e74}
+html[data-liturgical-color="bianco"]{--bg:#faf8ef;--green:#70572c;--green-2:#826639;--sage:#f2ecda;--warm:#f9f4e8;--border:#e8e1d3;--lit-glow:#f4eacc;--lit-pill:#f6eddb;--lit-pill-ink:#786139}
+html[data-liturgical-color="rosso"]{--bg:#ebcaca;--green:#913f45;--green-2:#a4555b;--sage:#f5e1e1;--warm:#faeeee;--border:#edd7d7;--lit-glow:#f0cdd1;--lit-pill:#f3dfe0;--lit-pill-ink:#903d46}
+html[data-liturgical-color="rosa"]{--bg:#f3dce6;--green:#854861;--green-2:#9c5f78;--sage:#f7e1ea;--warm:#fbeef3;--border:#ecd9e0;--lit-glow:#f4d0de;--lit-pill:#f4dce6;--lit-pill-ink:#83445c}
 .day-meta .season-badge{background:var(--lit-pill,#e9eee3);color:var(--lit-pill-ink,#49614e);border:1px solid var(--border)}
 @media(prefers-reduced-motion:reduce){body{transition:none}}
+
+/* Apply theme across the entire viewport, including iOS overscroll and chrome. */
+html{background-color:var(--bg);min-height:100%}
+body{background-color:var(--bg);min-height:100vh}
+html[data-liturgical-color] .topbar,html[data-liturgical-color] .bottom-nav{background:var(--bg)}
+html[data-liturgical-color] .day-meta>span{background:var(--lit-pill);color:var(--lit-pill-ink)}
