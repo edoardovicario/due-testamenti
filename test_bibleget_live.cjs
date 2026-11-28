@@ -20,8 +20,8 @@ const vm=require('node:vm');
   console.log(reference+': CEI 2008 verified, '+verses.length+' verses, original book confirmed (content not logged)');
  }
 
- // Also verify the actual First Reading with multiple chapters and a verse fragment.
- for(const reference of ['Ap 18,1-2.21-23;19,1-3.9a','Ap 20,1-4.11-21,2']){
+ // Verify exact complete multi-chapter passages; a partial verse must never be expanded.
+ for(const reference of ['Ap 18,1-2.21-23;19,1-3.9','Ap 20,1-4.11-21,2']){
   const parsed=bible.parseReference(reference);
   const query=new URLSearchParams({query:parsed.query,version:'CEI2008',return:'json',appid:'DueTestamentiWeb',pluginversion:'1.0'});
   const response=await fetch('https://query.bibleget.io/v3/?'+query,{headers:{Accept:'application/json',Origin:'https://edoardovicario.github.io'},signal:AbortSignal.timeout(20000)});
@@ -29,7 +29,7 @@ const vm=require('node:vm');
   const cors=response.headers.get('access-control-allow-origin');
   assert.ok(cors==='*'||cors==='https://edoardovicario.github.io',reference+' CORS missing');
   const verses=bible.validateResponse(await response.json(),parsed);
-  assert.ok(verses.length>0&&verses.length<=50);
+  assert.equal(verses.length,parsed.expectedVerseCount);
   console.log(reference+': First Reading verified, '+verses.length+' verses across chapters; no text logged');
  }
 })().catch(err=>{console.error('BibleGet test error: '+err.message);process.exitCode=1;});

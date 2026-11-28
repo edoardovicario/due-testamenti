@@ -149,10 +149,7 @@ function render(data,offline=false){
      p.append(n,document.createTextNode(' '+v.text+' '));
     }
     passage.replaceChildren(p);
-    const parsed=globalThis.DueBibleGet.parseReference(r.reference);
-    status.textContent=parsed.expandedPartial?
-     'Bibbia CEI 2008 · alcuni riferimenti liturgici indicano solo parte di un versetto (es. 9a): qui è mostrato il versetto completo. Per il taglio liturgico esatto consulta il sito CEI.':
-     'Bibbia CEI 2008 · testo recuperato da BibleGet I/O';
+    status.textContent='Bibbia CEI 2008 · tutti e soli i versetti richiesti, verificati con BibleGet I/O';
     credit.hidden=false;
    }catch(error){
     if(!details.isConnected)return;
