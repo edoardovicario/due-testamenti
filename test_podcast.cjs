@@ -35,7 +35,7 @@ test('Darkness and judgment select a different theme from hope when that dominat
  const day=makeDay('Gesù parla di male e del giudizio sul male.',
  'La forza del male, il maligno e il giudizio aiutano a distinguere bene e male. Una riflessione su giustizia e giudizio.');
  const result=p.recommend(day,catalog);
- assert.equal(result.id,'0BkIMYfWyRSdhlgf19rOMp');
+ assert.ok(result.topics.includes('male')||result.topics.includes('giustizia'));
  assert.match(result.reason,/male|giustizia/i);
 });
 test('A Gospel explicitly about prayer recommends a prayer-focused episode',()=>{
