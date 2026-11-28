@@ -1,6 +1,7 @@
 {
   "date": "2026-11-29",
   "celebration": "I DOMENICA DI AVVENTO - ANNO B",
+  "liturgical_color": "viola",
   "readings": [
     {
       "kind": "prima lettura",
@@ -43,8 +44,7 @@
     "message": "Nessuna meditazione con corrispondenza sufficientemente verificabile. Nuovo tentativo automatico.",
     "text": ""
   },
-  "updated_at": "2026-11-28T22:41:22.104492+01:00",
+  "updated_at": "2026-11-28T22:44:19.363742+01:00",
   "stale": false,
-  "reader_version": 2,
-  "liturgical_color": "viola"
+  "reader_version": 2
 }
