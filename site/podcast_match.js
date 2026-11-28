@@ -66,7 +66,11 @@
   return set;
  }
  // Only episode references with book, chapter AND specific verses count as direct.
- const refs=/\b(1\s*corinzi|2\s*corinzi|1\s*cor|2\s*cor|1\s*gv|2\s*gv|3\s*gv|1\s*pt|2\s*pt|1\s*ts|2\s*ts|1\s*tm|2\s*tm|galati|gal|romani|rm|apocalisse|ap|atti|at|matteo|mt|marco|mc|luca|lc|giovanni|gv|genesi|gen|gn|isaia|is|zaccaria|zc|ezechiele|ez|salmi|salmo|sal|filippesi|fil|colossesi|col|efesini|ef|geremia|ger|sapienza|sap)\s*(\d{1,3})\s*[,:\.]\s*(\d{1,3})(?:\s*[-–]\s*(\d{1,3}))?/gi;
+ // Build citations from the same canonical aliases, including the OT books.
+ // A name alone never qualifies; chapter and verse are mandatory.
+ const aliasPattern=Object.keys(aliases).sort((a,b)=>b.length-a.length)
+  .map(k=>k.replace(/^([1-3])(?=[a-z])/, '$1\\s*')).join('|');
+ const refs=new RegExp('\\b('+aliasPattern+')\\s*(\\d{1,3})\\s*[,.:]\\s*(\\d{1,3})(?:\\s*[-–]\\s*(\\d{1,3}))?','gi');
  function citations(s){
   const result=[],regex=new RegExp(refs.source,'gi');
   let m;
