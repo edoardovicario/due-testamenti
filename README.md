@@ -124,3 +124,8 @@ Il processo automatico `podcast_sync.py` interroga l'**API Spotify ufficiale**: 
 Il riquadro «Puntata consigliata» confronta i cataloghi YouTube e Spotify: prima riferimenti biblici precisi e scene identificabili nella Prima Lettura o Vangelo, poi i temi della meditazione e delle letture. Il canale ufficiale `@luigimariaepicoco` ha ID `UCK9NyEkJ-X89kXCwp1eXFjw`. Il programma `youtube_sync.py` recupera gli ultimi video dal feed pubblico ufficiale e li conserva; configurando il secret GitHub Actions `YOUTUBE_API_KEY` può scorrere tutte le pagine della playlist caricamenti via API ufficiale. Senza chiave non si garantisce il catalogo storico completo.
 
 La riproduzione video avviene soltanto su clic con iframe `youtube-nocookie.com` (modalità privacy avanzata); il lettore Spotify rimane disponibile. Non vengono scaricati né ospitati file audio/video. Il link originale resta sempre disponibile e possono valere limitazioni decise da YouTube e dal creatore.
+
+
+## Sfondo per tempo liturgico
+
+L'app applica il colore liturgico del tempo relativo alla data selezionata: verde (Tempo ordinario), viola (Avvento e Quaresima), bianco/oro tenue (Natale e Pasqua), rosso (Palme, Venerdì Santo e Pentecoste) e rosa nelle domeniche Gaudete e Laetare, dove facoltativo. Le schede delle letture rimangono bianche per leggibilità; il colore cambia immediatamente quando si sceglie una data, anche senza dati di rete. Il calcolo segue il calendario romano generale e non sostituisce le eventuali eccezioni locali o le feste dei santi. Base liturgica: Ordinamento Generale del Messale Romano 346, https://www.vatican.va/content/dam/wss/roman_curia/congregations/ccdds/documents/rc_con_ccdds_doc_20030317_ordinamento-messale_en.html.
