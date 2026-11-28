@@ -80,3 +80,9 @@ test('Podcast HTML embeds only official player, lazily on user gesture',()=>{
  assert.match(index,/id="podcast-card"/);
  assert.match(index,/id="podcast-embed"/);
 });
+
+test('Generic son of man or return of Christ must not be misread as family or forgiveness',()=>{
+ const first=p.foundTopics('Un figlio d’uomo viene tra le nubi e annuncia un ritorno ormai vicino.');
+ assert.equal(first.has('famiglia'),false);
+ assert.equal(first.has('perdono'),false);
+});
