@@ -5,6 +5,7 @@
  const VERSION='CEI2008', APPID='DueTestamentiWeb', MAX_VERSES=50;
  const BOOKS=new Map('Gen Es Lv Nm Dt Gs Gdc Rt 1Sam 2Sam 1Re 2Re 1Cr 2Cr Esd Ne Tb Gdt Est 1Mac 2Mac Gb Sal Pr Qo Ct Sap Sir Is Ger Lam Bar Ez Dn Os Gl Am Abd Gna Mi Na Ab Sof Ag Zc Ml Mt Mc Lc Gv At Rm 1Cor 2Cor Gal Ef Fil Col 1Ts 2Ts 1Tm 2Tm Tt Fm Eb Gc 1Pt 2Pt 1Gv 2Gv 3Gv Gd Ap'.split(' ').map((name,i)=>[name,i+1]));
  const ALIASES=new Map([['Gn','Gen'],['Ge','Gen'],['Gio','Gna']]);
+ const VERIFIED_CHAPTER_ENDS=new Map([['Ap:20',15]]);
  const cache=new Map(),pending=new Map();
  class Unavailable extends Error{constructor(message){super(message);this.name='BibleGetUnavailable';}}
  function parseReference(reference){
@@ -15,7 +16,8 @@
   const givenBook=match[1].replace(/\s/g,''),book=ALIASES.get(givenBook)||givenBook,booknum=BOOKS.get(book);
   if(!booknum)throw new Unavailable('Libro biblico non riconosciuto: consulta il sito CEI.');
   const parts=match[2].split(';'),expected=[],queryParts=[];
-  let expandedPartial=false,previousChapter=0,previousVerse=0,hasSpan=false,spanChapter=null,spanToken=null;
+  let expectedVerseCount=0;
+  let previousChapter=0,previousVerse=0,hasSpan=false,spanChapter=null,spanToken=null;
   if(parts.length>8)throw new Unavailable('Riferimento troppo complesso: consulta il sito CEI.');
   for(let pi=0;pi<parts.length;pi++){
    const part=/^(\d{1,3}),\s*(.+)$/.exec(parts[pi].trim());
@@ -36,7 +38,12 @@
       throw new Unavailable('Intervallo tra capitoli non verificabile: consulta il sito CEI.');
      }
      if(chapter<previousChapter||(chapter===previousChapter&&first<=previousVerse))throw new Unavailable('Versetti ripetuti o fuori ordine.');
-     expected.push({kind:'span',chapter,verse:first,endChapter:lastChapter,endVerse:lastVerse});
+     const lastAvailableVerse=VERIFIED_CHAPTER_ENDS.get(book+':'+chapter);
+     if(!lastAvailableVerse||first>lastAvailableVerse)throw new Unavailable('Non posso verificare tutti i versetti tra i capitoli: consulta il testo liturgico ufficiale CEI.');
+     const spanCount=lastAvailableVerse-first+1+lastVerse;
+     if(expectedVerseCount+spanCount>MAX_VERSES)throw new Unavailable('Questo brano supera il limite di 50 versetti di BibleGet. Usa il collegamento CEI.');
+     expectedVerseCount+=spanCount;
+     expected.push({kind:'span',chapter,verse:first,endChapter:lastChapter,endVerse:lastVerse,chapterLastVerse:lastAvailableVerse,count:spanCount});
      normalized.push(first+'-'+lastChapter+','+lastVerse);
      spanChapter=chapter;spanToken=first+'-'+lastChapter+','+lastVerse;
      hasSpan=true;previousChapter=lastChapter;previousVerse=lastVerse;
@@ -47,11 +54,12 @@
     const first=Number(m[1]),last=Number(m[3]||m[1]);
     if(first<1||last>200||last<first)throw new Unavailable('Intervallo di versetti non valido.');
     if(chapter<previousChapter||(chapter===previousChapter&&first<=previousVerse))throw new Unavailable('Versetti ripetuti o fuori ordine.');
-    expandedPartial=expandedPartial||Boolean(m[2]||m[4]);
+    if(m[2]||m[4])throw new Unavailable('Il brano contiene parte di un versetto (es. 9a o 4b). Non posso riprodurla esattamente da BibleGet: consulta il testo liturgico ufficiale CEI.');
     normalized.push(String(first)+(m[3]?'-'+last:''));
     for(let verse=first;verse<=last;verse++)expected.push({kind:'verse',chapter,verse});
+    expectedVerseCount+=last-first+1;
     previousChapter=chapter;previousVerse=last;
-    if(expected.length>MAX_VERSES)throw new Unavailable('Questo brano supera il limite di 50 versetti di BibleGet. Usa il collegamento CEI.');
+    if(expectedVerseCount>MAX_VERSES)throw new Unavailable('Questo brano supera il limite di 50 versetti di BibleGet. Usa il collegamento CEI.');
    }
    queryParts.push((pi===0?book:'')+chapter+','+normalized.join('.'));
   }
@@ -61,16 +69,16 @@
    const fragment='.'+spanToken;
    if(query.endsWith(fragment))query=query.slice(0,-fragment.length)+';'+spanChapter+','+spanToken;
   }
-  return {book,booknum,chapter:expected[0].chapter,verses:expected.map(x=>x.verse),expected,expandedPartial,query};
+  return {book,booknum,chapter:expected[0].chapter,verses:expected.map(x=>x.verse),expected,expectedVerseCount,query};
  }
  function validateResponse(data,ref){
   const rows=data&&data.results;
-  if(!Array.isArray(rows)||!rows.length||rows.length>MAX_VERSES)throw new Unavailable('BibleGet non ha restituito un numero valido di versetti.');
+  if(!Array.isArray(rows)||rows.length!==ref.expectedVerseCount||rows.length>MAX_VERSES)throw new Unavailable('BibleGet non ha restituito un numero valido di versetti.');
   const verified=rows.map(row=>{
    if(!row||String(row.version).toUpperCase()!==VERSION||Number(row.univbooknum)!==ref.booknum||Number(row.testament)!==(ref.booknum<=46?1:2)||!Number.isInteger(Number(row.chapter))||!Number.isInteger(Number(row.verse))||typeof row.text!=='string'||!row.text.trim()){
     throw new Unavailable('Il brano ricevuto non corrisponde al libro e alla traduzione richiesti.');
    }
-   return {chapter:Number(row.chapter),verse:Number(row.verse),text:row.text.trim()};
+   return {chapter:Number(row.chapter),verse:Number(row.verse),text:row.text};
   });
   let at=0;
   for(const item of ref.expected){
@@ -81,14 +89,14 @@
     // Spanning chapters: verify first/last positions and strictly consecutive
     // verse numbers, including a reset to 1 at the chapter boundary.
     const span=verified.slice(at);
-    if(span.length<2||span[0].chapter!==item.chapter||span[0].verse!==item.verse||
+    if(span.length!==item.count||span[0].chapter!==item.chapter||span[0].verse!==item.verse||
       span[span.length-1].chapter!==item.endChapter||span[span.length-1].verse!==item.endVerse){
       throw new Unavailable('Intervallo tra capitoli incompleto.');
     }
     for(let i=1;i<span.length;i++){
      const a=span[i-1],b=span[i];
      if(!((b.chapter===a.chapter&&b.verse===a.verse+1)||
-       (a.chapter===item.chapter&&b.chapter===item.endChapter&&b.verse===1))){
+       (a.chapter===item.chapter&&a.verse===item.chapterLastVerse&&b.chapter===item.endChapter&&b.verse===1))){
       throw new Unavailable('Versetti non consecutivi nel passaggio tra capitoli.');
      }
     }

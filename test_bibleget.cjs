@@ -83,15 +83,19 @@ test('public dated archives contain no legacy reader content',()=>{
  }
 });
 
-test('Prima Lettura across chapters with liturgical partial verse',()=>{
- const r=reader(),ref=r.parseReference('Ap 18,1-2.21-23;19,1-3.9a');
+test('Partial verse references are never expanded to whole verses',()=>{
+ const r=reader();
+ for(const x of ['Ap 18,1-2.21-23;19,1-3.9a','Ap 14,1-3.4b-5','Mt 1,3a-5','Lc 21,3b'])assert.throws(()=>r.parseReference(x),/parte di un versetto/);
+});
+test('Complete first reading contains precisely all requested verses',()=>{
+ const r=reader(),ref=r.parseReference('Ap 18,1-2.21-23;19,1-3.9');
  assert.equal(ref.query,'Ap18,1-2.21-23;19,1-3.9');
- assert.equal(ref.expandedPartial,true);
+ assert.equal(ref.expectedVerseCount,9);
  assert.deepEqual(Array.from(ref.expected,x=>[x.chapter,x.verse]),[[18,1],[18,2],[18,21],[18,22],[18,23],[19,1],[19,2],[19,3],[19,9]]);
  const rows=ref.expected.map(x=>({version:'CEI2008',univbooknum:'73',testament:2,chapter:x.chapter,verse:String(x.verse),text:'synthetic verse'}));
  assert.equal(r.validateResponse({results:rows},ref).length,9);
  assert.throws(()=>r.validateResponse({results:rows.slice(0,8)},ref));
- assert.throws(()=>r.validateResponse({results:rows.map((x,i)=>i===6?{...x,chapter:18}:x)},ref));
+ assert.throws(()=>r.validateResponse({results:rows.concat([{...rows[8],verse:'10'}])},ref));
 });
 test('Prima Lettura with cross-chapter interval 20 to 21',()=>{
  const r=reader(),ref=r.parseReference('Ap 20,1-4.11-21,2');
@@ -103,8 +107,16 @@ test('Prima Lettura with cross-chapter interval 20 to 21',()=>{
  assert.throws(()=>r.validateResponse({results:rows.slice(0,-1)},ref));
  assert.throws(()=>r.validateResponse({results:rows.map((x,i)=>i===6?{...x,verse:'17'}:x)},ref));
 });
-test('Liturgical verse fragments normalize to whole verse and report difference',()=>{
- const r=reader(),ref=r.parseReference('Ap 14,1-3.4b-5');
- assert.equal(ref.query,'Ap14,1-3.4-5');assert.equal(ref.expandedPartial,true);
- assert.equal(ref.expected.length,5);
+test('Unknown cross-chapter end is rejected to avoid omissions',()=>{
+ assert.throws(()=>reader().parseReference('Gv 1,40-2,2'),/Non posso verificare tutti i versetti/);
+});
+test('Verse text is reproduced exactly as received without trimming',()=>{
+ const r=reader(),ref=r.parseReference('Gv 3,16-17'),exact='  Frase di prova, con punteggiatura!  ';
+ const rows=[16,17].map(n=>({version:'CEI2008',univbooknum:'50',testament:2,chapter:3,verse:String(n),text:exact}));
+ assert.equal(r.validateResponse({results:rows},ref)[0].text,exact);
+});
+test('An omitted final verse before chapter break is rejected',()=>{
+ const r=reader(),ref=r.parseReference('Ap 20,11-21,2');
+ const rows=[11,12,13,14,1,2].map((verse,i)=>({version:'CEI2008',univbooknum:'73',testament:2,chapter:i<4?20:21,verse:String(verse),text:'Example'}));
+ assert.throws(()=>r.validateResponse({results:rows},ref),/numero valido/);
 });
