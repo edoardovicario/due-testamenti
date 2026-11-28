@@ -21,7 +21,9 @@ def clean(item):
 def parse_feed(source):
     if len(source)>2000000:raise ValueError('Feed troppo lungo')
     root=ET.fromstring(source)
-    if root.tag!=ATOM+'feed' or root.findtext(YT+'channelId')!=CHANNEL:raise ValueError('Canale non verificato')
+    if root.tag!=ATOM+'feed' or root.findtext(YT+'channelId')!=CHANNEL:
+        LOG.warning('Metadati feed YouTube: tag=%s, channelId=%s, feedId=%s',root.tag,(root.findtext(YT+'channelId') or '')[:60],(root.findtext(ATOM+'id') or '')[:75])
+        raise ValueError('Canale non verificato')
     results=[]
     for e in root.findall(ATOM+'entry'):
         x=clean({'id':e.findtext(YT+'videoId'),'title':e.findtext(ATOM+'title'),
