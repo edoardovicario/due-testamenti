@@ -121,6 +121,8 @@ function render(data,offline=false){
   // CEI 2008 is fetched from BibleGet only when opened; ignore old Martini data.
   const status=make('p','reader-edition','Il testo CEI 2008 viene caricato online su richiesta.');
   status.setAttribute('role','status');panel.append(status);
+  // Introductory liturgical heading, visually separate from the exact CEI verses.
+  const introduction=make('p','reading-introduction');introduction.hidden=true;panel.append(introduction);
   const passage=make('div','reader-verses');panel.append(passage);
   const credit=make('p','reader-credit','Bibbia CEI 2008 © Fondazione di Religione “Santi Francesco d’Assisi e Caterina da Siena”. ');
   const creditLink=make('a','','BibleGet I/O');
@@ -136,6 +138,10 @@ function render(data,offline=false){
     if(!globalThis.DueBibleGet)throw Error('Reader missing');
     const verses=await globalThis.DueBibleGet.get(r.reference);
     if(!details.isConnected)return;
+    const book=globalThis.DueBibleGet.parseReference(r.reference).book;
+    const heading=globalThis.DueReadingIntro?.forBook(book)||'';
+    introduction.textContent=heading;
+    introduction.hidden=!heading;
     const p=make('div','body-reading');
     let currentChapter=null;
     for(const v of verses){
