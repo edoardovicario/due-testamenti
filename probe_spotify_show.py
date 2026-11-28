@@ -64,3 +64,15 @@ with httpx.Client(timeout=httpx.Timeout(18,connect=6),headers={'User-Agent':'Moz
     if tag.get('property') in ('og:title','og:description','og:url') or tag.get('name')=='twitter:description':
      print('META',tag.get('property') or tag.get('name'),tag.get('content','')[:150])
  except Exception as e: print('SHOWERR',type(e).__name__)
+
+
+print('VERIFY_EPISODE_SHOW_ASSOCIATIONS')
+with httpx.Client(timeout=httpx.Timeout(18,connect=6),headers={'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/130 Safari/537.36'},follow_redirects=True) as client:
+ for episode_id in ['5UTkSFXzFGY0MOSGafl4Pk','0BkIMYfWyRSdhlgf19rOMp','2APFnXPJONAkEP7S06VGAf','4QSC5jnSjLwgscsZPHlX6l']:
+  try:
+   r=client.get('https://open.spotify.com/embed/episode/'+episode_id)
+   soup=BeautifulSoup(r.text,'html.parser')
+   node=soup.find('script',id='__NEXT_DATA__')
+   entity=json.loads(node.string)['props']['pageProps']['state']['data']['entity'] if node else {}
+   print('PODCAST_MEMBERSHIP',episode_id,'http',r.status_code,'related_show',entity.get('relatedEntityUri'),'entity_id',entity.get('id'),'title',str(entity.get('title',''))[:75])
+  except Exception as e: print('PODCAST_MEMBERSHIP_ERROR',episode_id,type(e).__name__)
