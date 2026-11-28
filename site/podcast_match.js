@@ -104,7 +104,7 @@
    .map(r=>({reading:r,verses:verseKeys(r.reference)})).filter(r=>r.verses.size);
   let best=null;
   for(const ep of episodes){
-   if(!ep||typeof ep.title!=='string'||!/^[A-Za-z0-9]{22}$/.test(ep.id||''))continue;
+   if(!ep||typeof ep.title!=='string'||!(/^[A-Za-z0-9]{22}$/.test(ep.id||'')||/^[A-Za-z0-9_-]{11}$/.test(ep.id||'')))continue;
    const title=normalized(ep.title),description=normalized(ep.description);
    const titleRefs=citations(title),descriptionRefs=citations(description);
    for(const {reading,verses} of readings){
