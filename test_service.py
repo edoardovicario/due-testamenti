@@ -44,6 +44,13 @@ class Checks(unittest.TestCase):
 
     def test_date_and_readings(self):
         data,g=parse_cei(soup(CEI),date(2026,11,21));self.assertEqual(data['date'],'2026-11-21');self.assertEqual(data['readings'][-1]['reference'],'Mt 12,46-50');self.assertIn('ascolta',g);self.assertEqual(data['readings'][0]['testament'],'Antico Testamento')
+    def test_explicit_cei_color(self):
+        from service import liturgical_color
+        self.assertEqual(liturgical_color(['SANT ANDREA','Colore Liturgico','Rosso','Prima Lettura']), 'rosso')
+        self.assertEqual(liturgical_color(['Colore Liturgico viola','Prima Lettura','Colore Liturgico rosso']), 'viola')
+        self.assertIsNone(liturgical_color(['Prima Lettura','Colore Liturgico rosso']))
+        data,_=parse_cei(soup(CEI.replace('Festa di prova</h3>','Festa di prova</h3><p>Colore Liturgico <span>Rosso</span></p>')),date(2026,11,21))
+        self.assertEqual(data['liturgical_color'],'rosso')
     def test_wrong_date(self):
         with self.assertRaises(ValueError):parse_cei(soup(CEI),date(2026,11,22))
     def test_wrong_comment_even_if_gospel_present(self):

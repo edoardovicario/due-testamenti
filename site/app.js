@@ -126,6 +126,7 @@ async function renderPodcast(data){
 }
 
 function render(data,offline=false){
+ globalThis.DueLiturgicalTheme.apply(data.date,data);
  $('title').textContent=data.celebration;
  const openReadings=new Set([...$('readings').querySelectorAll('details[open]')].map(el=>el.dataset.key));
  $('readings').replaceChildren();

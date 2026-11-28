@@ -41,9 +41,18 @@ test('Invalid date rejected; selection applied before data fetch',()=>{
  const app=fs.readFileSync('site/app.js','utf8'),html=fs.readFileSync('site/index.html','utf8'),sw=fs.readFileSync('site/sw.js','utf8');
  assert.match(app,/DueLiturgicalTheme\.apply\(d\)/);
  assert.ok(app.indexOf('DueLiturgicalTheme.apply(d)')<app.indexOf("const res=await fetch('./data/'"));
- assert.match(html,/liturgical_theme\.js\?v=26/);
+ assert.match(html,/liturgical_theme\.js\?v=29/);
  assert.match(html,/id="liturgical-season"/);
- assert.match(sw,/due-testamenti-gratis-v28/);
+ assert.match(sw,/due-testamenti-gratis-v29/);
  const css=fs.readFileSync('site/style.css','utf8');
  for(const color of ['verde','viola','bianco','rosso','rosa'])assert.ok(css.includes('html[data-liturgical-color="'+color+'"]'),color);
+});
+
+test('CEI celebration overrides season and survives same-date refresh',()=>{
+ const day={date:'2026-11-30',celebration:'Sant’Andrea apostolo',liturgical_color:'rosso'};
+ assert.equal(theme.apply(day.date,day).color,'rosso');
+ assert.equal(theme.apply(day.date).color,'rosso');
+ assert.equal(theme.apply('2026-12-01').color,'viola');
+ assert.equal(theme.apply('2026-11-29',{...day}).color,'viola');
+ assert.equal(theme.apply('2026-12-08',{date:'2026-12-08',liturgical_color:'bianco'}).color,'bianco');
 });

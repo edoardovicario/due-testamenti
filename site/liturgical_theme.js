@@ -40,8 +40,17 @@
   const [key,color,label]=SEASONS[kind];
   return {key,color,label};
  }
- function apply(date){
-  const season=forDate(date);if(!season)return null;
+ const OFFICIAL_COLORS=new Set(['verde','viola','bianco','rosso','rosa','nero']);
+ const palettes={verde:'#dce8d5',viola:'#dcd0eb',bianco:'#faf8ef',rosso:'#ebcaca',rosa:'#f3dce6',nero:'#d9d9d9'};
+ let last=null;
+ function apply(date,data){
+  const base=forDate(date);if(!base)return null;
+  if(data?.date===date)last={date,data};
+  if(last?.date!==date)last=null;
+  const card=data?.date===date?data:last?.data;
+  const color=card?.liturgical_color;
+  const official=OFFICIAL_COLORS.has(color);
+  const season=official?{...base,color,label:typeof card.celebration==='string'&&card.celebration.trim()?card.celebration:base.label}:base;
   if(root.document?.body){
    root.document.body.dataset.liturgicalColor=season.color;
    if(root.document.documentElement){
@@ -49,10 +58,10 @@
     root.document.documentElement.dataset.liturgicalSeason=season.key;
    }
    const meta=root.document.querySelector?.('meta[name="theme-color"]');
-   if(meta)meta.setAttribute('content',({verde:'#dce8d5',viola:'#dcd0eb',bianco:'#faf8ef',rosso:'#ebcaca',rosa:'#f3dce6'})[season.color]);
+   if(meta)meta.setAttribute('content',palettes[season.color]);
    root.document.body.dataset.liturgicalSeason=season.key;
    const node=root.document.getElementById('liturgical-season');
-   if(node)node.textContent=season.label+' · '+season.color;
+   if(node)node.textContent=season.label+' · '+season.color+(official?'':' · colore del periodo');
   }
   return season;
  }

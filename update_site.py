@@ -6,7 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 # Public site: do not publish full copyrighted material.
 os.environ['AUTHORIZED_CEI_TEXT'] = '0'
 os.environ['AUTHORIZED_EPICOCO_TEXT'] = '0'
-from service import refresh, today, ROME, ROOT, refkey, allowed_url, safe_ep, safe_fc, find_fc_comment
+from service import refresh, today, ROME, ROOT, refkey, allowed_url, safe_ep, safe_fc, find_fc_comment, fetch, date_url, parse_cei, LITURGICAL_COLORS
 from reader import enrich_readings, VERSION
 
 DATA = ROOT / 'site' / 'data'
@@ -35,6 +35,16 @@ def write_json(p, obj):
     tmp = p.with_suffix('.tmp')
     tmp.write_text(s,encoding='utf-8'); tmp.replace(p)
 
+def backfill_color(obj,d):
+    if obj.get('liturgical_color') in LITURGICAL_COLORS: return
+    try:
+        with httpx.Client(timeout=httpx.Timeout(8,connect=5),headers={'User-Agent':'DueTestamenti/2.0 (educational reader)'}) as client:
+            fresh,_=parse_cei(fetch(client,date_url(d)),d)
+        if fresh.get('liturgical_color') in LITURGICAL_COLORS:
+            obj['liturgical_color']=fresh['liturgical_color']
+    except Exception as exc:
+        LOG.info('CEI color unavailable %s: %s',d,exc)
+
 def update(d):
     old = read_day(d)
     # Preserve verified archived cards; retry pending cards and missing dates.
@@ -49,6 +59,7 @@ def update(d):
                 if source: old['comment']=source
             except Exception as exc:
                 LOG.info('FC fallback: %s',exc)
+        backfill_color(old,d)
         enrich_readings(old)
         if old['comment'].get('source')!='Famiglia Cristiana' or not safe_fc(old['comment'].get('url','')):
             old['comment']['text']=''
@@ -62,6 +73,8 @@ def update(d):
             if obj.get('stale') or refkey(old['comment']['reference'])!=refkey(obj['comment']['reference']):
                 return 'matched (archivio conservato)'
             obj['comment']=old['comment']
+        if old and not obj.get('liturgical_color') and old.get('liturgical_color') in LITURGICAL_COLORS:
+            obj['liturgical_color']=old['liturgical_color']
         enrich_readings(obj)
         # BibleGet passages are requested in-browser; only references and summaries are published.
         for r in obj['readings']: r['text']=''

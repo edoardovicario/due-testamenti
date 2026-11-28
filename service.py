@@ -57,6 +57,17 @@ def clean(s): return ' '.join(s.split())
 def lines(node): return [clean(t) for t in node.stripped_strings if clean(t)]
 def excerpt(s,n=20): return ' '.join(s.split()[:n])+('…' if len(s.split())>n else '')
 
+LITURGICAL_COLORS = {'verde','viola','bianco','rosso','rosa','nero'}
+
+def liturgical_color(rows):
+    # Only the explicit CEI field before the first reading, not mentions in scripture.
+    header=[]
+    for row in rows:
+        if norm(row) in {'prima lettura','seconda lettura','vangelo','salmo responsoriale'}: break
+        header.append(row)
+    m=re.search(r'\bcolore\s+liturgico\s*[:–-]?\s*(verde|viola|bianco|rosso|rosa|nero)\b',' '.join(header),re.I)
+    return m.group(1).lower() if m else None
+
 def parse_cei(doc,d):
     # Verify date in the liturgical content or document title, never the header's current date alone.
     h=next((x for x in doc.find_all(['h1','h2','h3']) if norm(x.get_text(' ',strip=True))=='messa del giorno'),None)
@@ -101,7 +112,7 @@ def parse_cei(doc,d):
         summary,summary_kind=brief(ref,content,heading)
         result.append(dict(kind=kind,label=label,reference=ref,testament=testament,text=content if FULL_CEI else '',url=date_url(d),summary=summary,summary_kind=summary_kind))
     if not any(x['kind']=='prima lettura' for x in result) or not evidence or not any(x['kind']=='vangelo' for x in result): raise ValueError('Letture incomplete')
-    return dict(date=d.isoformat(),celebration=celebration,readings=result,source=date_url(d)), evidence
+    return dict(date=d.isoformat(),celebration=celebration,liturgical_color=liturgical_color(rows),readings=result,source=date_url(d)), evidence
 
 def article_body(doc):
     title=doc.find('h1')
