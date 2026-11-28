@@ -8,6 +8,7 @@ on:
       - "update_site.py"
       - "test_*.py"
       - "podcast_sync.py"
+      - "youtube_sync.py"
       - "test_bibleget.cjs"
       - "test_reading_intro.cjs"
       - "test_podcast.cjs"
